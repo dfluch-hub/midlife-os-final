@@ -13,5 +13,13 @@
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
+  ],
+  "id": "./",
+  "description": "Private, local-first midlife symptom tracking, patterns and doctor preparation.",
+  "lang": "en",
+  "orientation": "portrait-primary",
+  "categories": [
+    "health",
+    "lifestyle"
   ]
 }

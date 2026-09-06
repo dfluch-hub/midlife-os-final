@@ -1,0 +1,16 @@
+MIDLife OS — FINAL RELEASE
+
+Final polish:
+- sharper, correctly proportioned hero image
+- larger and more readable UI text without making screens bulky
+- improved iPhone tap targets
+- better focus/accessibility states
+- iOS form zoom prevention
+- print/PDF styling for Doctor View
+- cache-busting for GitHub Pages
+- refreshed PWA cache
+- improved manifest metadata
+- reduced-motion support
+- no backend / no account / local-first data remains unchanged
+
+Upload the contents of this folder to the repository root and replace existing files.

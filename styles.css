@@ -100,3 +100,60 @@ textarea.field{min-height:88px;resize:vertical}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(20,29,24,.28);backdrop-filter:blur(6px);padding:14px;display:grid;align-items:end}.sheet{max-width:460px;width:100%;margin:0 auto;max-height:86svh;overflow:auto;background:var(--paper);border-radius:24px 24px 18px 18px;padding:14px;box-shadow:0 30px 70px rgba(20,30,24,.24)}.sheetHead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}.sheetHead h2{font-size:25px}.x{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px}
 .entry{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.entry:last-child{border-bottom:0}.entry b{display:block;font-size:12px}.entry small{display:block;font-size:9px;color:var(--muted);margin-top:2px}
 @media(max-width:380px){.page,.welcome,.onboard{padding-left:13px;padding-right:13px}.pillGrid.three{grid-template-columns:repeat(2,1fr)}.well{gap:5px}.state{padding:7px}.seg button{font-size:7px}}
+
+
+/* FINAL RELEASE POLISH */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
+body{overflow-x:hidden}
+button,.row,.option,.pill{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,textarea:focus-visible,.row:focus-within{
+  outline:3px solid rgba(47,104,77,.28);
+  outline-offset:2px;
+}
+.hero img,.profile img{image-rendering:auto;-webkit-user-drag:none}
+.stateHead small{font-size:10px}
+.state>b{font-size:14px}
+.seg button{font-size:9px;min-height:30px}
+.pill{font-size:10.5px;min-height:38px}
+.quick b{font-size:11px}
+.quick small{font-size:9px}
+.miniBar span{font-size:8.5px}
+.miniBar b{font-size:11px}
+.lead p,.noteBox{font-size:11px}
+.insight b{font-size:11px}
+.insight small{font-size:9.5px}
+.stats small{font-size:9px}
+.docLine b{font-size:12px}
+.docLine em{font-size:10px}
+.profile p{font-size:11px}
+.row{min-height:50px}
+.row b{font-size:12px}
+.row small{font-size:9.5px}
+.bottom button{font-size:10px;min-height:45px}
+.bottom .ni{font-size:16px}
+.soft,.textBtn{min-height:36px}
+.lang{min-width:48px;min-height:40px}
+.primary,.secondary,.ghost{min-height:50px}
+.field{font-size:16px} /* prevents iOS Safari zoom on focus */
+
+@media(max-width:380px){
+  .stateHead small{font-size:9px}
+  .seg button{font-size:8px}
+  .pill{font-size:10px}
+  .bottom button{font-size:9px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
+
+@media print{
+  @page{margin:12mm}
+  body{background:#fff!important}
+  .shell{max-width:none!important;padding:0!important}
+  .shell > :not(.modal){display:none!important}
+  .modal{position:static!important;display:block!important;background:none!important;backdrop-filter:none!important;padding:0!important}
+  .sheet{max-width:none!important;max-height:none!important;overflow:visible!important;box-shadow:none!important;border-radius:0!important;background:#fff!important;padding:0!important}
+  .sheetHead .x,.sheet .primary,.sheet .secondary,.sheet .ghost{display:none!important}
+  .doctor{box-shadow:none!important;border:1px solid #ddd!important}
+}
