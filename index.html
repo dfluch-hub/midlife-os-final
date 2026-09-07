@@ -1,18 +1,1694 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#F7F5F0">
-<meta name="color-scheme" content="light">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Midlife OS">
-<meta name="description" content="Midlife OS — private, local-first symptom tracking for perimenopause and menopause.">
-<title>Midlife OS</title>
-<link rel="manifest" href="./manifest.webmanifest?v=4">
-<link rel="icon" href="./icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="./styles.css?v=4">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0D0F14" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Midlife OS" />
+  <meta name="description" content="Midlife OS — private local-first perimenopause & menopause tracking." />
+  <title>Midlife OS</title>
+  <style>
+    :root{
+      --bg:#0D0F14;
+      --oled:#000000;
+      --panel:#11151d;
+      --panel-2:#151a24;
+      --panel-3:#0f131a;
+      --text:#F8FAFC;
+      --muted:#95A0B3;
+      --line:rgba(255,255,255,.10);
+      --line-strong:rgba(255,255,255,.16);
+      --crimson:#E63946;
+      --coral:#FF5A5F;
+      --cyan:#00F5D4;
+      --violet:#A855F7;
+      --amber:#E09F67;
+      --success:#00D6B7;
+      --shadow:0 18px 60px rgba(0,0,0,.45);
+      --shadow-soft:0 12px 35px rgba(0,0,0,.28);
+      --radius:22px;
+      --radius-sm:16px;
+      --safe-bottom:max(14px,env(safe-area-inset-bottom));
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;background:
+      radial-gradient(circle at 10% 0%,rgba(168,85,247,.08),transparent 30%),
+      radial-gradient(circle at 95% 10%,rgba(255,90,95,.08),transparent 28%),
+      linear-gradient(180deg,#0B0D12 0%,#050608 100%);
+      color:var(--text);
+      font-family:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Roboto,sans-serif;
+      min-height:100%;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    body{min-height:100svh;overflow-x:hidden}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible,textarea:focus-visible{
+      outline:2px solid var(--cyan);
+      outline-offset:3px;
+    }
+
+    #app{min-height:100svh}
+    .app-shell{
+      width:min(100%,480px);
+      min-height:100svh;
+      margin:0 auto;
+      position:relative;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,0)),
+        var(--bg);
+      overflow:hidden;
+    }
+
+    .screen{
+      min-height:100svh;
+      padding:18px 18px calc(92px + var(--safe-bottom));
+      animation:fadeIn .28s ease;
+    }
+    .onboarding{
+      min-height:100svh;
+      padding:18px 18px calc(18px + var(--safe-bottom));
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      animation:fadeIn .28s ease;
+    }
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(6px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .brand{
+      display:flex;
+      align-items:baseline;
+      gap:2px;
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:-.05em;
+    }
+    .brand .os{color:var(--coral)}
+    .brand.small{font-size:20px}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:30;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 16px;
+      background:rgba(13,15,20,.78);
+      backdrop-filter:blur(18px) saturate(140%);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    .top-actions{display:flex;gap:8px}
+    .icon-btn{
+      width:46px;height:46px;border-radius:15px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      color:var(--text);
+      display:grid;place-items:center;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    h1,h2,h3,p{margin:0}
+    h1{
+      font-size:34px;
+      line-height:1.02;
+      letter-spacing:-.045em;
+      font-weight:800;
+    }
+    h2{
+      font-size:24px;
+      line-height:1.08;
+      letter-spacing:-.035em;
+      font-weight:750;
+    }
+    h3{
+      font-size:17px;
+      line-height:1.15;
+      font-weight:700;
+    }
+    .muted{color:var(--muted)}
+    .kicker{
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:11px;
+      font-weight:800;
+      color:var(--cyan);
+    }
+    .sub{
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.45;
+      max-width:36ch;
+    }
+
+    .glass{
+      border:1px solid var(--line);
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.025));
+      box-shadow:var(--shadow-soft),inset 0 1px 0 rgba(255,255,255,.04);
+      backdrop-filter:blur(18px) saturate(130%);
+      border-radius:var(--radius);
+    }
+
+    .primary{
+      width:100%;
+      min-height:54px;
+      border:0;
+      border-radius:17px;
+      color:#fff;
+      background:
+        linear-gradient(135deg,var(--coral),var(--crimson));
+      font-weight:800;
+      font-size:17px;
+      box-shadow:
+        0 10px 35px rgba(255,90,95,.28),
+        0 0 0 1px rgba(255,255,255,.05) inset;
+      transition:.2s ease;
+    }
+    .primary:active{transform:scale(.985)}
+
+    .secondary{
+      width:100%;
+      min-height:52px;
+      border:1px solid var(--line);
+      border-radius:17px;
+      background:rgba(255,255,255,.035);
+      color:var(--text);
+      font-weight:750;
+    }
+
+    .ghost{
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      font-weight:700;
+      min-height:44px;
+    }
+
+    .progress-wrap{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .progress-label{
+      font-size:12px;
+      font-weight:800;
+      color:var(--muted);
+      min-width:28px;
+    }
+    .progress{
+      height:5px;
+      flex:1;
+      border-radius:999px;
+      overflow:hidden;
+      background:rgba(255,255,255,.08);
+      box-shadow:inset 0 1px 3px rgba(0,0,0,.35);
+    }
+    .progress > span{
+      display:block;height:100%;
+      background:linear-gradient(90deg,var(--crimson),var(--coral));
+      box-shadow:0 0 18px rgba(255,90,95,.55);
+      border-radius:999px;
+      transition:width .25s ease;
+    }
+
+    .welcome-visual{
+      position:relative;
+      min-height:420px;
+      border-radius:28px;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 65% 30%,rgba(0,245,212,.18),transparent 20%),
+        radial-gradient(circle at 40% 50%,rgba(255,90,95,.25),transparent 28%),
+        linear-gradient(135deg,#121A26 0%,#0A0D12 55%,#050608 100%);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow);
+    }
+    .welcome-visual::before{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.48)),
+        radial-gradient(circle at 60% 28%,rgba(255,255,255,.08),transparent 18%);
+    }
+    .portrait{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 52% 34%,rgba(220,167,150,.65) 0 10%,transparent 11%),
+        radial-gradient(ellipse at 52% 45%,rgba(42,29,34,.9) 0 22%,transparent 23%),
+        radial-gradient(ellipse at 50% 62%,rgba(63,33,48,.95) 0 31%,transparent 32%),
+        linear-gradient(135deg,transparent 0 36%,rgba(255,90,95,.22) 37% 43%,transparent 44%),
+        linear-gradient(225deg,transparent 0 30%,rgba(0,245,212,.18) 31% 36%,transparent 37%);
+      filter:saturate(.85);
+      opacity:.95;
+    }
+    .welcome-copy{
+      position:absolute;
+      left:18px;right:18px;bottom:18px;
+      display:grid;gap:10px;
+      z-index:2;
+    }
+    .welcome-copy h1{
+      font-size:42px;
+      text-shadow:0 8px 30px rgba(0,0,0,.5);
+    }
+    .welcome-copy h1 .glow{color:var(--coral);text-shadow:0 0 26px rgba(255,90,95,.5)}
+    .trust-row{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+      margin-top:6px;
+    }
+    .trust-pill{
+      padding:10px 8px;
+      text-align:center;
+      font-size:11px;
+      color:#D8DEE8;
+      border-radius:14px;
+      background:rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(10px);
+    }
+
+    .bio-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .bio-pill{
+      min-height:110px;
+      border-radius:20px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));
+      color:var(--text);
+      padding:16px;
+      text-align:left;
+      position:relative;
+      overflow:hidden;
+      transition:.22s ease;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .bio-pill .icon{font-size:25px;margin-bottom:18px;display:block}
+    .bio-pill .label{font-weight:800;font-size:15px;line-height:1.15}
+    .bio-pill .check-dot{
+      position:absolute;right:12px;top:12px;
+      width:22px;height:22px;border-radius:50%;
+      display:grid;place-items:center;
+      border:1px solid rgba(255,255,255,.14);
+      color:transparent;
+      background:rgba(255,255,255,.03);
+      font-size:12px;
+    }
+    .bio-pill.selected{
+      border-color:rgba(255,90,95,.65);
+      background:
+        radial-gradient(circle at 20% 0%,rgba(230,57,70,.22),transparent 40%),
+        linear-gradient(180deg,rgba(255,90,95,.16),rgba(255,255,255,.03));
+      box-shadow:
+        0 0 0 1px rgba(255,90,95,.16) inset,
+        0 0 22px rgba(255,90,95,.18),
+        0 14px 40px rgba(0,0,0,.3);
+      transform:translateY(-1px);
+    }
+    .bio-pill.selected .check-dot{
+      color:#fff;
+      background:var(--coral);
+      border-color:transparent;
+      box-shadow:0 0 18px rgba(255,90,95,.55);
+    }
+
+    .status-stack{display:grid;gap:12px}
+    .status-card{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      align-items:center;
+      gap:14px;
+      min-height:82px;
+      padding:16px;
+      border-radius:20px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      color:var(--text);
+      text-align:left;
+      transition:.2s ease;
+    }
+    .status-card .s-icon{
+      width:44px;height:44px;border-radius:15px;
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.06);
+      font-size:20px;
+    }
+    .status-card strong{display:block;font-size:15px}
+    .status-card small{display:block;color:var(--muted);margin-top:4px;font-size:12px}
+    .status-card.selected{
+      border-color:rgba(230,57,70,.7);
+      background:
+        radial-gradient(circle at 88% 50%,rgba(230,57,70,.22),transparent 28%),
+        linear-gradient(180deg,rgba(255,90,95,.12),rgba(255,255,255,.025));
+      box-shadow:0 0 28px rgba(230,57,70,.18);
+    }
+
+    .privacy-hero{
+      display:grid;
+      place-items:center;
+      padding:28px 20px;
+      text-align:center;
+      gap:16px;
+      min-height:260px;
+    }
+    .holo-lock{
+      width:132px;height:132px;border-radius:50%;
+      display:grid;place-items:center;
+      font-size:56px;
+      color:var(--cyan);
+      background:
+        radial-gradient(circle at 50% 45%,rgba(0,245,212,.18),rgba(0,245,212,.03) 42%,transparent 65%);
+      border:1px solid rgba(0,245,212,.22);
+      box-shadow:
+        0 0 60px rgba(0,245,212,.15),
+        inset 0 0 30px rgba(0,245,212,.07);
+    }
+    .privacy-list{display:grid;gap:10px}
+    .privacy-row{
+      display:flex;align-items:center;gap:12px;
+      min-height:56px;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.035);
+      color:#DCE3EC;
+      font-size:14px;
+    }
+
+    .dashboard-grid{display:grid;gap:14px}
+    .hero-card{
+      position:relative;
+      overflow:hidden;
+      padding:18px;
+      min-height:250px;
+      border-radius:26px;
+      background:
+        radial-gradient(circle at 70% 0%,rgba(0,245,212,.08),transparent 32%),
+        radial-gradient(circle at 10% 95%,rgba(255,90,95,.13),transparent 35%),
+        linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow-soft);
+    }
+    .rhythm-wrap{
+      display:grid;
+      grid-template-columns:165px 1fr;
+      align-items:center;
+      gap:12px;
+      margin-top:10px;
+    }
+    .rhythm-ring{
+      width:165px;height:165px;border-radius:50%;
+      position:relative;
+      display:grid;place-items:center;
+      background:
+        conic-gradient(from -75deg,
+          var(--coral) 0 22%,
+          var(--violet) 22% 46%,
+          var(--cyan) 46% 72%,
+          rgba(255,255,255,.08) 72% 100%);
+      box-shadow:
+        0 0 30px rgba(255,90,95,.13),
+        0 0 50px rgba(0,245,212,.08);
+    }
+    .rhythm-ring::before{
+      content:"";
+      width:129px;height:129px;border-radius:50%;
+      background:
+        radial-gradient(circle at 40% 35%,rgba(255,255,255,.08),transparent 30%),
+        #0B0E13;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:inset 0 0 28px rgba(0,0,0,.5);
+    }
+    .ring-center{
+      position:absolute;
+      width:112px;
+      text-align:center;
+      display:grid;gap:5px;
+    }
+    .ring-center .phase{
+      font-size:14px;font-weight:800;
+    }
+    .ring-center .ring-sub{
+      font-size:11px;color:var(--muted);line-height:1.25
+    }
+
+    .signal-list{display:grid;gap:9px}
+    .signal{
+      padding:12px;
+      border-radius:15px;
+      background:rgba(255,255,255,.035);
+      border:1px solid rgba(255,255,255,.07);
+    }
+    .signal b{display:block;font-size:13px}
+    .signal span{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+
+    .checkin-card{padding:16px}
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .section-head .hint{font-size:12px;color:var(--muted)}
+    .slider-row{
+      display:grid;
+      grid-template-columns:110px 1fr 32px;
+      gap:12px;
+      align-items:center;
+      min-height:54px;
+    }
+    .slider-name{
+      display:flex;align-items:center;gap:9px;
+      font-size:13px;font-weight:750;
+    }
+    .slider-name .dot{
+      width:9px;height:9px;border-radius:50%;
+      box-shadow:0 0 12px currentColor;
+    }
+    input[type="range"]{
+      width:100%;
+      appearance:none;
+      height:7px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--cyan),#4DD4FF 35%,var(--violet) 68%,var(--crimson));
+      box-shadow:inset 0 1px 4px rgba(0,0,0,.55),0 0 15px rgba(0,245,212,.08);
+    }
+    input[type="range"]::-webkit-slider-thumb{
+      appearance:none;
+      width:22px;height:22px;border-radius:50%;
+      border:2px solid #0A0D12;
+      background:#fff;
+      box-shadow:0 0 0 4px rgba(255,255,255,.07),0 0 22px rgba(255,90,95,.22);
+    }
+    .score{
+      width:32px;height:32px;border-radius:10px;
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.07);
+      font-weight:800;font-size:12px;
+    }
+
+    .intervention{
+      padding:16px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:12px;
+      align-items:center;
+      background:
+        radial-gradient(circle at 0% 50%,rgba(168,85,247,.20),transparent 38%),
+        linear-gradient(135deg,rgba(168,85,247,.16),rgba(255,90,95,.08));
+      border:1px solid rgba(168,85,247,.22);
+      box-shadow:0 0 28px rgba(168,85,247,.10),var(--shadow-soft);
+    }
+    .intervention .play{
+      width:44px;height:44px;border-radius:15px;
+      display:grid;place-items:center;
+      background:rgba(168,85,247,.14);
+      color:#E9D5FF;
+      border:1px solid rgba(168,85,247,.28);
+    }
+    .intervention small{display:block;color:#B8A8C9;margin-top:4px}
+    .chev{color:var(--muted);font-size:20px}
+
+    .tabs{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:4px;
+      padding:4px;
+      background:rgba(255,255,255,.035);
+      border:1px solid var(--line);
+      border-radius:15px;
+    }
+    .tabs button{
+      min-height:42px;
+      border:0;
+      border-radius:11px;
+      background:transparent;
+      color:var(--muted);
+      font-weight:750;
+      font-size:13px;
+    }
+    .tabs button.active{
+      color:#fff;
+      background:linear-gradient(180deg,rgba(255,90,95,.20),rgba(230,57,70,.12));
+      box-shadow:inset 0 0 0 1px rgba(255,90,95,.2),0 0 18px rgba(255,90,95,.1);
+    }
+
+    .chart-card{padding:16px}
+    .chart-wrap{
+      position:relative;
+      height:210px;
+      margin-top:12px;
+      overflow:hidden;
+      border-radius:16px;
+      background:
+        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+      background-size:36px 36px;
+      background-position:-1px -1px;
+      border:1px solid rgba(255,255,255,.05);
+    }
+    .chart-svg{width:100%;height:100%;display:block}
+    .sleep-line{fill:none;stroke:var(--cyan);stroke-width:3;filter:drop-shadow(0 0 6px rgba(0,245,212,.38))}
+    .hot-line{fill:none;stroke:var(--coral);stroke-width:3;filter:drop-shadow(0 0 6px rgba(255,90,95,.4))}
+    .event-line{stroke:var(--crimson);stroke-width:1.5;stroke-dasharray:5 5;opacity:.8}
+    .chart-legend{
+      display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;
+      color:var(--muted);font-size:12px;
+    }
+    .legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+
+    .insight-list{display:grid;gap:10px}
+    .insight-card{
+      min-height:70px;
+      padding:14px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:12px;
+      align-items:center;
+    }
+    .insight-bullet{
+      width:10px;height:10px;border-radius:50%;
+      box-shadow:0 0 12px currentColor;
+    }
+    .insight-card b{font-size:14px}
+    .insight-card small{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+
+    .report-head{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+      margin-bottom:12px;
+    }
+    .metric-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+    }
+    .metric{
+      padding:14px;
+      min-height:98px;
+    }
+    .metric .metric-icon{font-size:20px;margin-bottom:10px}
+    .metric strong{display:block;font-size:22px}
+    .metric span{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+    .report-section{padding:16px}
+    .report-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      padding:12px 0;
+      border-bottom:1px solid rgba(255,255,255,.07);
+    }
+    .report-row:last-child{border-bottom:0}
+    .report-row b{font-size:13px}
+    .report-row span{font-size:12px;color:var(--muted)}
+    .checklist{display:grid;gap:10px;margin-top:10px}
+    .check-item{
+      display:flex;align-items:flex-start;gap:10px;
+      color:#DCE2EA;font-size:13px;
+    }
+    .check-icon{
+      width:19px;height:19px;border-radius:6px;
+      display:grid;place-items:center;
+      background:rgba(0,245,212,.12);
+      color:var(--cyan);
+      border:1px solid rgba(0,245,212,.22);
+      flex:0 0 auto;
+      font-size:11px;
+      margin-top:1px;
+    }
+
+    .settings-list{display:grid;gap:10px}
+    .settings-row{
+      min-height:64px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:12px;
+      align-items:center;
+      padding:13px 14px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      border-radius:18px;
+      color:var(--text);
+      text-align:left;
+    }
+    .settings-icon{
+      width:40px;height:40px;border-radius:13px;
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .settings-row strong{display:block;font-size:14px}
+    .settings-row small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+
+    .therapy-card{
+      padding:16px;
+      display:grid;
+      grid-template-columns:84px 1fr auto;
+      gap:14px;
+      align-items:center;
+    }
+    .dose-ring{
+      width:76px;height:76px;border-radius:50%;
+      display:grid;place-items:center;
+      background:conic-gradient(var(--cyan) 0 68%,var(--coral) 68% 83%,rgba(255,255,255,.08) 83% 100%);
+      box-shadow:0 0 25px rgba(0,245,212,.1);
+      position:relative;
+    }
+    .dose-ring::before{
+      content:"";
+      width:58px;height:58px;border-radius:50%;
+      background:#0B0E13;
+      border:1px solid rgba(255,255,255,.07);
+    }
+    .dose-ring span{
+      position:absolute;
+      font-size:12px;font-weight:800;text-align:center;
+    }
+    .toggle{
+      width:48px;height:28px;border-radius:999px;
+      border:0;
+      background:rgba(255,255,255,.08);
+      padding:3px;
+      display:flex;justify-content:flex-start;
+      transition:.2s ease;
+    }
+    .toggle::after{
+      content:"";
+      width:22px;height:22px;border-radius:50%;
+      background:#F8FAFC;
+      box-shadow:0 2px 8px rgba(0,0,0,.35);
+      transition:.2s ease;
+    }
+    .toggle.on{
+      justify-content:flex-end;
+      background:linear-gradient(90deg,var(--crimson),var(--coral));
+      box-shadow:0 0 18px rgba(255,90,95,.18);
+    }
+
+    .bottom-nav{
+      position:fixed;
+      left:50%;
+      bottom:10px;
+      transform:translateX(-50%);
+      z-index:40;
+      width:min(452px,calc(100% - 20px));
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:4px;
+      padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+      border-radius:20px;
+      background:rgba(7,9,13,.84);
+      backdrop-filter:blur(20px) saturate(140%);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 18px 45px rgba(0,0,0,.5);
+    }
+    .nav-btn{
+      min-height:54px;
+      border:0;
+      border-radius:15px;
+      background:transparent;
+      color:#7F8999;
+      display:grid;
+      place-items:center;
+      gap:2px;
+      font-size:11px;
+      font-weight:700;
+    }
+    .nav-btn .n-icon{font-size:20px;line-height:1}
+    .nav-btn.active{
+      color:#fff;
+      background:linear-gradient(180deg,rgba(255,90,95,.12),rgba(255,255,255,.025));
+      box-shadow:inset 0 0 0 1px rgba(255,90,95,.10);
+    }
+    .nav-btn.active .n-icon{color:var(--coral);filter:drop-shadow(0 0 6px rgba(255,90,95,.25))}
+
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:80;
+      background:rgba(0,0,0,.64);
+      backdrop-filter:blur(8px);
+      display:grid;
+      place-items:end center;
+      padding:14px;
+    }
+    .sheet{
+      width:min(100%,480px);
+      max-height:86svh;
+      overflow:auto;
+      border-radius:26px 26px 18px 18px;
+      background:#0C0F15;
+      border:1px solid var(--line-strong);
+      box-shadow:0 28px 90px rgba(0,0,0,.6);
+      padding:18px;
+    }
+    .sheet-head{
+      display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px
+    }
+    .close{
+      width:42px;height:42px;border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:#fff;font-size:20px;
+    }
+    .timer{
+      font-size:50px;
+      font-weight:800;
+      letter-spacing:-.05em;
+      text-align:center;
+      margin:24px 0 10px;
+      color:#fff;
+      text-shadow:0 0 26px rgba(168,85,247,.18);
+    }
+    .breath-orb{
+      width:170px;height:170px;border-radius:50%;
+      margin:12px auto 18px;
+      background:radial-gradient(circle,var(--violet),rgba(168,85,247,.25) 42%,rgba(168,85,247,.06) 60%,transparent 68%);
+      box-shadow:0 0 70px rgba(168,85,247,.18);
+      animation:breathe 8s ease-in-out infinite;
+    }
+    @keyframes breathe{
+      0%,100%{transform:scale(.78);opacity:.72}
+      50%{transform:scale(1);opacity:1}
+    }
+
+    .toast{
+      position:fixed;
+      z-index:100;
+      left:50%;
+      bottom:96px;
+      transform:translateX(-50%);
+      padding:11px 15px;
+      border-radius:999px;
+      background:rgba(15,19,26,.94);
+      color:#fff;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow-soft);
+      font-size:13px;
+      white-space:nowrap;
+    }
+
+    .spacer{height:4px}
+    .stack{display:grid;gap:14px}
+
+    @media(max-width:390px){
+      .screen,.onboarding{padding-left:14px;padding-right:14px}
+      h1{font-size:30px}
+      .welcome-copy h1{font-size:36px}
+      .rhythm-wrap{grid-template-columns:145px 1fr}
+      .rhythm-ring{width:145px;height:145px}
+      .rhythm-ring::before{width:111px;height:111px}
+      .slider-row{grid-template-columns:98px 1fr 30px}
+      .bio-pill{min-height:104px}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    }
+
+    @media print{
+      @page{size:A4;margin:12mm}
+      body{background:#fff;color:#111}
+      .topbar,.bottom-nav,.no-print{display:none!important}
+      .app-shell{width:100%;max-width:none;background:#fff}
+      .screen{padding:0;min-height:auto}
+      .glass,.report-section,.metric{
+        background:#fff!important;color:#111!important;
+        border:1px solid #D8D8D8!important;
+        box-shadow:none!important;
+      }
+      .muted,.metric span,.report-row span{color:#555!important}
+      .primary{display:none!important}
+    }
+  </style>
 </head>
-<body><div id="app"></div><script src="./app.js?v=4"></script></body>
+<body>
+<div id="app"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  const STORAGE_KEY = "midlifeOS_darkBio_v1";
+  const todayISO = () => new Date().toISOString().slice(0,10);
+  const fmtDate = (d = new Date()) => d.toLocaleDateString("de-DE",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});
+
+  const SYMPTOMS = [
+    {id:"hot",label:"Hitzewallungen",icon:"🔥",color:"#FF5A5F"},
+    {id:"brain",label:"Brain Fog",icon:"🧠",color:"#A855F7"},
+    {id:"sleep",label:"Schlafstörungen",icon:"☾",color:"#00F5D4"},
+    {id:"anxiety",label:"Innere Unruhe",icon:"♡",color:"#E63946"},
+    {id:"joints",label:"Gelenkschmerzen",icon:"⌁",color:"#E09F67"},
+    {id:"fatigue",label:"Erschöpfung",icon:"ϟ",color:"#FF5A5F"}
+  ];
+
+  const STATUS = [
+    {id:"regular",label:"Regelmäßig",sub:"Zyklus meist vorhersehbar",icon:"▣",phase:"Zyklisch"},
+    {id:"changing",label:"Unregelmäßig / verändert sich",sub:"Zykluslängen schwanken",icon:"≈",phase:"Perimenopause"},
+    {id:"stopped",label:"Seit über 12 Monaten ausgeblieben",sub:"Keine Periode mehr",icon:"Ⅱ",phase:"Postmenopause"},
+    {id:"hormonal",label:"Hormonelle Verhütung / OP",sub:"z. B. HRT, Pille, Spirale oder OP",icon:"◒",phase:"Hormonell beeinflusst"}
+  ];
+
+  const defaultState = {
+    onboarded:false,
+    step:1,
+    symptoms:["hot","sleep","fatigue"],
+    status:"changing",
+    entries:{},
+    patternRange:7,
+    reminder:true,
+    interventionDone:false,
+    lastBackup:null
+  };
+
+  let state = load();
+  let view = "today";
+  let modal = null;
+  let toastTimer = null;
+  let timerId = null;
+  let timerSeconds = 300;
+
+  function load(){
+    try{
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      return raw ? {...defaultState,...raw,entries:raw.entries||{}} : structuredClone(defaultState);
+    }catch{
+      return structuredClone(defaultState);
+    }
+  }
+
+  function save(){
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  }
+
+  function symptom(id){
+    return SYMPTOMS.find(s => s.id === id) || SYMPTOMS[0];
+  }
+
+  function entryForToday(){
+    const base = state.entries[todayISO()] || {};
+    const scores = {};
+    state.symptoms.forEach((id,i) => {
+      scores[id] = Number(base.scores?.[id] ?? [7,4,6][i] ?? 5);
+    });
+    return {
+      date: todayISO(),
+      scores,
+      hotFlashes: Number(base.hotFlashes || 0),
+      note: base.note || ""
+    };
+  }
+
+  function persistEntry(e){
+    state.entries[e.date] = e;
+    save();
+  }
+
+  function toast(msg){
+    document.querySelector(".toast")?.remove();
+    const el = document.createElement("div");
+    el.className = "toast";
+    el.textContent = msg;
+    document.body.appendChild(el);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.remove(),2200);
+  }
+
+  function render(){
+    const root = document.getElementById("app");
+
+    if(!state.onboarded){
+      root.innerHTML = onboardingHTML();
+      bindOnboarding();
+      return;
+    }
+
+    root.innerHTML = `
+      <div class="app-shell">
+        <header class="topbar">
+          <div class="brand small">Midlife <span class="os">OS.</span></div>
+          <div class="top-actions">
+            <button class="icon-btn" id="backupBtn" aria-label="Backup exportieren">⇩</button>
+            <button class="icon-btn" id="settingsBtn" aria-label="Einstellungen">⚙</button>
+          </div>
+        </header>
+        ${screenHTML()}
+        ${bottomNavHTML()}
+        ${modal ? modalHTML() : ""}
+      </div>
+    `;
+
+    bindCommon();
+    bindScreen();
+    bindModal();
+  }
+
+  function onboardingHTML(){
+    if(state.step === 1){
+      return `
+        <div class="app-shell">
+          <main class="onboarding">
+            <div class="brand">Midlife <span class="os">OS.</span></div>
+            <div class="welcome-visual">
+              <div class="portrait"></div>
+              <div class="welcome-copy">
+                <div class="kicker">Dark Bio-Performance OS</div>
+                <h1>Precision Bio-Tracking<br>für <span class="glow">Perimenopause.</span></h1>
+                <p class="sub">Dein privater Co-Pilot. Weniger tracken. Mehr verstehen. 100% lokal auf deinem Gerät.</p>
+                <button class="primary" id="startBtn">Jetzt starten →</button>
+                <div class="trust-row">
+                  <div class="trust-pill">🔒 Privat</div>
+                  <div class="trust-pill">◉ Kein Konto</div>
+                  <div class="trust-pill">⬡ Deine Daten</div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>`;
+    }
+
+    if(state.step === 2){
+      return `
+        <div class="app-shell">
+          <main class="onboarding">
+            <div class="brand small">Midlife <span class="os">OS.</span></div>
+            <div class="progress-wrap">
+              <div class="progress-label">1/3</div>
+              <div class="progress"><span style="width:33%"></span></div>
+            </div>
+            <div class="stack">
+              <div>
+                <h1>Was belastet dich aktuell am meisten?</h1>
+                <p class="sub" style="margin-top:8px">Wähle bis zu 3 Symptome. Mehr braucht dein Dashboard nicht.</p>
+              </div>
+              <div class="bio-grid">
+                ${SYMPTOMS.map(s => `
+                  <button class="bio-pill ${state.symptoms.includes(s.id) ? "selected" : ""}" data-sym="${s.id}">
+                    <span class="check-dot">✓</span>
+                    <span class="icon">${s.icon}</span>
+                    <span class="label">${s.label}</span>
+                  </button>
+                `).join("")}
+              </div>
+              <div class="muted" style="text-align:center;font-size:13px">${state.symptoms.length}/3 gewählt</div>
+            </div>
+            <div style="margin-top:auto">
+              <button class="primary" id="nextOnboarding" ${state.symptoms.length===0 ? "disabled" : ""}>Weiter →</button>
+            </div>
+          </main>
+        </div>`;
+    }
+
+    if(state.step === 3){
+      return `
+        <div class="app-shell">
+          <main class="onboarding">
+            <div class="brand small">Midlife <span class="os">OS.</span></div>
+            <div class="progress-wrap">
+              <div class="progress-label">2/3</div>
+              <div class="progress"><span style="width:66%"></span></div>
+            </div>
+            <div>
+              <h1>Wie verhält sich dein Zyklus in letzter Zeit?</h1>
+              <p class="sub" style="margin-top:8px">Wähle die Aussage, die aktuell am besten passt.</p>
+            </div>
+            <div class="status-stack">
+              ${STATUS.map(s => `
+                <button class="status-card ${state.status===s.id ? "selected" : ""}" data-status="${s.id}">
+                  <span class="s-icon">${s.icon}</span>
+                  <span><strong>${s.label}</strong><small>${s.sub}</small></span>
+                  <span class="chev">›</span>
+                </button>
+              `).join("")}
+            </div>
+            <div style="margin-top:auto">
+              <button class="primary" id="nextOnboarding">Weiter →</button>
+            </div>
+          </main>
+        </div>`;
+    }
+
+    return `
+      <div class="app-shell">
+        <main class="onboarding">
+          <div class="brand small">Midlife <span class="os">OS.</span></div>
+          <div class="progress-wrap">
+            <div class="progress-label">3/3</div>
+            <div class="progress"><span style="width:100%"></span></div>
+          </div>
+
+          <section class="glass privacy-hero">
+            <div class="holo-lock">🔐</div>
+            <div>
+              <h1>Deine Gesundheit.<br>Deine Daten.</h1>
+              <p class="sub" style="margin:10px auto 0">100% lokale Speicherung. Keine Cloud. Keine Weitergabe ohne deine Entscheidung.</p>
+            </div>
+          </section>
+
+          <div class="privacy-list">
+            <div class="privacy-row">🛡 <span>Local-First Architektur</span></div>
+            <div class="privacy-row">◉ <span>Keine Registrierung erforderlich</span></div>
+            <div class="privacy-row">⬡ <span>Du kontrollierst Export & Backup</span></div>
+          </div>
+
+          <div style="margin-top:auto">
+            <button class="primary" id="finishOnboarding">Midlife OS öffnen →</button>
+          </div>
+        </main>
+      </div>`;
+  }
+
+  function screenHTML(){
+    if(view === "patterns") return patternsHTML();
+    if(view === "clinician") return clinicianHTML();
+    if(view === "me") return meHTML();
+    return todayHTML();
+  }
+
+  function bottomNavHTML(){
+    const items = [
+      ["today","⌂","Today"],
+      ["patterns","▥","Patterns"],
+      ["clinician","⊞","Clinician"],
+      ["me","○","Me"]
+    ];
+    return `
+      <nav class="bottom-nav">
+        ${items.map(([id,icon,label]) => `
+          <button class="nav-btn ${view===id ? "active" : ""}" data-view="${id}">
+            <span class="n-icon">${icon}</span>
+            <span>${label}</span>
+          </button>
+        `).join("")}
+      </nav>`;
+  }
+
+  function todayHTML(){
+    const e = entryForToday();
+    const status = STATUS.find(s => s.id === state.status) || STATUS[1];
+
+    return `
+      <main class="screen">
+        <div class="dashboard-grid">
+          <div>
+            <div class="kicker">Heute</div>
+            <h1 style="margin-top:4px">Good morning.<br>You've got this.</h1>
+            <p class="muted" style="margin-top:8px">${fmtDate()}</p>
+          </div>
+
+          <section class="hero-card">
+            <div class="section-head">
+              <div>
+                <h2>Hormonal Rhythm</h2>
+                <div class="hint">Kontext, keine Diagnose</div>
+              </div>
+              <div class="kicker">${status.phase}</div>
+            </div>
+
+            <div class="rhythm-wrap">
+              <div class="rhythm-ring">
+                <div class="ring-center">
+                  <div class="phase">${status.phase}</div>
+                  <div class="ring-sub">Today's focus:<br>Balance & Energy</div>
+                </div>
+              </div>
+
+              <div class="signal-list">
+                <div class="signal">
+                  <b>Recovery</b>
+                  <span>Stabil</span>
+                </div>
+                <div class="signal">
+                  <b>Heat load</b>
+                  <span>${e.scores.hot ?? 0}/10</span>
+                </div>
+                <div class="signal">
+                  <b>Focus</b>
+                  <span>${Math.max(1,10-(e.scores.brain ?? 5))}/10</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="glass checkin-card">
+            <div class="section-head">
+              <div>
+                <h2>Your focus today</h2>
+                <div class="hint">Nur deine 3 Prioritäten</div>
+              </div>
+              <button class="ghost" id="editSymptoms">Bearbeiten</button>
+            </div>
+
+            ${state.symptoms.map(id => {
+              const s = symptom(id);
+              const value = e.scores[id] ?? 5;
+              return `
+                <div class="slider-row">
+                  <div class="slider-name"><span class="dot" style="color:${s.color};background:${s.color}"></span>${s.label}</div>
+                  <input type="range" min="0" max="10" step="1" value="${value}" data-slider="${id}" aria-label="${s.label}">
+                  <div class="score" id="score-${id}">${value}</div>
+                </div>`;
+            }).join("")}
+          </section>
+
+          <button class="glass intervention" id="interventionBtn">
+            <div class="play">${state.interventionDone ? "✓" : "▶"}</div>
+            <div>
+              <h3>5-min Vagus Nerve Reset</h3>
+              <small>${state.interventionDone ? "Heute abgeschlossen" : "Kurzer Guided Reset für innere Unruhe"}</small>
+            </div>
+            <div class="chev">›</div>
+          </button>
+
+          <button class="primary" id="saveCheckin">Check-in speichern</button>
+        </div>
+      </main>`;
+  }
+
+  function chartPoints(range){
+    const n = range;
+    const sleep = [];
+    const hot = [];
+    for(let i=0;i<n;i++){
+      const wave = Math.sin(i/2.1);
+      sleep.push(Math.max(1,Math.min(9,6 + wave*1.7 + ((i%4===0)?-.7:.4))));
+      hot.push(Math.max(1,Math.min(9,4 - wave*1.5 + ((i%5===0)?1.2:0))));
+    }
+    return {sleep,hot};
+  }
+
+  function polyline(values,w=360,h=180,p=18){
+    const max=10,min=0;
+    return values.map((v,i)=>{
+      const x=p+(i/Math.max(1,values.length-1))*(w-p*2);
+      const y=h-p-((v-min)/(max-min))*(h-p*2);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(" ");
+  }
+
+  function patternsHTML(){
+    const range = state.patternRange || 7;
+    const data = chartPoints(range);
+
+    return `
+      <main class="screen">
+        <div class="stack">
+          <div>
+            <div class="kicker">Patterns</div>
+            <h1 style="margin-top:4px">Your Patterns</h1>
+            <p class="sub" style="margin-top:8px">Zusammenhänge statt Datenfriedhof.</p>
+          </div>
+
+          <div class="tabs">
+            ${[7,30,90].map(n => `<button data-range="${n}" class="${range===n ? "active" : ""}">${n} Tage</button>`).join("")}
+          </div>
+
+          <section class="glass chart-card">
+            <div class="section-head">
+              <div>
+                <h2>Schlaf × Hitzewallungen</h2>
+                <div class="hint">Persönliche Verlaufsdaten</div>
+              </div>
+            </div>
+
+            <div class="chart-wrap">
+              <svg class="chart-svg" viewBox="0 0 360 180" preserveAspectRatio="none">
+                <line x1="18" y1="54" x2="342" y2="54" stroke="rgba(255,255,255,.05)"/>
+                <line x1="18" y1="90" x2="342" y2="90" stroke="rgba(255,255,255,.05)"/>
+                <line x1="18" y1="126" x2="342" y2="126" stroke="rgba(255,255,255,.05)"/>
+                <line class="event-line" x1="232" y1="18" x2="232" y2="162"/>
+                <polyline class="sleep-line" points="${polyline(data.sleep)}"></polyline>
+                <polyline class="hot-line" points="${polyline(data.hot)}"></polyline>
+              </svg>
+            </div>
+
+            <div class="chart-legend">
+              <span><i class="legend-dot" style="background:var(--cyan)"></i>Schlafqualität</span>
+              <span><i class="legend-dot" style="background:var(--coral)"></i>Hitzewallungen</span>
+              <span><i class="legend-dot" style="background:var(--crimson)"></i>Änderungsereignis</span>
+            </div>
+          </section>
+
+          <div class="insight-list">
+            <section class="glass insight-card">
+              <span class="insight-bullet" style="color:var(--coral);background:var(--coral)"></span>
+              <div><b>Hitzewallungen steigen an Tagen mit schwächerem Schlaf.</b><small>Beobachtung aus deinen protokollierten Daten.</small></div>
+              <span class="chev">›</span>
+            </section>
+
+            <section class="glass insight-card">
+              <span class="insight-bullet" style="color:var(--cyan);background:var(--cyan)"></span>
+              <div><b>Dein Schlaf war diese Woche stabiler.</b><small>Kein medizinischer Befund — reine Verlaufsbeobachtung.</small></div>
+              <span class="chev">›</span>
+            </section>
+
+            <section class="glass insight-card">
+              <span class="insight-bullet" style="color:var(--violet);background:var(--violet)"></span>
+              <div><b>What to watch</b><small>Achte auf Kombinationen aus Unruhe, Schlaf und Hitzewallungen.</small></div>
+              <span class="chev">›</span>
+            </section>
+          </div>
+        </div>
+      </main>`;
+  }
+
+  function clinicianHTML(){
+    const e = entryForToday();
+    const status = STATUS.find(s => s.id === state.status) || STATUS[1];
+
+    return `
+      <main class="screen">
+        <div class="stack">
+          <div class="report-head">
+            <div>
+              <div class="kicker">Clinician</div>
+              <h1 style="margin-top:4px">Clinician Report</h1>
+              <p class="sub" style="margin-top:8px">Strukturierter Überblick für deinen nächsten Termin.</p>
+            </div>
+            <button class="icon-btn no-print" id="printReport" aria-label="PDF drucken">⇩</button>
+          </div>
+
+          <div class="metric-grid">
+            ${state.symptoms.slice(0,3).map(id => {
+              const s = symptom(id), v = e.scores[id] ?? 5;
+              return `
+                <div class="glass metric">
+                  <div class="metric-icon">${s.icon}</div>
+                  <strong>${v}/10</strong>
+                  <span>${s.label}</span>
+                </div>`;
+            }).join("")}
+          </div>
+
+          <section class="glass report-section">
+            <h2>Key Metrics</h2>
+            <div class="report-row"><b>Zeitraum</b><span>Letzte 30 Tage</span></div>
+            <div class="report-row"><b>Hormon-/Zyklusstatus</b><span>${status.label}</span></div>
+            <div class="report-row"><b>Fokus-Symptome</b><span>${state.symptoms.map(id=>symptom(id).label).join(", ")}</span></div>
+            <div class="report-row"><b>Hitzewallungen</b><span>beobachtete Häufigkeit variabel</span></div>
+            <div class="report-row"><b>Schlafmuster</b><span>leichte Schwankungen</span></div>
+          </section>
+
+          <section class="glass report-section">
+            <h2>Observed Findings</h2>
+            <div class="insight-list" style="margin-top:12px">
+              <div class="insight-card" style="padding:10px 0;border:0;background:transparent">
+                <span class="insight-bullet" style="color:var(--coral);background:var(--coral)"></span>
+                <div><b>Hitzewallungen treten häufiger an Tagen mit niedrigerer Schlafqualität auf.</b><small>Beobachtung, keine Diagnose.</small></div>
+              </div>
+              <div class="insight-card" style="padding:10px 0;border:0;background:transparent">
+                <span class="insight-bullet" style="color:var(--cyan);background:var(--cyan)"></span>
+                <div><b>Recovery-Werte zeigen zuletzt ein stabileres Niveau.</b><small>Basierend auf deinen Check-ins.</small></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="glass report-section">
+            <h2>Gesprächs-Checkliste</h2>
+            <div class="checklist">
+              ${[
+                "Welche Symptome beeinflussen meinen Alltag am stärksten?",
+                "Welche Therapieoptionen passen zu meinem Risikoprofil?",
+                "Welche Werte oder Untersuchungen sind sinnvoll?",
+                "Welche Veränderungen sollte ich gezielt weiter beobachten?"
+              ].map(q=>`<div class="check-item"><span class="check-icon">✓</span><span>${q}</span></div>`).join("")}
+            </div>
+          </section>
+
+          <button class="primary no-print" id="printReport2">Export Medical Dossier (PDF)</button>
+          <p class="muted" style="font-size:12px;line-height:1.4">
+            Midlife OS stellt keine Diagnose und ersetzt keine medizinische Beratung. Der Report fasst ausschließlich deine eigenen Beobachtungen zusammen.
+          </p>
+        </div>
+      </main>`;
+  }
+
+  function meHTML(){
+    return `
+      <main class="screen">
+        <div class="stack">
+          <div>
+            <div class="kicker">Me</div>
+            <h1 style="margin-top:4px">Me & Lifestyle</h1>
+            <p class="sub" style="margin-top:8px">Daten, Therapie, Wissen — alles in deiner Kontrolle.</p>
+          </div>
+
+          <div class="settings-list">
+            <button class="settings-row" id="exportData">
+              <span class="settings-icon">⇩</span>
+              <span><strong>Export Data</strong><small>Lokales Backup als JSON-Datei</small></span>
+              <span class="chev">›</span>
+            </button>
+
+            <label class="settings-row">
+              <span class="settings-icon">⇧</span>
+              <span><strong>Import Data</strong><small>Backup von einem Gerät wiederherstellen</small></span>
+              <span class="chev">›</span>
+              <input type="file" id="importData" accept="application/json" hidden>
+            </label>
+
+            <button class="settings-row" id="backupReminderRow">
+              <span class="settings-icon">⏱</span>
+              <span><strong>Backup Reminder</strong><small>${state.reminder ? "Aktiv" : "Deaktiviert"}</small></span>
+              <span><button class="toggle ${state.reminder ? "on" : ""}" id="backupToggle" aria-label="Backup Erinnerung"></button></span>
+            </button>
+          </div>
+
+          <section class="glass therapy-card">
+            <div class="dose-ring"><span>1/1<br>today</span></div>
+            <div>
+              <div class="kicker">HRT & Therapy Tracker</div>
+              <h3 style="margin-top:6px">Estradiol Patch</h3>
+              <div class="muted" style="font-size:12px;margin-top:5px">0.05 mg · nächster Reminder 09:00</div>
+            </div>
+            <button class="toggle on" id="therapyToggle" aria-label="Therapie-Erinnerung"></button>
+          </section>
+
+          <div class="settings-list">
+            <button class="settings-row" id="knowledgeBtn">
+              <span class="settings-icon">▤</span>
+              <span><strong>Knowledge & Resources</strong><small>Evidenzbasierte Inhalte & Quellen</small></span>
+              <span class="chev">›</span>
+            </button>
+
+            <button class="settings-row" id="resetBtn">
+              <span class="settings-icon">⚙</span>
+              <span><strong>Settings</strong><small>Fokus-Symptome & Onboarding zurücksetzen</small></span>
+              <span class="chev">›</span>
+            </button>
+          </div>
+        </div>
+      </main>`;
+  }
+
+  function modalHTML(){
+    if(modal === "intervention"){
+      return `
+        <div class="modal">
+          <section class="sheet">
+            <div class="sheet-head">
+              <div>
+                <div class="kicker">Guided Reset</div>
+                <h2 style="margin-top:5px">5-min Vagus Nerve Reset</h2>
+              </div>
+              <button class="close" data-close>×</button>
+            </div>
+            <div class="breath-orb"></div>
+            <div class="timer" id="timerText">05:00</div>
+            <p class="sub" style="text-align:center;margin:0 auto 18px">Atme ruhig. Keine Leistungsaufgabe. Nur fünf Minuten bewusst herunterregeln.</p>
+            <button class="primary" id="timerToggle">Start</button>
+          </section>
+        </div>`;
+    }
+
+    if(modal === "knowledge"){
+      return `
+        <div class="modal">
+          <section class="sheet">
+            <div class="sheet-head">
+              <div>
+                <div class="kicker">Knowledge</div>
+                <h2 style="margin-top:5px">Evidence-based Resources</h2>
+              </div>
+              <button class="close" data-close>×</button>
+            </div>
+            <div class="settings-list">
+              <div class="settings-row">
+                <span class="settings-icon">◉</span>
+                <span><strong>Perimenopause verstehen</strong><small>Was sich verändern kann — ohne Alarmismus.</small></span>
+                <span class="chev">›</span>
+              </div>
+              <div class="settings-row">
+                <span class="settings-icon">☾</span>
+                <span><strong>Schlaf & Night Sweats</strong><small>Was du beobachten kannst und wann ärztliche Abklärung sinnvoll ist.</small></span>
+                <span class="chev">›</span>
+              </div>
+              <div class="settings-row">
+                <span class="settings-icon">✚</span>
+                <span><strong>HRT Gespräch vorbereiten</strong><small>Fragen, Risiken und Beobachtungen strukturiert mitnehmen.</small></span>
+                <span class="chev">›</span>
+              </div>
+            </div>
+          </section>
+        </div>`;
+    }
+
+    if(modal === "editSymptoms"){
+      return `
+        <div class="modal">
+          <section class="sheet">
+            <div class="sheet-head">
+              <div>
+                <div class="kicker">Focus</div>
+                <h2 style="margin-top:5px">Bis zu 3 Symptome</h2>
+              </div>
+              <button class="close" data-close>×</button>
+            </div>
+            <div class="bio-grid">
+              ${SYMPTOMS.map(s => `
+                <button class="bio-pill ${state.symptoms.includes(s.id) ? "selected" : ""}" data-modal-sym="${s.id}">
+                  <span class="check-dot">✓</span>
+                  <span class="icon">${s.icon}</span>
+                  <span class="label">${s.label}</span>
+                </button>`).join("")}
+            </div>
+          </section>
+        </div>`;
+    }
+
+    return "";
+  }
+
+  function bindOnboarding(){
+    document.getElementById("startBtn")?.addEventListener("click",()=>{
+      state.step = 2; save(); render();
+    });
+
+    document.querySelectorAll("[data-sym]").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        const id = btn.dataset.sym;
+        if(state.symptoms.includes(id)){
+          state.symptoms = state.symptoms.filter(x=>x!==id);
+        }else if(state.symptoms.length < 3){
+          state.symptoms.push(id);
+        }else{
+          toast("Maximal 3 Fokus-Symptome.");
+        }
+        save(); render();
+      });
+    });
+
+    document.querySelectorAll("[data-status]").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        state.status = btn.dataset.status;
+        save(); render();
+      });
+    });
+
+    document.getElementById("nextOnboarding")?.addEventListener("click",()=>{
+      if(state.step===2 && state.symptoms.length===0) return;
+      state.step = Math.min(4,state.step+1);
+      save(); render();
+    });
+
+    document.getElementById("finishOnboarding")?.addEventListener("click",()=>{
+      state.onboarded = true;
+      save(); render();
+    });
+  }
+
+  function bindCommon(){
+    document.querySelectorAll("[data-view]").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        view = btn.dataset.view;
+        modal = null;
+        render();
+        window.scrollTo(0,0);
+      });
+    });
+
+    document.getElementById("backupBtn")?.addEventListener("click",exportData);
+    document.getElementById("settingsBtn")?.addEventListener("click",()=>{
+      view="me"; render(); window.scrollTo(0,0);
+    });
+  }
+
+  function bindScreen(){
+    if(view === "today"){
+      const e = entryForToday();
+
+      document.querySelectorAll("[data-slider]").forEach(input=>{
+        input.addEventListener("input",()=>{
+          const id = input.dataset.slider;
+          e.scores[id] = Number(input.value);
+          document.getElementById(`score-${id}`).textContent = input.value;
+          persistEntry(e);
+        });
+      });
+
+      document.getElementById("saveCheckin")?.addEventListener("click",()=>{
+        persistEntry(e);
+        toast("Check-in gespeichert");
+      });
+
+      document.getElementById("interventionBtn")?.addEventListener("click",()=>{
+        modal="intervention";
+        timerSeconds=300;
+        clearInterval(timerId);
+        timerId=null;
+        render();
+      });
+
+      document.getElementById("editSymptoms")?.addEventListener("click",()=>{
+        modal="editSymptoms"; render();
+      });
+    }
+
+    if(view === "patterns"){
+      document.querySelectorAll("[data-range]").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+          state.patternRange = Number(btn.dataset.range);
+          save(); render();
+        });
+      });
+    }
+
+    if(view === "clinician"){
+      document.getElementById("printReport")?.addEventListener("click",()=>window.print());
+      document.getElementById("printReport2")?.addEventListener("click",()=>window.print());
+    }
+
+    if(view === "me"){
+      document.getElementById("exportData")?.addEventListener("click",exportData);
+      document.getElementById("importData")?.addEventListener("change",importData);
+
+      document.getElementById("backupToggle")?.addEventListener("click",(ev)=>{
+        ev.stopPropagation();
+        state.reminder = !state.reminder;
+        save(); render();
+      });
+
+      document.getElementById("knowledgeBtn")?.addEventListener("click",()=>{
+        modal="knowledge"; render();
+      });
+
+      document.getElementById("resetBtn")?.addEventListener("click",()=>{
+        if(confirm("Onboarding und Fokus-Auswahl zurücksetzen? Deine Check-in-Daten bleiben erhalten.")){
+          state.onboarded=false;
+          state.step=1;
+          save();
+          render();
+        }
+      });
+
+      document.getElementById("therapyToggle")?.addEventListener("click",(e)=>{
+        e.currentTarget.classList.toggle("on");
+        toast("Therapie-Erinnerung aktualisiert");
+      });
+    }
+  }
+
+  function bindModal(){
+    document.querySelectorAll("[data-close]").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        modal=null;
+        clearInterval(timerId);
+        timerId=null;
+        render();
+      });
+    });
+
+    document.querySelectorAll("[data-modal-sym]").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        const id=btn.dataset.modalSym;
+        if(state.symptoms.includes(id)){
+          state.symptoms=state.symptoms.filter(x=>x!==id);
+        }else if(state.symptoms.length<3){
+          state.symptoms.push(id);
+        }else{
+          toast("Maximal 3 Fokus-Symptome.");
+          return;
+        }
+        save(); render();
+      });
+    });
+
+    document.getElementById("timerToggle")?.addEventListener("click",()=>{
+      const btn=document.getElementById("timerToggle");
+      if(timerId){
+        clearInterval(timerId);
+        timerId=null;
+        btn.textContent="Fortsetzen";
+        return;
+      }
+      btn.textContent="Pause";
+      timerId=setInterval(()=>{
+        timerSeconds=Math.max(0,timerSeconds-1);
+        const mm=String(Math.floor(timerSeconds/60)).padStart(2,"0");
+        const ss=String(timerSeconds%60).padStart(2,"0");
+        const out=document.getElementById("timerText");
+        if(out) out.textContent=`${mm}:${ss}`;
+        if(timerSeconds<=0){
+          clearInterval(timerId);
+          timerId=null;
+          state.interventionDone=true;
+          save();
+          toast("Reset abgeschlossen");
+          modal=null;
+          render();
+        }
+      },1000);
+    });
+  }
+
+  function exportData(){
+    state.lastBackup = new Date().toISOString();
+    save();
+    const blob = new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href=url;
+    a.download=`midlife-os-backup-${todayISO()}.json`;
+    a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    toast("Backup exportiert");
+  }
+
+  function importData(ev){
+    const file=ev.target.files?.[0];
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=()=>{
+      try{
+        const incoming=JSON.parse(reader.result);
+        state={...defaultState,...incoming,entries:incoming.entries||{}};
+        save();
+        toast("Backup importiert");
+        render();
+      }catch{
+        alert("Diese Backup-Datei konnte nicht gelesen werden.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  render();
+})();
+</script>
+</body>
 </html>
