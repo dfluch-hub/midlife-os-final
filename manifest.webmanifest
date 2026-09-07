@@ -1,11 +1,19 @@
 {
   "name": "Midlife OS",
   "short_name": "Midlife OS",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f6f2ea",
-  "theme_color": "#f6f2ea",
+  "orientation": "portrait-primary",
+  "background_color": "#F7F5F0",
+  "theme_color": "#F7F5F0",
+  "description": "Private, local-first symptom tracking for perimenopause and menopause.",
+  "lang": "de",
+  "categories": [
+    "health",
+    "lifestyle"
+  ],
   "icons": [
     {
       "src": "icon.svg",
@@ -13,13 +21,5 @@
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
-  ],
-  "id": "./",
-  "description": "Private, local-first midlife symptom tracking, patterns and doctor preparation.",
-  "lang": "en",
-  "orientation": "portrait-primary",
-  "categories": [
-    "health",
-    "lifestyle"
   ]
 }
