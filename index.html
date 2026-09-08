@@ -9,8 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="LUNA">
   <meta name="description" content="LUNA – deine ruhige Wechseljahre-Begleiterin für tägliche Check-ins, Muster und Arzttermine.">
-  <link rel="manifest" href="./manifest.webmanifest?v=29">
+  <link rel="manifest" href="./manifest.webmanifest?v=30">
   <link rel="stylesheet" href="./styles.css?v=29">
+  <link rel="stylesheet" href="./luna-v30.css?v=30">
   <title>LUNA – Wechseljahre-Begleiterin</title>
 </head>
 <body>
@@ -26,10 +27,10 @@
     <nav id="bottom-nav" class="bottom-nav" aria-label="Hauptnavigation"></nav>
   </div>
   <section id="onboarding" class="onboarding" aria-label="Willkommen bei LUNA"></section>
-  <script src="./app.js?v=29" defer></script>
+  <script src="./luna-v30.js?v=30" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js?v=29').catch(() => {}));
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js?v=30').catch(() => {}));
     }
   </script>
 </body>
