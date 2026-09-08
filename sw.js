@@ -1,5 +1,5 @@
-const CACHE='luna-v33-consolidated';
-const ASSETS=['./','./index.html','./styles.css?v=33','./app.js?v=33','./manifest.webmanifest?v=33','./icon.svg'];
+const CACHE='luna-v34';
+const ASSETS=['./','./index.html','./styles.css?v=34','./app.js?v=34','./manifest.webmanifest?v=34','./icon.svg'];
 self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response}).catch(()=>caches.match(event.request).then(hit=>hit||caches.match('./index.html'))))});
