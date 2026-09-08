@@ -1,0 +1,10 @@
+/* LUNA v30 launch polish */
+.lang button,.bleed-row button,.tabs button,.entry footer button,.knowledge-close,.text-action{min-height:44px}
+.entry footer button{padding-inline:13px}
+.knowledge-close{width:44px;height:44px;right:4px;top:4px}
+.medical-safety-note{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;margin-top:12px;padding:13px 14px;border-radius:14px;background:var(--warm-soft);border:1px solid rgba(201,125,96,.14);color:#775143}
+.medical-safety-note>span{width:24px;height:24px;border-radius:999px;display:grid;place-items:center;background:rgba(201,125,96,.14);color:var(--warm);font-size:13px;font-weight:850}
+.medical-safety-note p{font-size:13px;line-height:1.45;color:#775143}
+.strip-legend .bleed-dot.medium{background:rgba(139,74,92,.62)}
+.ring-value{transition:stroke .25s ease}
+@media (max-width:360px){.bleed-row{gap:4px}.bleed-row button{font-size:10px;padding-inline:2px}}
