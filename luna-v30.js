@@ -15,6 +15,9 @@ function patchSource(source){
 }
 
 function lang(){
+  const active=document.querySelector('.lang button.active');
+  if(active?.getAttribute('data-lang')==='en')return'en';
+  if(active?.getAttribute('data-lang')==='de')return'de';
   return document.documentElement.lang?.toLowerCase().startsWith('en')?'en':'de';
 }
 
@@ -22,12 +25,20 @@ function text(de,en){return lang()==='en'?en:de}
 
 function ensureMedicalWarning(){
   const root=document.getElementById('view-root');
-  if(!root||root.querySelector('.medical-safety-note'))return;
-  const candidates=[...root.querySelectorAll('p,div,section')];
-  const anchor=candidates.find(el=>{
-    const value=(el.textContent||'').trim();
-    return value.startsWith('LUNA fasst dokumentierte Beobachtungen zusammen.')||value.startsWith('LUNA summarizes documented observations.');
-  });
+  if(!root)return;
+  const existing=root.querySelector('.medical-safety-note');
+  if(existing){
+    const copy=existing.querySelector('p');
+    if(copy)copy.textContent=text('Blutungen nach 12 Monaten ohne Periode sollten ärztlich abgeklärt werden.','Bleeding after 12 months without a period should be medically evaluated.');
+    return;
+  }
+  const candidates=[...root.querySelectorAll('p,div,section')]
+    .filter(el=>{
+      const value=(el.textContent||'').trim();
+      return value.startsWith('LUNA fasst dokumentierte Beobachtungen zusammen.')||value.startsWith('LUNA summarizes documented observations.');
+    })
+    .sort((a,b)=>(a.textContent||'').length-(b.textContent||'').length);
+  const anchor=candidates[0];
   if(!anchor)return;
   const note=document.createElement('div');
   note.className='medical-safety-note';
@@ -38,7 +49,14 @@ function ensureMedicalWarning(){
 
 function ensureMediumLegend(){
   document.querySelectorAll('.strip-legend').forEach(legend=>{
-    if(legend.querySelector('.bleed-dot.medium'))return;
+    const existing=legend.querySelector('.bleed-dot.medium')?.closest('span');
+    if(existing){
+      const dot=existing.querySelector('.bleed-dot.medium');
+      existing.textContent='';
+      if(dot)existing.append(dot);
+      existing.append(document.createTextNode(text('Mittel','Medium')));
+      return;
+    }
     const item=document.createElement('span');
     item.innerHTML=`<i class="bleed-dot medium" aria-hidden="true"></i>${text('Mittel','Medium')}`;
     const strong=legend.querySelector('.bleed-dot.strong')?.closest('span');
@@ -108,7 +126,7 @@ function enhance(){
   installDeleteGuard();
   apply();
   const observer=new MutationObserver(apply);
-  observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+  observer.observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['class']});
 }
 
 async function boot(){
