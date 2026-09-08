@@ -138,7 +138,11 @@ function exportJson(){download(`luna-${localKey(new Date())}.json`,JSON.stringif
 function cell(v){const s=String(v??"");return/[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}
 function exportCsv(){const h=["id","timestamp","type","energy","symptoms","bleeding","hrtTaken","acuteSymptom","intensity"],rows=S().entries.map(e=>h.map(k=>cell(k==="timestamp"?e.ts:k==="symptoms"?JSON.stringify(e.symptoms):e[k])).join(","));download(`luna-${localKey(new Date())}.csv`,[h.join(","),...rows].join("\n"),"text/csv;charset=utf-8")}
 
-function onboardVisual(s){if(s===0)return`<div class="onboard-orb">◌</div>`;if(s===1)return`<div class="onboard-wave">⌁</div>`;return`<div class="onboard-orb">✦</div>`}
+function onboardVisual(s){
+  if(s===0)return`<div class="onboard-brand-mark" aria-hidden="true"><svg viewBox="0 0 126 126" role="presentation"><defs><linearGradient id="lunaMoonGradient" x1="20%" y1="10%" x2="88%" y2="90%"><stop offset="0%" stop-color="#2B2A4A"/><stop offset="58%" stop-color="#5B8E7D"/><stop offset="100%" stop-color="#4A72B0"/></linearGradient><filter id="lunaGlow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="7"/></filter></defs><circle class="moon-glow" cx="63" cy="63" r="48"/><circle class="moon-shell" cx="63" cy="63" r="46"/><path class="moon-crescent" d="M79 34c-17 4-29 19-29 36 0 12 6 23 16 30-20-1-36-17-36-37 0-22 18-40 40-40 8 0 15 2 21 6-4 1-8 3-12 5Z"/><path class="moon-wave" d="M34 83c10-8 20-8 29 0s19 8 29 0"/></svg></div>`;
+  if(s===1)return`<div class="onboard-wave">⌁</div>`;
+  return`<div class="onboard-orb">✦</div>`;
+}
 function renderOnboarding(){const el=document.getElementById("onboarding");if(localStorage.getItem(ONBOARD)==="1"){el.classList.remove("show");el.innerHTML="";return}const copy=[["intro1","intro1sub"],["intro2","intro2sub"],["intro3","intro3sub"]][onboardingStep];el.classList.add("show");el.innerHTML=`<div class="onboard-card">${onboardVisual(onboardingStep)}<div class="onboard-dots">${[0,1,2].map(i=>`<i class="${i===onboardingStep?"active":""}"></i>`).join("")}</div><h1>${T(copy[0])}</h1><p>${T(copy[1])}</p><small>${T("private")}</small><button id="onboardNext" class="primary">${onboardingStep===2?T("onStart"):T("next")}</button></div>`;document.getElementById("onboardNext").onclick=()=>{if(onboardingStep<2){onboardingStep++;renderOnboarding()}else{localStorage.setItem(ONBOARD,"1");el.classList.remove("show");el.innerHTML=""}}}
 
 render();
