@@ -9,8 +9,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="LUNA">
   <meta name="description" content="LUNA – deine ruhige Wechseljahre-Begleiterin für tägliche Check-ins, Muster und Arzttermine.">
-  <link rel="manifest" href="./manifest.webmanifest?v=28">
-  <link rel="stylesheet" href="./styles.css?v=27">
+  <link rel="manifest" href="./manifest.webmanifest?v=29">
+  <link rel="stylesheet" href="./styles.css?v=29">
   <title>LUNA – Wechseljahre-Begleiterin</title>
 </head>
 <body>
@@ -26,156 +26,10 @@
     <nav id="bottom-nav" class="bottom-nav" aria-label="Hauptnavigation"></nav>
   </div>
   <section id="onboarding" class="onboarding" aria-label="Willkommen bei LUNA"></section>
-
-  <script src="./app.js?v=28" defer></script>
-  <script>
-    (() => {
-      'use strict';
-
-      const NS = 'http://www.w3.org/2000/svg';
-
-      function isGerman() {
-        return (document.documentElement.lang || 'de').toLowerCase().startsWith('de');
-      }
-
-      function smoothPath(points) {
-        if (points.length < 2) return '';
-        let d = `M ${points[0].x} ${points[0].y}`;
-        for (let i = 0; i < points.length - 1; i++) {
-          const p0 = points[i - 1] || points[i];
-          const p1 = points[i];
-          const p2 = points[i + 1];
-          const p3 = points[i + 2] || p2;
-          const c1x = p1.x + (p2.x - p0.x) / 6;
-          const c1y = p1.y + (p2.y - p0.y) / 6;
-          const c2x = p2.x - (p3.x - p1.x) / 6;
-          const c2y = p2.y - (p3.y - p1.y) / 6;
-          d += ` C ${c1x} ${c1y}, ${c2x} ${c2y}, ${p2.x} ${p2.y}`;
-        }
-        return d;
-      }
-
-      function polishWave() {
-        const svg = document.querySelector('.wave-chart');
-        if (!svg || svg.dataset.lunaPolished === '1') return;
-        const dots = [...svg.querySelectorAll('.sym-dot')].map(dot => ({
-          x: Number(dot.getAttribute('cx')),
-          y: Number(dot.getAttribute('cy')),
-          r: Number(dot.getAttribute('r')) || 4
-        })).filter(p => Number.isFinite(p.x) && Number.isFinite(p.y));
-        if (!dots.length) return;
-
-        svg.dataset.lunaPolished = '1';
-        const viewBox = (svg.getAttribute('viewBox') || '0 0 360 190').split(/\s+/).map(Number);
-        const width = viewBox[2] || 360;
-        const height = viewBox[3] || 190;
-        const baseline = height - 38;
-
-        const defs = document.createElementNS(NS, 'defs');
-        const gradient = document.createElementNS(NS, 'linearGradient');
-        gradient.setAttribute('id', 'lunaWaveGradient');
-        gradient.setAttribute('x1', '0');
-        gradient.setAttribute('y1', '0');
-        gradient.setAttribute('x2', '0');
-        gradient.setAttribute('y2', '1');
-        const stopA = document.createElementNS(NS, 'stop');
-        stopA.setAttribute('offset', '0%');
-        stopA.setAttribute('stop-color', '#2B2A4A');
-        stopA.setAttribute('stop-opacity', '0.12');
-        const stopB = document.createElementNS(NS, 'stop');
-        stopB.setAttribute('offset', '100%');
-        stopB.setAttribute('stop-color', '#2B2A4A');
-        stopB.setAttribute('stop-opacity', '0');
-        gradient.append(stopA, stopB);
-        defs.appendChild(gradient);
-
-        let curvePoints = dots;
-        if (dots.length === 1) {
-          const center = dots[0];
-          curvePoints = [
-            {x: 24, y: center.y + 8},
-            {x: width * .28, y: center.y - 3},
-            {x: width * .5, y: center.y},
-            {x: width * .72, y: center.y + 4},
-            {x: width - 18, y: center.y - 5}
-          ];
-        }
-
-        const lineD = smoothPath(curvePoints);
-        const areaD = `${lineD} L ${curvePoints[curvePoints.length - 1].x} ${baseline} L ${curvePoints[0].x} ${baseline} Z`;
-        const area = document.createElementNS(NS, 'path');
-        area.setAttribute('d', areaD);
-        area.setAttribute('fill', 'url(#lunaWaveGradient)');
-        area.setAttribute('stroke', 'none');
-
-        const line = document.createElementNS(NS, 'path');
-        line.setAttribute('d', lineD);
-        line.setAttribute('fill', 'none');
-        line.setAttribute('stroke', '#2B2A4A');
-        line.setAttribute('stroke-width', '3');
-        line.setAttribute('stroke-linecap', 'round');
-        line.setAttribute('stroke-linejoin', 'round');
-
-        svg.querySelector('.sym-wave')?.remove();
-        svg.prepend(defs);
-        const grid = svg.querySelector('.wave-grid');
-        if (grid) grid.after(area, line); else svg.append(area, line);
-
-        if (dots.length === 1) {
-          const dot = svg.querySelector('.sym-dot');
-          if (dot) {
-            dot.setAttribute('cx', String(width / 2));
-            dot.setAttribute('cy', String(dots[0].y));
-            dot.setAttribute('r', '5');
-            dot.setAttribute('fill', '#2B2A4A');
-            const title = document.createElementNS(NS, 'title');
-            title.textContent = isGerman() ? 'Dokumentierter Wert' : 'Documented value';
-            dot.appendChild(title);
-          }
-
-          const label = document.createElementNS(NS, 'g');
-          const labelY = Math.max(18, dots[0].y - 30);
-          label.innerHTML = `<rect x="126" y="${labelY - 15}" width="108" height="25" rx="12.5" fill="#FFFFFF" stroke="rgba(43,42,74,.08)"/><text x="180" y="${labelY + 2}" text-anchor="middle" font-size="10" font-family="Inter,-apple-system,sans-serif" fill="#2B2A4A">${isGerman() ? 'Dokumentierter Tag' : 'Documented day'}</text>`;
-          svg.appendChild(label);
-        }
-      }
-
-      function polish60Days() {
-        document.querySelectorAll('[data-report-range="60"]').forEach(button => {
-          button.textContent = isGerman() ? '60 Tage' : '60 days';
-        });
-      }
-
-      function polishAcuteModal() {
-        const sheet = document.querySelector('.modal-sheet');
-        if (!sheet || sheet.dataset.lunaHeaderPolished === '1') return;
-        const header = sheet.querySelector('header');
-        if (!header || !sheet.querySelector('[data-acute]')) return;
-        const copy = header.querySelector('div');
-        if (!copy) return;
-        sheet.dataset.lunaHeaderPolished = '1';
-        const title = isGerman() ? 'Signal erfassen' : 'Log a signal';
-        const sub = isGerman() ? 'In wenigen Sekunden dokumentiert' : 'Documented in seconds';
-        copy.innerHTML = `<h2 style="margin:0;font-size:20px;line-height:1.2;font-weight:760;color:#2B2A4A">${title}</h2><p style="margin:4px 0 0;font-size:14px;line-height:1.4;color:#76757D">${sub}</p>`;
-      }
-
-      function polish() {
-        polish60Days();
-        polishWave();
-        polishAcuteModal();
-      }
-
-      const observer = new MutationObserver(() => requestAnimationFrame(polish));
-      window.addEventListener('DOMContentLoaded', () => {
-        observer.observe(document.body, {childList:true, subtree:true});
-        requestAnimationFrame(polish);
-      });
-    })();
-  </script>
-
+  <script src="./app.js?v=29" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js?v=27').catch(() => {}));
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js?v=29').catch(() => {}));
     }
   </script>
 </body>
