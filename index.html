@@ -9,8 +9,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Midlife OS">
   <meta name="description" content="Midlife OS – Symptome erfassen, Muster verstehen und Arztgespräche vorbereiten.">
-  <link rel="manifest" href="./manifest.webmanifest?v=19">
-  <link rel="stylesheet" href="./styles.css?v=19">
+  <link rel="manifest" href="./manifest.webmanifest?v=20">
+  <link rel="stylesheet" href="./styles.css?v=20">
   <title>Midlife OS</title>
 </head>
 <body>
@@ -18,22 +18,18 @@
     <header class="topbar">
       <div class="brand">Midlife <b>OS.</b></div>
       <div class="lang" aria-label="Sprache wechseln">
-        <button type="button" data-lang="de" class="active">DE</button>
+        <button type="button" data-lang="de">DE</button>
         <button type="button" data-lang="en">EN</button>
       </div>
     </header>
-
     <main id="view-root" class="main-content" aria-live="polite"></main>
-
     <nav id="bottom-nav" class="bottom-nav" aria-label="Hauptnavigation"></nav>
   </div>
-
   <section id="onboarding" class="onboarding" aria-label="Willkommen bei Midlife OS"></section>
-
-  <script src="./app.js?v=19" defer></script>
+  <script src="./app.js?v=20" defer></script>
   <script>
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js?v=19").catch(() => {}));
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js?v=20").catch(() => {}));
     }
   </script>
 </body>
