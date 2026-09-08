@@ -26,10 +26,11 @@ function text(de,en){return lang()==='en'?en:de}
 function ensureMedicalWarning(){
   const root=document.getElementById('view-root');
   if(!root)return;
+  const desired=text('Blutungen nach 12 Monaten ohne Periode sollten ärztlich abgeklärt werden.','Bleeding after 12 months without a period should be medically evaluated.');
   const existing=root.querySelector('.medical-safety-note');
   if(existing){
     const copy=existing.querySelector('p');
-    if(copy)copy.textContent=text('Blutungen nach 12 Monaten ohne Periode sollten ärztlich abgeklärt werden.','Bleeding after 12 months without a period should be medically evaluated.');
+    if(copy&&copy.textContent!==desired)copy.textContent=desired;
     return;
   }
   const candidates=[...root.querySelectorAll('p,div,section')]
@@ -43,22 +44,28 @@ function ensureMedicalWarning(){
   const note=document.createElement('div');
   note.className='medical-safety-note';
   note.setAttribute('role','note');
-  note.innerHTML=`<span aria-hidden="true">!</span><p>${text('Blutungen nach 12 Monaten ohne Periode sollten ärztlich abgeklärt werden.','Bleeding after 12 months without a period should be medically evaluated.')}</p>`;
+  note.innerHTML=`<span aria-hidden="true">!</span><p>${desired}</p>`;
   anchor.insertAdjacentElement('afterend',note);
 }
 
 function ensureMediumLegend(){
   document.querySelectorAll('.strip-legend').forEach(legend=>{
+    const desired=text('Mittel','Medium');
     const existing=legend.querySelector('.bleed-dot.medium')?.closest('span');
     if(existing){
-      const dot=existing.querySelector('.bleed-dot.medium');
-      existing.textContent='';
-      if(dot)existing.append(dot);
-      existing.append(document.createTextNode(text('Mittel','Medium')));
+      const current=[...existing.childNodes]
+        .filter(node=>node.nodeType===Node.TEXT_NODE)
+        .map(node=>node.textContent||'')
+        .join('')
+        .trim();
+      if(current!==desired){
+        [...existing.childNodes].filter(node=>node.nodeType===Node.TEXT_NODE).forEach(node=>node.remove());
+        existing.append(document.createTextNode(desired));
+      }
       return;
     }
     const item=document.createElement('span');
-    item.innerHTML=`<i class="bleed-dot medium" aria-hidden="true"></i>${text('Mittel','Medium')}`;
+    item.innerHTML=`<i class="bleed-dot medium" aria-hidden="true"></i>${desired}`;
     const strong=legend.querySelector('.bleed-dot.strong')?.closest('span');
     if(strong)legend.insertBefore(item,strong);else legend.append(item);
   });
@@ -72,12 +79,14 @@ function refineRing(){
   if(!match)return;
   const value=Number(match[0]);
   const stroke=value>=75?'var(--sage)':value>=55?'var(--amber)':'var(--warm)';
-  ring.style.stroke=stroke;
+  if(ring.style.stroke!==stroke)ring.style.stroke=stroke;
   const dot=document.querySelector('.ring-copy .pulse-dot');
   if(dot){
-    dot.classList.remove('sage','amber');
-    if(value>=75)dot.classList.add('sage');
-    else if(value>=55)dot.classList.add('amber');
+    const desired=value>=75?'sage':value>=55?'amber':'';
+    if(!dot.classList.contains(desired)||[...dot.classList].some(c=>(c==='sage'||c==='amber')&&c!==desired)){
+      dot.classList.remove('sage','amber');
+      if(desired)dot.classList.add(desired);
+    }
   }
 }
 
