@@ -1,0 +1,66 @@
+/* LUNA v33 interaction polish — additive, state-neutral */
+.close-check{
+  width:40px;height:40px;border:0;border-radius:999px;
+  background:rgba(43,42,74,.045);color:#77757D;
+  display:grid;place-items:center;font-size:22px;line-height:1;
+  transition:transform .16s cubic-bezier(.16,1,.3,1),background .16s ease,color .16s ease;
+}
+.close-check:hover{background:rgba(43,42,74,.075);color:#2B2A4A}
+.close-check:active{transform:scale(.94);background:rgba(43,42,74,.11)}
+
+.signal-tile{
+  background:#fff;border-color:rgba(43,42,74,.09);
+  transition:min-height .22s cubic-bezier(.16,1,.3,1),border-color .2s ease,box-shadow .2s ease,background .2s ease,transform .14s ease;
+}
+.signal-tile:has(.signal-main:active){transform:scale(.98)}
+.signal-main{color:#2B2A4A;transition:transform .14s ease,color .18s ease}
+.signal-main:active{transform:scale(.985)}
+.signal-main span{color:rgba(43,42,74,.48)}
+.signal-tile.active{
+  background:rgba(143,169,140,.12);
+  border-color:rgba(143,169,140,.40);
+  box-shadow:0 0 0 3px rgba(143,169,140,.07),0 10px 24px rgba(91,142,125,.08);
+}
+.signal-tile.active .signal-main strong{color:#2B2A4A}
+.signal-tile.active .signal-main span{color:#5B8E7D}
+.signal-levels{gap:5px}
+.signal-levels button{
+  min-height:32px;border-radius:10px;background:rgba(255,255,255,.78);
+  border:1px solid rgba(43,42,74,.07);color:#706E76;
+  transition:transform .14s cubic-bezier(.16,1,.3,1),background .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.signal-levels button:active{transform:scale(.95)}
+.signal-levels button.active{
+  background:#2B2A4A;color:#fff;border-color:#2B2A4A;
+  box-shadow:0 4px 12px rgba(43,42,74,.16);
+}
+
+.finish{
+  transition:transform .16s cubic-bezier(.16,1,.3,1),box-shadow .16s ease;
+}
+.finish:active{transform:scale(.98)}
+
+.ring-value{
+  filter:drop-shadow(0 4px 12px rgba(91,142,125,.25));
+  transition:stroke-dashoffset .9s cubic-bezier(.16,1,.3,1);
+  animation:ringGrow .9s cubic-bezier(.16,1,.3,1) both;
+}
+.ring-copy strong{
+  font-size:48px;font-weight:300;letter-spacing:-.065em;
+  color:#2B2A4A;font-variant-numeric:tabular-nums;
+}
+.pulse-dot{animation:pulse 2s ease-in-out infinite}
+
+.onboard-brand-mark{
+  width:126px;height:126px;margin:0 auto 10px;display:grid;place-items:center;
+  filter:drop-shadow(0 10px 24px rgba(91,142,125,.12));
+}
+.onboard-brand-mark svg{width:126px;height:126px;overflow:visible}
+.onboard-brand-mark .moon-shell{fill:#F3F7F4;stroke:rgba(43,42,74,.08);stroke-width:1.5}
+.onboard-brand-mark .moon-crescent{fill:url(#lunaMoonGradient)}
+.onboard-brand-mark .moon-wave{fill:none;stroke:#2B2A4A;stroke-width:2.2;stroke-linecap:round;opacity:.72}
+.onboard-brand-mark .moon-glow{fill:#8FA98C;opacity:.12;filter:url(#lunaGlow)}
+
+@media (prefers-reduced-motion:reduce){
+  .close-check,.signal-tile,.signal-main,.signal-levels button,.finish,.ring-value{transition:none!important;animation:none!important}
+}
