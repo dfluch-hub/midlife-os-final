@@ -1,128 +1,27 @@
 (()=>{"use strict";
 
-const KEY="midlifeOS_v21", ONBOARD="midlife_onboarded", V=21;
+const KEY="midlifeOS_v22",ONBOARD="midlife_onboarded",V=22;
 const SYM=["hot","brain","joints","headache","palpitations","sleepIssue"];
 const ACUTE=["hot","anxious","headache","palpitations"];
 const DEFAULTS={schemaVersion:V,lang:"de",activeTab:"dashboard",entries:[],analysisRange:30,overlaySleep:true,reportRange:30,doctorNote:""};
 
 const TXT={
-de:{
-dashboard:"Dashboard",log:"Erfassen",analysis:"Verlauf",report:"Arzt & Profil",
-gm:"Guten Morgen",gd:"Guten Tag",ge:"Guten Abend",noCheck:"Heute noch kein Check-in",done:"Heute erfasst ✓",adjust:"Anpassen",
-acute:"Akutes Symptom erfassen",acuteSub:"Hitzewallung, Unruhe, Migräne oder Herzrasen in wenigen Sekunden.",
-checkin:"20-Sekunden-Check-in starten",checkinSub:"Kurz erfassen, was heute relevant ist.",
-spotlight:"Muster-Spotlight",seven:"7-Tage-Überblick",sleep:"Schlaf",energy:"Energie",load:"Belastung",
-sleepHours:"Schlafdauer",sleepQuality:"Schlafqualität",mood:"Stimmung",physical:"Symptome",cycle:"Zyklus / HRT",
-hot:"Hitzewallung",brain:"Brain Fog",joints:"Gelenke",headache:"Kopfschmerz",palpitations:"Herzrasen",sleepIssue:"Schlafstörung",
-anxious:"Unruhe / Panik",calm:"Ruhig",exhausted:"Erschöpft",irritable:"Gereizt",anxiousMood:"Ängstlich",
-veryPoor:"Sehr schlecht",poor:"Schlecht",neutral:"Okay",good:"Gut",veryGood:"Sehr gut",
-empty:"Leer",low:"Niedrig",steady:"Okay",high:"Gut",full:"Voll",
-bleedNone:"Keine Blutung",bleedLight:"Leicht",bleedHeavy:"Stark",spotting:"Schmierblutung",bleeding:"Blutung",
-hrt:"HRT/HET heute eingenommen",save:"Check-in speichern",reset:"Zurücksetzen",savedToast:"Tages-Check-in gespeichert ✓",
-acuteSaved:"Akut-Symptom erfasst ✓",intensity:"Intensität",mild:"Leicht",moderate:"Mittel",strong:"Stark",
-corr:"Schlafdauer überlagern",history:"Einträge",edit:"Bearbeiten",del:"Löschen",
-emptyChart:"Erfasse deine ersten Tage, um deinen Verlauf als Kurve zu sehen.",
-symptom:"Symptom",frequency:"Häufigkeit",average:"Ø Intensität",peak:"Peak-Zeit",
-reportTitle:"Arzt-Zusammenfassung",period:"Erfassungszeitraum",sleepTrend:"Schlaftrend",bleedings:"Blutungen / Schmierblutungen",
-hrtConsistency:"HRT/HET-Dokumentation",patientNote:"Eigene Notizen für das Arztgespräch",
-patientPlaceholder:"Eigene Fragen oder Beobachtungen für das Arztgespräch notieren...",
-doctorField:"Notizen für Arzt / Ärztin",print:"Report drucken / als PDF sichern",data:"Datenverwaltung",json:"JSON",csv:"CSV",
-deleteAll:"Alle Daten sicher löschen",confirmDelete:"Alle lokalen Einträge wirklich löschen?",cancel:"Abbrechen",deleteNow:"Daten löschen",
-medical:"Midlife OS zeigt Beobachtungen aus deinen Einträgen. Es stellt keine Diagnose und ersetzt keine medizinische Beratung.",
-observe:"Beobachtung",possible:"Bisher dokumentiert",
-intro1:"Verstehe deinen Körper in 20 Sekunden am Tag.",intro1sub:"Ein kurzer Check-in reicht, damit aus einzelnen Tagen ein verständliches Bild entsteht.",
-intro2:"Erkenne echte Zusammenhänge statt Zufall.",intro2sub:"Schlaf, Hitzewallungen, Stimmung und Zyklus werden gemeinsam betrachtet – ohne Datenchaos.",
-intro3:"Dein nächster Arzttermin auf den Punkt vorbereitet.",intro3sub:"100% privat: Deine Daten bleiben auf diesem Gerät. Exportiere nur, was du selbst teilen möchtest.",
-next:"Weiter",start:"Jetzt starten",private:"100% lokal auf deinem Gerät",
-scorePrompt:"Tages-Score berechnen",stable:"Stabil & erholt",balanced:"Ausgeglichen",burden:"Erhöhte Belastung",activeSymptoms:"Symptome"
-},
-en:{
-dashboard:"Dashboard",log:"Log",analysis:"History",report:"Doctor & Profile",
-gm:"Good morning",gd:"Good afternoon",ge:"Good evening",noCheck:"No check-in yet today",done:"Today captured ✓",adjust:"Adjust",
-acute:"Log acute symptom",acuteSub:"Capture a hot flash, restlessness, migraine or palpitations in seconds.",
-checkin:"Start 20-second check-in",checkinSub:"Quickly capture what matters today.",
-spotlight:"Pattern spotlight",seven:"7-day overview",sleep:"Sleep",energy:"Energy",load:"Symptom load",
-sleepHours:"Sleep duration",sleepQuality:"Sleep quality",mood:"Mood",physical:"Symptoms",cycle:"Cycle / HRT",
-hot:"Hot flash",brain:"Brain fog",joints:"Joints",headache:"Headache",palpitations:"Palpitations",sleepIssue:"Sleep disturbance",
-anxious:"Restlessness / panic",calm:"Calm",exhausted:"Exhausted",irritable:"Irritable",anxiousMood:"Anxious",
-veryPoor:"Very poor",poor:"Poor",neutral:"Okay",good:"Good",veryGood:"Very good",
-empty:"Empty",low:"Low",steady:"Okay",high:"Good",full:"Full",
-bleedNone:"No bleeding",bleedLight:"Light",bleedHeavy:"Heavy",spotting:"Spotting",bleeding:"Bleeding",
-hrt:"HRT/MHT taken today",save:"Save check-in",reset:"Reset",savedToast:"Daily check-in saved ✓",
-acuteSaved:"Acute symptom captured ✓",intensity:"Intensity",mild:"Mild",moderate:"Moderate",strong:"Strong",
-corr:"Overlay sleep duration",history:"Entries",edit:"Edit",del:"Delete",
-emptyChart:"Log your first days to see your history as a chart.",
-symptom:"Symptom",frequency:"Frequency",average:"Avg intensity",peak:"Peak time",
-reportTitle:"Doctor summary",period:"Tracking period",sleepTrend:"Sleep trend",bleedings:"Bleeding / spotting",
-hrtConsistency:"HRT/MHT documentation",patientNote:"Your notes for the appointment",
-patientPlaceholder:"Add your own questions or observations for the appointment...",
-doctorField:"Clinician notes",print:"Print report / save as PDF",data:"Data management",json:"JSON",csv:"CSV",
-deleteAll:"Securely delete all data",confirmDelete:"Really delete all local entries?",cancel:"Cancel",deleteNow:"Delete data",
-medical:"Midlife OS shows observations from your entries. It does not diagnose and does not replace medical advice.",
-observe:"Observation",possible:"Documented so far",
-intro1:"Understand your body in 20 seconds a day.",intro1sub:"A short check-in is enough to turn individual days into a clearer picture.",
-intro2:"See real patterns instead of random noise.",intro2sub:"Sleep, hot flashes, mood and cycle are viewed together – without data clutter.",
-intro3:"Walk into your next appointment prepared.",intro3sub:"100% private: your data stays on this device. Export only what you choose to share.",
-next:"Continue",start:"Get started",private:"100% local on your device",
-scorePrompt:"Calculate daily score",stable:"Stable & restored",balanced:"Balanced",burden:"Higher load",activeSymptoms:"Symptoms"
-}};
+de:{dashboard:"Dashboard",log:"Erfassen",analysis:"Verlauf",report:"Arzt & Profil",gm:"Guten Morgen",gd:"Guten Tag",ge:"Guten Abend",noCheck:"Tages-Check-in offen",done:"Heute erfasst ✓",adjust:"Heutigen Eintrag anpassen",acute:"Akutes Symptom erfassen",acuteSub:"Hitzewallung, Unruhe, Migräne oder Herzrasen in wenigen Sekunden.",checkin:"20-Sekunden-Check-in starten",checkinSub:"Kurz erfassen, was heute relevant ist.",spotlight:"Muster-Spotlight",seven:"7-Tage-Überblick",sleep:"Schlaf",energy:"Energie",load:"Belastung",sleepHours:"Schlafdauer",sleepQuality:"Schlafqualität",mood:"Stimmung",physical:"Beschwerden",cycle:"Zyklus / HRT",hot:"Hitzewallung",brain:"Brain Fog",joints:"Gelenke",headache:"Kopfschmerz",palpitations:"Herzrasen",sleepIssue:"Schlafstörung",anxious:"Unruhe / Panik",calm:"Ruhig",exhausted:"Erschöpft",irritable:"Gereizt",anxiousMood:"Ängstlich",veryPoor:"Sehr schlecht",poor:"Schlecht",neutral:"Okay",good:"Gut",veryGood:"Sehr gut",empty:"Leer",low:"Niedrig",steady:"Okay",high:"Gut",full:"Voll",bleedNone:"Keine Blutung",bleedLight:"Leicht",bleedHeavy:"Stark",spotting:"Schmierblutung",bleeding:"Blutung",hrt:"HRT/HET heute eingenommen",save:"Check-in speichern",reset:"Abbrechen / Zurücksetzen",savedToast:"Tages-Check-in gespeichert ✓",acuteSaved:"Akut-Symptom erfasst ✓",intensity:"Intensität",mild:"Leicht",moderate:"Mittel",strong:"Stark",corr:"Schlafdauer überlagern",history:"Einträge",edit:"Bearbeiten",del:"Löschen",emptyChart:"Erfasse deine ersten Tage, um deinen Verlauf als Kurve zu sehen.",symptom:"Symptom",frequency:"Häufigkeit",average:"Ø Intensität",peak:"Peak-Zeit",reportTitle:"Arzt-Zusammenfassung",period:"Erfassungszeitraum",sleepTrend:"Schlaftrend",bleedings:"Blutungen / Schmierblutungen",hrtConsistency:"HRT/HET-Dokumentation",patientNote:"Eigene Notizen für das Arztgespräch",patientPlaceholder:"Eigene Fragen oder Beobachtungen für das Arztgespräch notieren...",doctorField:"Notizen für Arzt / Ärztin",print:"Report drucken / als PDF sichern",data:"Datenverwaltung",json:"JSON",csv:"CSV",deleteAll:"Alle Daten sicher löschen",confirmDelete:"Alle lokalen Einträge wirklich löschen?",cancel:"Abbrechen",deleteNow:"Daten löschen",medical:"Midlife OS zeigt Beobachtungen aus deinen Einträgen. Es stellt keine Diagnose und ersetzt keine medizinische Beratung.",observe:"Beobachtung",possible:"Bisher dokumentiert",intro1:"Verstehe deinen Körper in 20 Sekunden am Tag.",intro1sub:"Ein kurzer Check-in reicht, damit aus einzelnen Tagen ein verständliches Bild entsteht.",intro2:"Erkenne echte Zusammenhänge statt Zufall.",intro2sub:"Schlaf, Hitzewallungen, Stimmung und Zyklus werden gemeinsam betrachtet – ohne Datenchaos.",intro3:"Dein nächster Arzttermin auf den Punkt vorbereitet.",intro3sub:"100% privat: Deine Daten bleiben auf diesem Gerät. Exportiere nur, was du selbst teilen möchtest.",next:"Weiter",start:"Jetzt starten",private:"100% lokal auf deinem Gerät",stable:"Stabil & erholt",balanced:"Ausgeglichen",burden:"Erhöhte Belastung",activeSymptoms:"Symptome"},
+en:{dashboard:"Dashboard",log:"Log",analysis:"History",report:"Doctor & Profile",gm:"Good morning",gd:"Good afternoon",ge:"Good evening",noCheck:"Daily check-in open",done:"Today captured ✓",adjust:"Adjust today's entry",acute:"Log acute symptom",acuteSub:"Capture a hot flash, restlessness, migraine or palpitations in seconds.",checkin:"Start 20-second check-in",checkinSub:"Quickly capture what matters today.",spotlight:"Pattern spotlight",seven:"7-day overview",sleep:"Sleep",energy:"Energy",load:"Symptom load",sleepHours:"Sleep duration",sleepQuality:"Sleep quality",mood:"Mood",physical:"Symptoms",cycle:"Cycle / HRT",hot:"Hot flash",brain:"Brain fog",joints:"Joints",headache:"Headache",palpitations:"Palpitations",sleepIssue:"Sleep disturbance",anxious:"Restlessness / panic",calm:"Calm",exhausted:"Exhausted",irritable:"Irritable",anxiousMood:"Anxious",veryPoor:"Very poor",poor:"Poor",neutral:"Okay",good:"Good",veryGood:"Very good",empty:"Empty",low:"Low",steady:"Okay",high:"Good",full:"Full",bleedNone:"No bleeding",bleedLight:"Light",bleedHeavy:"Heavy",spotting:"Spotting",bleeding:"Bleeding",hrt:"HRT/MHT taken today",save:"Save check-in",reset:"Cancel / reset",savedToast:"Daily check-in saved ✓",acuteSaved:"Acute symptom captured ✓",intensity:"Intensity",mild:"Mild",moderate:"Moderate",strong:"Strong",corr:"Overlay sleep duration",history:"Entries",edit:"Edit",del:"Delete",emptyChart:"Log your first days to see your history as a chart.",symptom:"Symptom",frequency:"Frequency",average:"Avg intensity",peak:"Peak time",reportTitle:"Doctor summary",period:"Tracking period",sleepTrend:"Sleep trend",bleedings:"Bleeding / spotting",hrtConsistency:"HRT/MHT documentation",patientNote:"Your notes for the appointment",patientPlaceholder:"Add your own questions or observations for the appointment...",doctorField:"Clinician notes",print:"Print report / save as PDF",data:"Data management",json:"JSON",csv:"CSV",deleteAll:"Securely delete all data",confirmDelete:"Really delete all local entries?",cancel:"Cancel",deleteNow:"Delete data",medical:"Midlife OS shows observations from your entries. It does not diagnose and does not replace medical advice.",observe:"Observation",possible:"Documented so far",intro1:"Understand your body in 20 seconds a day.",intro1sub:"A short check-in is enough to turn individual days into a clearer picture.",intro2:"See real patterns instead of random noise.",intro2sub:"Sleep, hot flashes, mood and cycle are viewed together – without data clutter.",intro3:"Walk into your next appointment prepared.",intro3sub:"100% private: your data stays on this device. Export only what you choose to share.",next:"Continue",start:"Get started",private:"100% local on your device",stable:"Stable & restored",balanced:"Balanced",burden:"Higher load",activeSymptoms:"Symptoms"}};
 
 const blank=()=>({sleepBand:"",sleepHours:0,sleepQuality:0,energy:0,symptoms:{},mood:"",bleeding:"",hrtTaken:false});
-
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 function uid(){return globalThis.crypto?.randomUUID?.()||`e_${Date.now()}_${Math.random().toString(16).slice(2)}`}
 function clamp(v,a,b,d=0){const n=+v;return Number.isFinite(n)?Math.max(a,Math.min(b,n)):d}
-function norm(e){
- const symptoms={};
- if(e?.symptoms&&typeof e.symptoms==="object")for(const[k,v]of Object.entries(e.symptoms))if(SYM.includes(k))symptoms[k]=clamp(v,1,3,1);
- return{
-  id:String(e?.id||uid()),ts:new Date(e?.ts||Date.now()).toISOString(),type:e?.type==="acute"?"acute":"checkin",
-  sleepBand:typeof e?.sleepBand==="string"?e.sleepBand.replace(/h+$/g,""):"",
-  sleepHours:clamp(e?.sleepHours,0,12),sleepQuality:clamp(e?.sleepQuality,0,5),energy:clamp(e?.energy,0,5),
-  symptoms,mood:["calm","exhausted","irritable","anxiousMood"].includes(e?.mood)?e.mood:"",
-  bleeding:["bleedNone","bleedLight","bleedHeavy","spotting"].includes(e?.bleeding)?e.bleeding:"",
-  hrtTaken:!!e?.hrtTaken,acuteSymptom:ACUTE.includes(e?.acuteSymptom)?e.acuteSymptom:"",intensity:clamp(e?.intensity,1,3,2)
- }
-}
-
-class Store{
- constructor(){this.listeners=new Set();this.state=this.load()}
- parse(v){try{return JSON.parse(v)}catch{return null}}
- subscribe(fn){this.listeners.add(fn);return()=>this.listeners.delete(fn)}
- emit(){this.listeners.forEach(fn=>fn(this.state))}
- persist(){try{this.state.schemaVersion=V;localStorage.setItem(KEY,JSON.stringify(this.state))}catch{}}
- update(fn){fn(this.state);this.persist();this.emit()}
- load(){
-  const c=this.parse(localStorage.getItem(KEY));
-  if(c?.schemaVersion===V){c.entries=Array.isArray(c.entries)?c.entries.map(norm):[];return{...structuredClone(DEFAULTS),...c}}
-  const n=structuredClone(DEFAULTS);
-  for(const k of["midlifeOS_v20","midlifeOS_v19","midlifeOS_v18","midlifeOS_v17","midlifeOS_v15","midlifeOS_v14","midlifeOS_v13","midlifeOS_v12"]){
-   const o=this.parse(localStorage.getItem(k));if(!o)continue;
-   if(["de","en"].includes(o.lang))n.lang=o.lang;if(o.doctorNote)n.doctorNote=o.doctorNote;
-   if(Array.isArray(o.entries))for(const e of o.entries){
-    if(e.type==="acute"||e.kind==="acute-hot-flash")n.entries.push(norm({id:e.id||uid(),ts:e.ts,type:"acute",acuteSymptom:e.acuteSymptom||"hot",intensity:e.intensity||2}));
-    else{
-     const symptoms={};if(e.symptoms)Object.assign(symptoms,e.symptoms);
-     if(Array.isArray(e.physical))for(const id of e.physical)if(SYM.includes(id))symptoms[id]=1;
-     if(e.brainFog==="fogLight")symptoms.brain=1;if(e.brainFog==="fogYes")symptoms.brain=2;
-     if(e.values)for(const id of SYM){const v=e.values[id];if(v&&v!=="none")symptoms[id]=v==="strong"?3:v==="medium"?2:1}
-     n.entries.push(norm({id:e.id||uid(),ts:e.ts,type:"checkin",sleepBand:e.sleepBand||"",sleepHours:e.sleepHours||0,sleepQuality:e.sleepQuality||0,energy:e.energy||0,symptoms,mood:e.mood||"",bleeding:e.bleeding||"",hrtTaken:!!e.hrtTaken}))
-    }
-   }
-  }
-  try{localStorage.setItem(KEY,JSON.stringify(n))}catch{}
-  return n
- }
-}
-
-const store=new Store();
-let draft=blank(),editing=null,modal=null,onStep=0;
-const S=()=>store.state,tr=k=>TXT[S().lang][k]||k,loc=()=>S().lang==="de"?"de-DE":"en-GB";
-
+function norm(e){const symptoms={};if(e?.symptoms&&typeof e.symptoms==="object")for(const[k,v]of Object.entries(e.symptoms))if(SYM.includes(k))symptoms[k]=clamp(v,1,3,2);return{id:String(e?.id||uid()),ts:new Date(e?.ts||Date.now()).toISOString(),type:e?.type==="acute"?"acute":"checkin",sleepBand:typeof e?.sleepBand==="string"?e.sleepBand.replace(/h+$/g,""):"",sleepHours:clamp(e?.sleepHours,0,12),sleepQuality:clamp(e?.sleepQuality,0,5),energy:clamp(e?.energy,0,5),symptoms,mood:["calm","exhausted","irritable","anxiousMood"].includes(e?.mood)?e.mood:"",bleeding:["bleedNone","bleedLight","bleedHeavy","spotting"].includes(e?.bleeding)?e.bleeding:"",hrtTaken:!!e?.hrtTaken,acuteSymptom:ACUTE.includes(e?.acuteSymptom)?e.acuteSymptom:"",intensity:clamp(e?.intensity,1,3,2)}}
+class Store{constructor(){this.listeners=new Set();this.state=this.load()}parse(v){try{return JSON.parse(v)}catch{return null}}subscribe(fn){this.listeners.add(fn);return()=>this.listeners.delete(fn)}emit(){this.listeners.forEach(fn=>fn(this.state))}persist(){try{this.state.schemaVersion=V;localStorage.setItem(KEY,JSON.stringify(this.state))}catch{}}update(fn){fn(this.state);this.persist();this.emit()}load(){const c=this.parse(localStorage.getItem(KEY));if(c?.schemaVersion===V){c.entries=Array.isArray(c.entries)?c.entries.map(norm):[];return{...structuredClone(DEFAULTS),...c}}const n=structuredClone(DEFAULTS);for(const k of["midlifeOS_v21","midlifeOS_v20","midlifeOS_v19","midlifeOS_v18","midlifeOS_v17","midlifeOS_v15","midlifeOS_v14","midlifeOS_v13","midlifeOS_v12"]){const o=this.parse(localStorage.getItem(k));if(!o)continue;if(["de","en"].includes(o.lang))n.lang=o.lang;if(o.doctorNote)n.doctorNote=o.doctorNote;if(Array.isArray(o.entries))for(const e of o.entries){if(e.type==="acute"||e.kind==="acute-hot-flash")n.entries.push(norm({id:e.id||uid(),ts:e.ts,type:"acute",acuteSymptom:e.acuteSymptom||"hot",intensity:e.intensity||2}));else{const symptoms={};if(e.symptoms)Object.assign(symptoms,e.symptoms);if(Array.isArray(e.physical))for(const id of e.physical)if(SYM.includes(id))symptoms[id]=1;if(e.brainFog==="fogLight")symptoms.brain=1;if(e.brainFog==="fogYes")symptoms.brain=2;if(e.values)for(const id of SYM){const v=e.values[id];if(v&&v!=="none")symptoms[id]=v==="strong"?3:v==="medium"?2:1}n.entries.push(norm({id:e.id||uid(),ts:e.ts,type:"checkin",sleepBand:e.sleepBand||"",sleepHours:e.sleepHours||0,sleepQuality:e.sleepQuality||0,energy:e.energy||0,symptoms,mood:e.mood||"",bleeding:e.bleeding||"",hrtTaken:!!e.hrtTaken}))}}}try{localStorage.setItem(KEY,JSON.stringify(n))}catch{}return n}}
+const store=new Store();let draft=blank(),editing=null,modal=null,onStep=0;const S=()=>store.state,tr=k=>TXT[S().lang][k]||k,loc=()=>S().lang==="de"?"de-DE":"en-GB";
 function same(ts,d=new Date()){const x=new Date(ts);return x.getFullYear()===d.getFullYear()&&x.getMonth()===d.getMonth()&&x.getDate()===d.getDate()}
 function cut(n){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-(n-1));return d}
 function range(n){const c=cut(n);return S().entries.filter(e=>new Date(e.ts)>=c).sort((a,b)=>new Date(a.ts)-new Date(b.ts))}
 function today(){return S().entries.filter(e=>same(e.ts)).sort((a,b)=>new Date(b.ts)-new Date(a.ts))}
 function fmtD(x){return new Date(x).toLocaleDateString(loc(),{day:"2-digit",month:"short",year:"numeric"})}
+function fmtShort(x){return new Date(x).toLocaleDateString(loc(),{weekday:"short",day:"2-digit",month:"2-digit"})}
 function fmtT(x){return new Date(x).toLocaleTimeString(loc(),{hour:"2-digit",minute:"2-digit"})}
 function greet(){const h=new Date().getHours();return h<11?tr("gm"):h<18?tr("gd"):tr("ge")}
 function avg(a){return a.length?a.reduce((x,y)=>x+y,0)/a.length:0}
@@ -130,222 +29,41 @@ function has(e,id){return e.type==="acute"?e.acuteSymptom===id:!!e.symptoms[id]}
 function inten(e,id){return e.type==="acute"&&e.acuteSymptom===id?e.intensity:(e.symptoms[id]||0)}
 function loadScore(e){return e.type==="acute"?e.intensity:Object.values(e.symptoms).reduce((a,b)=>a+b,0)}
 function sev(n){return["",tr("mild"),tr("moderate"),tr("strong")][n]||"—"}
+function sevShort(n){return["","L","M","S"][n]||"—"}
 function rl(n){return S().lang==="de"?`${n} Tage`:`${n} days`}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 function stats(es){const m={};for(const e of es){const ids=e.type==="acute"&&e.acuteSymptom?[e.acuteSymptom]:Object.keys(e.symptoms);for(const id of ids){m[id]??={count:0,sum:0};m[id].count++;m[id].sum+=inten(e,id)}}return Object.entries(m).map(([id,v])=>({id,count:v.count,avg:v.sum/v.count})).sort((a,b)=>b.count-a.count||b.avg-a.avg)}
 function top(es){return stats(es)[0]||null}
 function peak(es,id){const hs=es.filter(e=>has(e,id)).map(e=>new Date(e.ts).getHours());if(!hs.length)return"—";const b=[[0,6],[6,12],[12,18],[18,24]],n=S().lang==="de"?["Nacht","Morgen","Nachmittag","Abend"]:["Night","Morning","Afternoon","Evening"],c=b.map(([a,z])=>hs.filter(h=>h>=a&&h<z).length);return n[c.indexOf(Math.max(...c))]}
 function spot(n){const st=stats(range(n));if(st.length){const x=st[0];return{title:tr("possible"),text:S().lang==="de"?`${x.count}× ${tr(x.id)} (Durchschnitt: ${sev(Math.round(x.avg))}).`:`${x.count}× ${tr(x.id)} (average: ${sev(Math.round(x.avg))}).`}}return{title:tr("observe"),text:S().lang==="de"?"Noch nicht genug Daten für ein sinnvolles Muster.":"Not enough data yet for a meaningful pattern."}}
-
-function wellbeing(entry){
- if(!entry)return null;
- const symptomSum=Object.values(entry.symptoms||{}).reduce((a,b)=>a+b,0);
- const raw=(entry.sleepQuality*10)+(entry.energy*10)-(symptomSum*8);
- const score=Math.max(0,Math.min(100,Math.round(raw)));
- const label=score>=70?tr("stable"):score>=50?tr("balanced"):tr("burden");
- const tone=score>=60?"sage":"terra";
- return{score,label,tone}
-}
+function wellbeing(entry){if(!entry)return null;const symptomSum=Object.values(entry.symptoms||{}).reduce((a,b)=>a+b,0),raw=(entry.sleepQuality*10)+(entry.energy*10)-(symptomSum*8),score=Math.max(0,Math.min(100,Math.round(raw)));return{score,label:score>=70?tr("stable"):score>=45?tr("balanced"):tr("burden"),tone:score>=70?"sage":score>=45?"sand":"terra"}}
 function qualityLabel(n){return["","veryPoor","poor","neutral","good","veryGood"][n]||""}
-function scoreRing(entry){
- const s=wellbeing(entry);
- if(!s)return`<div class="wellbeing-card empty-score"><div class="ring-wrap"><svg class="score-ring" viewBox="0 0 160 160" aria-hidden="true"><circle class="ring-track dashed" cx="80" cy="80" r="60"/></svg><div class="ring-center"><strong>—</strong><span>${tr("scorePrompt")}</span></div></div></div>`;
- const c=2*Math.PI*60,off=c*(1-s.score/100);
- return`<div class="wellbeing-card"><div class="ring-wrap"><svg class="score-ring" viewBox="0 0 160 160" role="img" aria-label="${s.score}% ${s.label}"><circle class="ring-track" cx="80" cy="80" r="60"/><circle class="ring-progress ${s.tone}" cx="80" cy="80" r="60" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><div class="ring-center ${s.tone}"><strong>${s.score}%</strong><span>${s.label}</span></div></div></div>`
-}
-function quickStats(entry){
- if(!entry)return"";
- const symptomCount=Object.keys(entry.symptoms||{}).length;
- const sleep=entry.sleepHours?`${entry.sleepHours}h${entry.sleepQuality?` (${tr(qualityLabel(entry.sleepQuality))})`:""}`:"—";
- return`<div class="quick-stats"><span>☾ ${tr("sleep")}: ${sleep}</span><span>🌿 ${tr("mood")}: ${entry.mood?tr(entry.mood):"—"}</span><span>⚡ ${tr("activeSymptoms")}: ${symptomCount}</span></div>`
-}
-
+function ring(entry){const s=wellbeing(entry),c=2*Math.PI*58;if(!s)return`<div class="ring-wrap"><svg class="score-ring" viewBox="0 0 160 160"><circle class="ring-track dashed" cx="80" cy="80" r="58"/></svg><div class="ring-center"><strong>–</strong><span>${tr("noCheck")}</span></div></div>`;const off=c*(1-s.score/100);return`<div class="ring-wrap"><svg class="score-ring" viewBox="0 0 160 160" role="img" aria-label="${s.score}% ${s.label}"><circle class="ring-track" cx="80" cy="80" r="58"/><circle class="ring-progress ${s.tone}" cx="80" cy="80" r="58" stroke-dasharray="${c}" stroke-dashoffset="${off}"/></svg><div class="ring-center ${s.tone}"><strong>${s.score}%</strong><span>${s.label}</span></div></div>`}
+function quickStats(e){if(!e)return"";const active=Object.keys(e.symptoms).length,sleep=e.sleepBand?`${e.sleepBand}h${e.sleepQuality?` (${tr(qualityLabel(e.sleepQuality))})`:""}`:"—";return`<div class="quick-stats"><span>☾ ${tr("sleep")}: ${sleep}</span><span>🌿 ${tr("mood")}: ${e.mood?tr(e.mood):"—"}</span><span>⚡ ${tr("load")}: ${active}</span></div>`}
 function icon(k){const p={home:'<path d="M4 11.5 12 5l8 6.5V20H4z"/><path d="M9 20v-6h6v6"/>',plus:'<path d="M12 5v14M5 12h14"/>',trend:'<path d="M4 17l5-5 4 3 7-8"/>',report:'<path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 12h6M9 16h6"/>'}[k];return`<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`}
 function nav(id,ic){return`<button data-tab="${id}" class="${S().activeTab===id?"active":""}">${icon(ic)}<span>${tr(id)}</span></button>`}
-
-function render(){
- document.documentElement.lang=S().lang;
- document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("active",b.dataset.lang===S().lang));
- document.getElementById("view-root").innerHTML=view();
- document.getElementById("bottom-nav").innerHTML=nav("dashboard","home")+nav("log","plus")+nav("analysis","trend")+nav("report","report");
- bind();onboarding();if(modal)showModal()
-}
-function view(){return S().activeTab==="log"?logView():S().activeTab==="analysis"?analysisView():S().activeTab==="report"?reportView():dashView()}
-
-function dashView(){
- const t=today(),check=t.find(e=>e.type==="checkin"),week=range(7),sp=spot(14);
- return`<div class="stack">
-  <section class="dashboard-hero">
-   <div class="hero-copy"><div class="eyebrow">${tr("dashboard")}</div><h1>${greet()}</h1><div class="sub ${check?"status-done":""}">${check?tr("done"):tr("noCheck")}</div></div>
-   ${scoreRing(check)}
-   ${quickStats(check)}
-   ${check?`<button class="today-adjust" id="adjustToday">${tr("done")} · ${tr("adjust")}</button>`:`<button class="primary" data-go="log">${tr("checkin")}</button>`}
-  </section>
-  <button class="action-card" id="acute"><span><strong>${tr("acute")}</strong><small>${tr("acuteSub")}</small></span><span class="action-icon">+</span></button>
-  <section class="card"><div class="eyebrow">${tr("spotlight")}</div><div class="insight" style="margin-top:10px"><strong>${sp.title}</strong>${sp.text}</div></section>
-  <section class="card"><div class="row-top"><div><div class="eyebrow">${tr("seven")}</div><h2>${week.length} ${S().lang==="de"?"Einträge":"entries"}</h2></div><span class="pill">7D</span></div><div class="chart-shell">${chart(7,null,false)}</div></section>
- </div>`
-}
-
-function sb(attr,on,label,tone="auto"){return`<button ${attr} class="${on?`active ${tone}`:""}">${label}</button>`}
-function choiceTone(group,val){
- if(group==="sleepQuality")return val>=4?"positive":val<=2?"burden":"neutral";
- if(group==="energy")return val>=4?"positive":val<=2?"burden":"neutral";
- if(group==="mood")return val==="calm"?"positive":(["irritable","anxiousMood","exhausted"].includes(val)?"burden":"neutral");
- if(group==="sleepBand")return val==="7–8"||val===">8"?"positive":val==="<6"?"burden":"neutral";
- if(group==="bleeding")return val==="bleedNone"?"positive":val==="bleedHeavy"?"burden":"neutral";
- return"neutral"
-}
-function logView(){
- return`<div class="stack">
-  <div><div class="eyebrow">${tr("log")}</div><h1>${editing?tr("edit"):tr("checkin")}</h1><p class="sub">${tr("checkinSub")}</p></div>
-  <section class="card compact section">
-   <div class="eyebrow">${tr("sleep")}</div>
-   <div class="field-block"><div class="field-title">${tr("sleepHours")}</div><div class="segment-grid four">${[["<6",5],["6–7",6.5],["7–8",7.5],[">8",9]].map(([l,h])=>sb(`data-sleep="${l}:${h}"`,draft.sleepBand===l,l+"h",choiceTone("sleepBand",l))).join("")}</div></div>
-   <div class="field-block"><div class="field-title">${tr("sleepQuality")}</div><div class="segment-grid five">${[[1,"veryPoor"],[2,"poor"],[3,"neutral"],[4,"good"],[5,"veryGood"]].map(([n,k])=>sb(`data-q="sleepQuality:${n}"`,draft.sleepQuality===n,tr(k),choiceTone("sleepQuality",n))).join("")}</div></div>
-   <div class="field-block"><div class="field-title">${tr("energy")}</div><div class="segment-grid five">${[[1,"empty"],[2,"low"],[3,"steady"],[4,"high"],[5,"full"]].map(([n,k])=>sb(`data-q="energy:${n}"`,draft.energy===n,tr(k),choiceTone("energy",n))).join("")}</div></div>
-  </section>
-  <section class="card compact section">
-   <div class="eyebrow">${tr("physical")}</div>
-   <div class="symptom-stack">${SYM.map(id=>`<div class="symptom-item"><button class="symptom-chip ${draft.symptoms[id]?"active":""}" data-sym="${id}">${tr(id)}</button>${draft.symptoms[id]?`<div class="severity-row inline">${[1,2,3].map(n=>`<button data-sev="${id}:${n}" class="${draft.symptoms[id]===n?"active":""}">${sev(n)}</button>`).join("")}</div>`:""}</div>`).join("")}</div>
-  </section>
-  <section class="card compact section"><div class="eyebrow">${tr("mood")}</div><div class="segment-grid four">${["calm","exhausted","irritable","anxiousMood"].map(k=>sb(`data-mood="${k}"`,draft.mood===k,tr(k),choiceTone("mood",k))).join("")}</div></section>
-  <section class="card compact section"><div class="eyebrow">${tr("cycle")}</div><div class="segment-grid four">${["bleedNone","bleedLight","bleedHeavy","spotting"].map(k=>sb(`data-bleed="${k}"`,draft.bleeding===k,tr(k),choiceTone("bleeding",k))).join("")}</div><div class="toggle-row"><strong class="field-title">${tr("hrt")}</strong><button class="toggle ${draft.hrtTaken?"on":""}" id="hrt"><i></i></button></div></section>
-  <div class="form-actions"><button class="primary" id="saveEntry">${tr("save")}</button><button class="secondary reset" id="resetForm">${tr("reset")}</button></div>
- </div>`
-}
-
-function analysisView(){
- const es=range(S().analysisRange),tp=top(es),sp=spot(S().analysisRange);
- return`<div class="stack"><div><div class="eyebrow">${tr("analysis")}</div><h1>${S().lang==="de"?"Muster auf einen Blick":"Patterns at a glance"}</h1><p class="sub">${tr("medical")}</p></div>
- <div class="tabs">${[7,30,90].map(n=>`<button data-range="${n}" class="${S().analysisRange===n?"active":""}">${rl(n)}</button>`).join("")}</div>
- <section class="card"><div class="row-top"><div><div class="eyebrow">${tr("spotlight")}</div><h2>${tp?tr(tp.id):(S().lang==="de"?"Dein Verlauf":"Your history")}</h2></div><span class="pill">${es.length}</span></div><div class="correlation"><label>${tr("corr")}</label><button class="toggle ${S().overlaySleep?"on":""}" id="overlay"><i></i></button></div><div class="chart-shell">${chart(S().analysisRange,tp?.id||null,S().overlaySleep)}</div></section>
- <div class="insight"><strong>${sp.title}</strong>${sp.text}</div>
- <section class="card"><div class="eyebrow">${tr("history")}</div><div class="entry-list">${es.length?[...es].reverse().map(entryCard).join(""):`<div class="chart-empty">${tr("emptyChart")}</div>`}</div></section></div>`
-}
-
-function entryCard(e){
- const b=[];
- if(e.type==="acute")b.push(`<span class="badge symptom">${tr(e.acuteSymptom)}: ${sev(e.intensity)}</span>`);
- else{
-  if(e.sleepBand)b.push(`<span class="badge meta">${tr("sleep")}: ${e.sleepBand}h</span>`);
-  if(e.sleepQuality)b.push(`<span class="badge meta">${tr("sleepQuality")}: ${tr(qualityLabel(e.sleepQuality))}</span>`);
-  for(const[id,n]of Object.entries(e.symptoms))b.push(`<span class="badge symptom">${tr(id)}: ${sev(n)}</span>`);
-  if(e.mood)b.push(`<span class="badge mood">${tr("mood")}: ${tr(e.mood)}</span>`);
-  if(e.bleeding)b.push(`<span class="badge meta">${tr("bleeding")}: ${tr(e.bleeding)}</span>`);
-  if(e.hrtTaken)b.push(`<span class="badge meta">HRT ✓</span>`)
- }
- return`<div class="entry"><div class="entry-head"><span class="entry-time">${fmtT(e.ts)}</span><span class="entry-date">${fmtD(e.ts)}</span></div><div class="badges">${b.join("")||`<span class="badge meta">—</span>`}</div><div class="entry-actions"><button data-edit="${e.id}">${tr("edit")}</button><button class="danger" data-del="${e.id}">${tr("del")}</button></div></div>`
-}
-
-function reportView(){
- const es=range(S().reportRange),st=stats(es),cs=es.filter(e=>e.type==="checkin"),bl=cs.filter(e=>e.bleeding&&e.bleeding!=="bleedNone"),hrt=cs.filter(e=>e.hrtTaken).length,ah=avg(cs.map(e=>e.sleepHours).filter(Boolean)),aq=avg(cs.map(e=>e.sleepQuality).filter(Boolean));
- return`<div class="stack print-report"><div><div class="eyebrow">${tr("report")}</div><h1>${tr("reportTitle")}</h1><p class="sub medical-print">${tr("medical")}</p></div>
- <div class="tabs no-print">${[30,60,90].map(n=>`<button data-report-range="${n}" class="${S().reportRange===n?"active":""}">${rl(n)}</button>`).join("")}</div>
- <section class="card"><div class="row report-period"><div><div class="eyebrow">${tr("period")}</div><div class="report-range">${fmtD(cut(S().reportRange))} – ${fmtD(new Date())}</div></div><span class="pill">${es.length}</span></div></section>
- <section class="card"><table class="report-table"><thead><tr><th>${tr("symptom")}</th><th>${tr("frequency")}</th><th>${tr("average")}</th><th>${tr("peak")}</th></tr></thead><tbody>${st.length?st.slice(0,6).map(x=>`<tr><td>${tr(x.id)}</td><td>${x.count}</td><td>${x.avg.toFixed(1)}</td><td>${peak(es,x.id)}</td></tr>`).join(""):`<tr><td colspan="4">${tr("emptyChart")}</td></tr>`}</tbody></table></section>
- <section class="card profile-grid"><div class="profile-row"><strong>${tr("sleepTrend")}</strong><small>${cs.length?`${tr("sleepHours")}: ${ah?ah.toFixed(1)+"h":"—"} · ${tr("sleepQuality")}: ${aq?aq.toFixed(1)+"/5":"—"}`:tr("emptyChart")}</small></div><div class="profile-row"><strong>${tr("bleedings")}</strong><small>${bl.length}</small></div><div class="profile-row"><strong>${tr("hrtConsistency")}</strong><small>${cs.length?`${hrt}/${cs.length} ${S().lang==="de"?"Check-ins dokumentiert":"check-ins documented"}`:tr("emptyChart")}</small></div></section>
- <section class="card"><label class="eyebrow" for="doctorNote">${tr("patientNote")}</label><textarea class="notes" id="doctorNote" placeholder="${tr("patientPlaceholder")}">${esc(S().doctorNote||"")}</textarea></section>
- <section class="print-clinician-note"><div class="eyebrow">${tr("doctorField")}</div><div class="line"></div></section>
- <div class="print-action-wrap no-print"><button class="primary" id="print">${tr("print")}</button></div>
- <section class="card no-print"><div class="eyebrow">${tr("data")}</div><div class="data-actions"><button class="secondary" id="json">${tr("json")}</button><button class="secondary" id="csv">${tr("csv")}</button></div><button class="danger-link" id="deleteAll">${tr("deleteAll")}</button></section></div>`
-}
-
-function key(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
-function chart(days,id,overlay){
- const all=range(days);if(!all.length)return`<div class="chart-empty">${tr("emptyChart")}</div>`;
- const dataDates=[...new Set(all.map(e=>key(new Date(e.ts))))].sort();
- const last=new Date(dataDates[dataDates.length-1]+"T12:00:00"), first=new Date(dataDates[0]+"T12:00:00");
- const span=Math.max(1,Math.round((last-first)/86400000)+1);
- let windowDays=days;
- if(days>7&&dataDates.length<=5)windowDays=Math.min(days,Math.max(7,span+4));
- const start=new Date(last);start.setDate(last.getDate()-(windowDays-1));
- const series=[];
- for(let i=0;i<windowDays;i++){
-  const d=new Date(start);d.setDate(start.getDate()+i);const es=S().entries.filter(e=>key(new Date(e.ts))===key(d));
-  let v=0;
-  if(id){const a=es.filter(e=>has(e,id)).map(e=>inten(e,id));v=a.length?Math.max(...a):0}
-  else{const a=[];for(const e of es)e.type==="acute"?a.push(e.intensity):a.push(...Object.values(e.symptoms));v=a.length?Math.max(...a):0;if(!v&&es.length)v=Math.min(3,es.length)}
-  const cs=es.filter(e=>e.type==="checkin"),sh=avg(cs.map(e=>e.sleepHours).filter(Boolean));series.push({d,v,sh})
- }
- const active=series.filter(s=>s.v>0||s.sh>0);
- if(!active.length)return`<div class="chart-empty">${tr("emptyChart")}</div>`;
- const w=360,h=200,l=32,r=12,t=18,b=38,pw=w-l-r,ph=h-t-b;
- const shown=series.length, bw=Math.max(14,Math.min(30,pw/shown*.58)), x=i=>l+(i+.5)*(pw/shown), y=v=>t+ph-(v/3)*ph, ys=h=>t+ph-((Math.min(10,Math.max(4,h))-4)/6)*ph;
- let grid="",bars="",labels="";
- for(let v=1;v<=3;v++){const yy=y(v);grid+=`<line class="grid-line" x1="${l}" y1="${yy}" x2="${w-r}" y2="${yy}"/><text class="axis-text" x="9" y="${yy+3}">${v}</text>`}
- const step=shown<=7?1:shown<=14?2:Math.ceil(shown/7);
- series.forEach((s,i)=>{if(s.v>0){const yy=y(s.v),hh=t+ph-yy;bars+=`<rect class="bar" x="${x(i)-bw/2}" y="${yy}" width="${bw}" height="${hh}" rx="5"/><text class="value-text" x="${x(i)}" y="${Math.max(10,yy-4)}" text-anchor="middle">${s.v}</text>`}if(i%step===0||i===series.length-1){const lab=shown<=7?s.d.toLocaleDateString(loc(),{weekday:"short"}):s.d.toLocaleDateString(loc(),{day:"2-digit",month:"2-digit"});labels+=`<text class="axis-text" x="${x(i)}" y="${h-10}" text-anchor="middle">${lab}</text>`}});
- let sleep="";
- if(overlay&&series.some(s=>s.sh>0)){const pts=series.map((s,i)=>s.sh?`${x(i)},${ys(s.sh)}`:null).filter(Boolean).join(" ");sleep=`<polyline class="sleep-line" points="${pts}"/>`+series.map((s,i)=>s.sh?`<circle class="sleep-point" cx="${x(i)}" cy="${ys(s.sh)}" r="2.8"/>`:"").join("")}
- return`<svg class="trend-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Trend chart">${grid}${bars}${sleep}${labels}</svg>`
-}
-
-function bind(){
- document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>store.update(s=>s.lang=b.dataset.lang));
- document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{store.update(s=>s.activeTab=b.dataset.tab);window.scrollTo({top:0,behavior:"smooth"})});
- document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>store.update(s=>s.activeTab=b.dataset.go));
- document.getElementById("adjustToday")?.addEventListener("click",()=>{const e=today().find(x=>x.type==="checkin");if(e)editEntry(e.id)});
- document.getElementById("acute")?.addEventListener("click",openAcute);
- document.querySelectorAll("[data-sleep]").forEach(b=>b.onclick=()=>{const[l,h]=b.dataset.sleep.split(":");draft.sleepBand=l;draft.sleepHours=+h;render()});
- document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{const[k,n]=b.dataset.q.split(":");draft[k]=+n;render()});
- document.querySelectorAll("[data-sym]").forEach(b=>b.onclick=()=>{const id=b.dataset.sym;if(draft.symptoms[id])delete draft.symptoms[id];else draft.symptoms[id]=1;render()});
- document.querySelectorAll("[data-sev]").forEach(b=>b.onclick=()=>{const[id,n]=b.dataset.sev.split(":");draft.symptoms[id]=+n;render()});
- document.querySelectorAll("[data-mood]").forEach(b=>b.onclick=()=>{draft.mood=b.dataset.mood;render()});
- document.querySelectorAll("[data-bleed]").forEach(b=>b.onclick=()=>{draft.bleeding=b.dataset.bleed;render()});
- document.getElementById("hrt")?.addEventListener("click",()=>{draft.hrtTaken=!draft.hrtTaken;render()});
- document.getElementById("resetForm")?.addEventListener("click",()=>{draft=blank();editing=null;render()});
- document.getElementById("saveEntry")?.addEventListener("click",saveEntry);
- document.querySelectorAll("[data-range]").forEach(b=>b.onclick=()=>store.update(s=>s.analysisRange=+b.dataset.range));
- document.getElementById("overlay")?.addEventListener("click",()=>store.update(s=>s.overlaySleep=!s.overlaySleep));
- document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editEntry(b.dataset.edit));
- document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteEntry(b.dataset.del));
- document.querySelectorAll("[data-report-range]").forEach(b=>b.onclick=()=>store.update(s=>s.reportRange=+b.dataset.reportRange));
- document.getElementById("doctorNote")?.addEventListener("input",e=>{S().doctorNote=e.target.value;store.persist()});
- document.getElementById("print")?.addEventListener("click",()=>window.print());
- document.getElementById("json")?.addEventListener("click",exportJson);document.getElementById("csv")?.addEventListener("click",exportCsv);
- document.getElementById("deleteAll")?.addEventListener("click",openDeleteAll)
-}
-function saveEntry(){
- if(!draft.sleepBand&&!draft.sleepQuality&&!draft.energy&&!Object.keys(draft.symptoms).length&&!draft.mood&&!draft.bleeding&&!draft.hrtTaken){toast(S().lang==="de"?"Bitte mindestens einen Wert auswählen.":"Please choose at least one value.");return}
- const old=editing?S().entries.find(e=>e.id===editing):null,e=norm({id:editing||uid(),ts:old?.ts||new Date(),type:"checkin",...draft});
- store.update(s=>{if(editing)s.entries=s.entries.map(x=>x.id===editing?e:x);else s.entries.push(e)});
- draft=blank();editing=null;toast(tr("savedToast"));setTimeout(()=>store.update(s=>s.activeTab="dashboard"),400)
-}
-function editEntry(id){const e=S().entries.find(x=>x.id===id);if(!e)return;if(e.type==="acute"){modal={type:"acute",editId:id,symptom:e.acuteSymptom,intensity:e.intensity};showModal();return}editing=id;draft={sleepBand:e.sleepBand,sleepHours:e.sleepHours,sleepQuality:e.sleepQuality,energy:e.energy,symptoms:{...e.symptoms},mood:e.mood,bleeding:e.bleeding,hrtTaken:e.hrtTaken};store.update(s=>s.activeTab="log")}
-function deleteEntry(id){store.update(s=>s.entries=s.entries.filter(e=>e.id!==id));toast(S().lang==="de"?"Eintrag gelöscht.":"Entry deleted.")}
-function openAcute(){modal={type:"acute",editId:null,symptom:"",intensity:2};showModal()}
-function openDeleteAll(){modal={type:"deleteAll"};showModal()}
-function showModal(){
- document.querySelector(".backdrop")?.remove();const w=document.createElement("div");w.className="backdrop";
- if(modal.type==="acute")w.innerHTML=`<section class="sheet"><div class="grabber"></div><div class="sheet-head"><div><div class="eyebrow">${tr("acute")}</div><h2>${S().lang==="de"?"Was passiert gerade?":"What is happening now?"}</h2></div><button class="close" id="close">×</button></div><div class="symptom-grid" style="margin-top:14px">${ACUTE.map(id=>`<button class="symptom-chip ${modal.symptom===id?"active":""}" data-acute="${id}">${tr(id)}</button>`).join("")}</div><div class="severity-row modal-severity">${[1,2,3].map(n=>`<button data-int="${n}" class="${modal.intensity===n?"active":""}">${sev(n)}</button>`).join("")}</div><button class="primary" id="saveAcute">${tr("save")}</button></section>`;
- else w.innerHTML=`<section class="sheet"><div class="grabber"></div><h2>${tr("deleteAll")}</h2><p class="sub">${tr("confirmDelete")}</p><div class="data-actions" style="margin-top:16px"><button class="secondary" id="cancel">${tr("cancel")}</button><button class="secondary" id="confirm" style="color:var(--danger)">${tr("deleteNow")}</button></div></section>`;
- document.body.appendChild(w);w.onclick=e=>{if(e.target===w){modal=null;w.remove()}};
- document.getElementById("close")?.addEventListener("click",()=>{modal=null;w.remove()});
- document.querySelectorAll("[data-acute]").forEach(b=>b.onclick=()=>{modal.symptom=b.dataset.acute;showModal()});
- document.querySelectorAll("[data-int]").forEach(b=>b.onclick=()=>{modal.intensity=+b.dataset.int;showModal()});
- document.getElementById("saveAcute")?.addEventListener("click",()=>{if(!modal.symptom)return;const e=norm({id:modal.editId||uid(),ts:modal.editId?(S().entries.find(x=>x.id===modal.editId)?.ts||new Date()):new Date(),type:"acute",acuteSymptom:modal.symptom,intensity:modal.intensity});store.update(s=>{if(modal.editId)s.entries=s.entries.map(x=>x.id===modal.editId?e:x);else s.entries.push(e)});modal=null;w.remove();toast(tr("acuteSaved"));render()});
- document.getElementById("cancel")?.addEventListener("click",()=>{modal=null;w.remove()});
- document.getElementById("confirm")?.addEventListener("click",()=>{const lang=S().lang;store.state={...structuredClone(DEFAULTS),lang};store.persist();draft=blank();editing=null;modal=null;w.remove();render();toast(lang==="de"?"Alle Daten gelöscht.":"All data deleted.")})
-}
-function toast(m){document.querySelector(".toast")?.remove();const e=document.createElement("div");e.className="toast";e.textContent=m;document.body.appendChild(e);navigator.vibrate?.(20);setTimeout(()=>e.remove(),1700)}
-function dl(name,c,type){const b=new Blob([c],{type}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
-function exportJson(){dl(`midlife-os-${key(new Date())}.json`,JSON.stringify(S(),null,2),"application/json")}
-function cell(v){const s=String(v??"");return/[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}
-function exportCsv(){const h=["id","timestamp","type","sleepBand","sleepHours","sleepQuality","energy","symptoms","mood","bleeding","hrtTaken","acuteSymptom","intensity"],rows=S().entries.map(e=>h.map(k=>cell(k==="symptoms"?JSON.stringify(e.symptoms):e[k])).join(","));dl(`midlife-os-${key(new Date())}.csv`,[h.join(","),...rows].join("\n"),"text/csv;charset=utf-8")}
-
-function visual(step){
- if(step===0)return`<div class="slide-visual"><svg viewBox="0 0 120 120"><circle cx="42" cy="45" r="19" fill="#F1D6CC"/><path d="M42 14v9M42 67v9M11 45h9M64 45h9M20 23l7 7M57 60l7 7M64 23l-7 7M27 60l-7 7" stroke="#C06C58" stroke-width="4" stroke-linecap="round"/><path d="M89 30a27 27 0 1 0 0 54 31 31 0 0 1 0-54Z" fill="#DCE7E0" stroke="#5B7A68" stroke-width="2"/></svg></div>`;
- if(step===1)return`<div class="slide-visual"><svg viewBox="0 0 120 120"><circle cx="28" cy="72" r="13" fill="#F1D6CC"/><circle cx="62" cy="45" r="13" fill="#DCE7E0"/><circle cx="93" cy="72" r="13" fill="#EEE3D7"/><path d="M39 65 51 53M73 53l10 12" stroke="#5B7A68" stroke-width="4" stroke-linecap="round"/></svg></div>`;
- return`<div class="slide-visual"><svg viewBox="0 0 120 120"><rect x="27" y="18" width="66" height="84" rx="14" fill="#fff" stroke="#D7CEC4" stroke-width="2"/><path d="M43 42h34M43 58h34M43 74h23" stroke="#5B7A68" stroke-width="4" stroke-linecap="round"/><circle cx="84" cy="82" r="14" fill="#F1D6CC"/><path d="m78 82 4 4 8-9" fill="none" stroke="#C06C58" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`
-}
-function onboarding(){
- const r=document.getElementById("onboarding");if(localStorage.getItem(ONBOARD)!==null){r.hidden=true;return}
- r.hidden=false;const slides=[[tr("intro1"),tr("intro1sub")],[tr("intro2"),tr("intro2sub")],[tr("intro3"),tr("intro3sub")]],s=slides[onStep];
- r.innerHTML=`<div class="onboarding-card"><div class="onboarding-brand">Midlife <b>OS.</b></div><div class="slides"><section class="slide">${visual(onStep)}<h1>${s[0]}</h1><p>${s[1]}</p></section></div><div class="progress-dots">${slides.map((_,i)=>`<i class="${i===onStep?"active":""}"></i>`).join("")}</div><div class="onboarding-actions"><button class="primary" id="onNext">${onStep===2?tr("start"):tr("next")}</button><div class="sub" style="text-align:center;margin:0">${tr("private")}</div></div></div>`;
- document.getElementById("onNext").onclick=()=>{if(onStep<2){onStep++;onboarding()}else{localStorage.setItem(ONBOARD,"1");r.hidden=true;store.update(s=>s.activeTab="dashboard")}}
-}
-
-store.subscribe(()=>render());
-render();
-})();
+function render(){document.documentElement.lang=S().lang;$$('[data-lang]').forEach(b=>b.classList.toggle('active',b.dataset.lang===S().lang));$('#view-root').innerHTML=view();$('#bottom-nav').innerHTML=nav('dashboard','home')+nav('log','plus')+nav('analysis','trend')+nav('report','report');bind();onboarding();if(modal)showModal()}
+function view(){return S().activeTab==='log'?logView():S().activeTab==='analysis'?analysisView():S().activeTab==='report'?reportView():dashView()}
+function dashView(){const check=today().find(e=>e.type==='checkin'),week=range(7),sp=spot(14);return`<div class="stack"><section class="card hero-card"><div class="eyebrow">${tr('dashboard')}</div><h1>${greet()}</h1>${ring(check)}${check?quickStats(check):''}${check?`<button class="text-action" id="adjustToday">${tr('adjust')}</button>`:`<button class="primary" data-go="log">${tr('checkin')}</button>`}</section><button class="action-card" id="acute"><span><strong>${tr('acute')}</strong><small>${tr('acuteSub')}</small></span><span class="action-icon">+</span></button><section class="card"><div class="eyebrow">${tr('spotlight')}</div><div class="insight"><strong>${sp.title}</strong>${sp.text}</div></section><section class="card"><div class="row-top"><div><div class="eyebrow">${tr('seven')}</div><h2>${week.length} ${S().lang==='de'?'Einträge':'entries'}</h2></div><span class="pill">7D</span></div><div class="chart-shell">${chart(7,null,false)}</div></section></div>`}
+function tone(group,val){if(group==='sleepQuality'||group==='energy')return +val>=4?'positive':+val<=2?'burden':'neutral';if(group==='mood')return val==='calm'?'positive':['irritable','anxiousMood'].includes(val)?'burden':'neutral';if(group==='sleepBand')return ['>8','7–8'].includes(val)?'positive':val==='<6'?'burden':'neutral';if(group==='bleeding')return val==='bleedNone'?'positive':val==='bleedHeavy'?'burden':'neutral';return'neutral'}
+function seg(attr,on,label,t){return`<button ${attr} class="${on?`active ${t}`:''}">${label}</button>`}
+function logView(){return`<div class="stack"><div><div class="eyebrow">${tr('log')}</div><h1>${editing?tr('edit'):tr('checkin')}</h1><p class="sub">${tr('checkinSub')}</p></div><section class="card compact section"><div class="eyebrow">${tr('sleep')}</div><div class="field-block"><div class="field-title">${tr('sleepHours')}</div><div class="segment-grid four">${[['<6',5],['6–7',6.5],['7–8',7.5],['>8',9]].map(([l,h])=>seg(`data-sleep="${l}:${h}"`,draft.sleepBand===l,l+'h',tone('sleepBand',l))).join('')}</div></div><div class="field-block"><div class="field-title">${tr('sleepQuality')}</div><div class="segment-grid five">${[[1,'veryPoor'],[2,'poor'],[3,'neutral'],[4,'good'],[5,'veryGood']].map(([n,k])=>seg(`data-q="sleepQuality:${n}"`,draft.sleepQuality===n,tr(k),tone('sleepQuality',n))).join('')}</div></div><div class="field-block"><div class="field-title">${tr('energy')}</div><div class="segment-grid five">${[[1,'empty'],[2,'low'],[3,'steady'],[4,'high'],[5,'full']].map(([n,k])=>seg(`data-q="energy:${n}"`,draft.energy===n,tr(k),tone('energy',n))).join('')}</div></div></section><section class="card compact section"><div class="eyebrow">${tr('physical')}</div><div class="symptom-cloud">${SYM.map(id=>`<div class="symptom-unit"><button class="symptom-chip ${draft.symptoms[id]?'active':''}" data-sym="${id}">${draft.symptoms[id]?'✓':'+'} ${tr(id)}</button>${draft.symptoms[id]?`<div class="mini-severity">${[1,2,3].map(n=>`<button data-sev="${id}:${n}" class="${draft.symptoms[id]===n?'active':''}" title="${sev(n)}">${sevShort(n)}</button>`).join('')}</div>`:''}</div>`).join('')}</div></section><section class="card compact section"><div class="eyebrow">${tr('mood')}</div><div class="segment-grid four">${['calm','exhausted','irritable','anxiousMood'].map(k=>seg(`data-mood="${k}"`,draft.mood===k,tr(k),tone('mood',k))).join('')}</div></section><section class="card compact section"><div class="eyebrow">${tr('cycle')}</div><div class="segment-grid four">${['bleedNone','bleedLight','bleedHeavy','spotting'].map(k=>seg(`data-bleed="${k}"`,draft.bleeding===k,tr(k),tone('bleeding',k))).join('')}</div><div class="toggle-row"><strong class="field-title">${tr('hrt')}</strong><button class="toggle ${draft.hrtTaken?'on':''}" id="hrt"><i></i></button></div></section><div class="form-actions"><button class="primary" id="saveEntry">${tr('save')}</button><button class="secondary" id="resetForm">${tr('reset')}</button></div></div>`}
+function analysisView(){const es=range(S().analysisRange),tp=top(es),sp=spot(S().analysisRange);return`<div class="stack"><div><div class="eyebrow">${tr('analysis')}</div><h1>${S().lang==='de'?'Muster auf einen Blick':'Patterns at a glance'}</h1><p class="sub">${tr('medical')}</p></div><div class="tabs">${[7,30,90].map(n=>`<button data-range="${n}" class="${S().analysisRange===n?'active':''}">${rl(n)}</button>`).join('')}</div><section class="card"><div class="row-top"><div><div class="eyebrow">${tr('spotlight')}</div><h2>${tp?tr(tp.id):(S().lang==='de'?'Dein Verlauf':'Your history')}</h2></div><span class="pill">${es.length}</span></div><div class="correlation"><label>${tr('corr')}</label><button class="toggle ${S().overlaySleep?'on':''}" id="overlay"><i></i></button></div><div class="chart-shell">${chart(S().analysisRange,tp?.id||null,S().overlaySleep)}</div></section><div class="insight"><strong>${sp.title}</strong>${sp.text}</div><section class="card"><div class="eyebrow">${tr('history')}</div><div class="entry-list">${es.length?[...es].reverse().map(entryCard).join(''):`<div class="chart-empty">${tr('emptyChart')}</div>`}</div></section></div>`}
+function entryCard(e){const status=[],sym=[];if(e.type==='acute')sym.push(`<span class="badge symptom">${tr(e.acuteSymptom)}: ${sevShort(e.intensity)}</span>`);else{if(e.sleepBand)status.push(`<span class="badge meta">${tr('sleep')}: ${e.sleepBand}h${e.sleepQuality?` (${tr(qualityLabel(e.sleepQuality))})`:''}</span>`);if(e.mood)status.push(`<span class="badge mood">${tr('mood')}: ${tr(e.mood)}</span>`);if(e.hrtTaken)status.push(`<span class="badge meta">HRT ✓</span>`);if(e.bleeding)status.push(`<span class="badge meta">${tr('bleeding')}: ${tr(e.bleeding)}</span>`);for(const[id,n]of Object.entries(e.symptoms))sym.push(`<span class="badge symptom">${tr(id)}: ${sevShort(n)}</span>`)}return`<div class="entry"><div class="entry-head"><span class="entry-time">${fmtT(e.ts)}</span><span class="entry-date">${fmtD(e.ts)}</span></div>${status.length?`<div class="badge-row status-row">${status.join('')}</div>`:''}${sym.length?`<div class="badge-row symptom-row">${sym.join('')}</div>`:''}<div class="entry-actions"><button data-edit="${e.id}">${tr('edit')}</button><button class="danger" data-del="${e.id}">${tr('del')}</button></div></div>`}
+function reportView(){const es=range(S().reportRange),st=stats(es),cs=es.filter(e=>e.type==='checkin'),bl=cs.filter(e=>e.bleeding&&e.bleeding!=='bleedNone'),hrt=cs.filter(e=>e.hrtTaken).length,ah=avg(cs.map(e=>e.sleepHours).filter(Boolean)),aq=avg(cs.map(e=>e.sleepQuality).filter(Boolean));return`<div class="stack print-report"><div><div class="eyebrow">${tr('report')}</div><h1>${tr('reportTitle')}</h1><p class="sub medical-print">${tr('medical')}</p></div><div class="tabs no-print">${[30,60,90].map(n=>`<button data-report-range="${n}" class="${S().reportRange===n?'active':''}">${rl(n)}</button>`).join('')}</div><section class="card"><div class="report-period"><div><div class="eyebrow">${tr('period')}</div><div class="report-range">${fmtD(cut(S().reportRange))} – ${fmtD(new Date())}</div></div><span class="pill">${es.length}</span></div></section><section class="card"><table class="report-table"><thead><tr><th>${tr('symptom')}</th><th>${tr('frequency')}</th><th>${tr('average')}</th><th>${tr('peak')}</th></tr></thead><tbody>${st.length?st.slice(0,6).map(x=>`<tr><td>${tr(x.id)}</td><td>${x.count}</td><td>${x.avg.toFixed(1)}</td><td>${peak(es,x.id)}</td></tr>`).join(''):`<tr><td colspan="4">${tr('emptyChart')}</td></tr>`}</tbody></table></section><section class="card summary-grid"><div><strong>${tr('sleepTrend')}</strong><small>${cs.length?`${ah?ah.toFixed(1)+'h':'—'} · ${aq?aq.toFixed(1)+'/5':'—'}`:tr('emptyChart')}</small></div><div><strong>${tr('bleedings')}</strong><small>${bl.length}</small></div><div><strong>${tr('hrtConsistency')}</strong><small>${cs.length?`${hrt}/${cs.length}`:'—'}</small></div></section><section class="card"><label class="eyebrow" for="doctorNote">${tr('patientNote')}</label><textarea class="notes" id="doctorNote" placeholder="${tr('patientPlaceholder')}">${esc(S().doctorNote||'')}</textarea></section><section class="print-clinician-note"><div class="eyebrow">${tr('doctorField')}</div><div class="line"></div></section><button class="primary no-print" id="print">${tr('print')}</button><section class="card no-print"><div class="eyebrow">${tr('data')}</div><div class="data-actions"><button class="secondary" id="json">${tr('json')}</button><button class="secondary" id="csv">${tr('csv')}</button></div><button class="danger-link" id="deleteAll">${tr('deleteAll')}</button></section></div>`}
+function key(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function chart(days,id,overlay){const all=range(days);if(!all.length)return`<div class="chart-empty">${tr('emptyChart')}</div>`;const dates=[...new Set(all.map(e=>key(new Date(e.ts))))].sort(),last=new Date(dates.at(-1)+'T12:00:00'),first=new Date(dates[0]+'T12:00:00'),span=Math.max(1,Math.round((last-first)/86400000)+1);let windowDays=days;if(days>7&&dates.length<=5)windowDays=Math.min(days,Math.max(7,span+4));const start=new Date(last);start.setDate(last.getDate()-(windowDays-1));const series=[];for(let i=0;i<windowDays;i++){const d=new Date(start);d.setDate(start.getDate()+i);const es=S().entries.filter(e=>key(new Date(e.ts))===key(d));let v=0;if(id){const a=es.filter(e=>has(e,id)).map(e=>inten(e,id));v=a.length?Math.max(...a):0}else{const a=[];for(const e of es)e.type==='acute'?a.push(e.intensity):a.push(...Object.values(e.symptoms));v=a.length?Math.max(...a):0;if(!v&&es.length)v=Math.min(3,es.length)}const cs=es.filter(e=>e.type==='checkin'),sh=avg(cs.map(e=>e.sleepHours).filter(Boolean));series.push({d,v,sh})}if(!series.some(s=>s.v>0||s.sh>0))return`<div class="chart-empty">${tr('emptyChart')}</div>`;const w=360,h=202,l=30,r=12,t=18,b=42,pw=w-l-r,ph=h-t-b,bw=Math.max(14,Math.min(34,pw/series.length*.62)),x=i=>l+(i+.5)*(pw/series.length),y=v=>t+ph-(v/3)*ph,ys=v=>t+ph-((Math.min(10,Math.max(4,v))-4)/6)*ph;let grid='',bars='',labels='';for(let v=1;v<=3;v++){const yy=y(v);grid+=`<line class="grid-line" x1="${l}" y1="${yy}" x2="${w-r}" y2="${yy}"/><text class="axis-text" x="8" y="${yy+3}">${v}</text>`}const step=series.length<=7?1:series.length<=14?2:Math.ceil(series.length/7);series.forEach((s,i)=>{if(s.v>0){const yy=y(s.v),hh=t+ph-yy;bars+=`<rect class="bar" x="${x(i)-bw/2}" y="${yy}" width="${bw}" height="${hh}" rx="6"/><text class="value-text" x="${x(i)}" y="${Math.max(10,yy-4)}" text-anchor="middle">${s.v}</text>`}if(i%step===0||i===series.length-1)labels+=`<text class="axis-text" x="${x(i)}" y="${h-11}" text-anchor="middle">${fmtShort(s.d)}</text>`});let sleep='';if(overlay&&series.some(s=>s.sh>0)){const pts=series.map((s,i)=>s.sh?`${x(i)},${ys(s.sh)}`:null).filter(Boolean).join(' ');sleep=`<polyline class="sleep-line" points="${pts}"/>`+series.map((s,i)=>s.sh?`<circle class="sleep-point" cx="${x(i)}" cy="${ys(s.sh)}" r="2.8"/>`:'').join('')}return`<svg class="trend-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Trend chart">${grid}${bars}${sleep}${labels}</svg>`}
+function bind(){$$('[data-lang]').forEach(b=>b.onclick=()=>store.update(s=>s.lang=b.dataset.lang));$$('[data-tab]').forEach(b=>b.onclick=()=>{store.update(s=>s.activeTab=b.dataset.tab);scrollTo({top:0,behavior:'smooth'})});$$('[data-go]').forEach(b=>b.onclick=()=>store.update(s=>s.activeTab=b.dataset.go));$('#adjustToday')?.addEventListener('click',()=>{const e=today().find(x=>x.type==='checkin');if(e)editEntry(e.id)});$('#acute')?.addEventListener('click',openAcute);$$('[data-sleep]').forEach(b=>b.onclick=()=>{const[l,h]=b.dataset.sleep.split(':');draft.sleepBand=l;draft.sleepHours=+h;render()});$$('[data-q]').forEach(b=>b.onclick=()=>{const[k,n]=b.dataset.q.split(':');draft[k]=+n;render()});$$('[data-sym]').forEach(b=>b.onclick=()=>{const id=b.dataset.sym;if(draft.symptoms[id])delete draft.symptoms[id];else draft.symptoms[id]=2;render()});$$('[data-sev]').forEach(b=>b.onclick=()=>{const[id,n]=b.dataset.sev.split(':');draft.symptoms[id]=+n;render()});$$('[data-mood]').forEach(b=>b.onclick=()=>{draft.mood=b.dataset.mood;render()});$$('[data-bleed]').forEach(b=>b.onclick=()=>{draft.bleeding=b.dataset.bleed;render()});$('#hrt')?.addEventListener('click',()=>{draft.hrtTaken=!draft.hrtTaken;render()});$('#resetForm')?.addEventListener('click',()=>{draft=blank();editing=null;render()});$('#saveEntry')?.addEventListener('click',saveEntry);$$('[data-range]').forEach(b=>b.onclick=()=>store.update(s=>s.analysisRange=+b.dataset.range));$('#overlay')?.addEventListener('click',()=>store.update(s=>s.overlaySleep=!s.overlaySleep));$$('[data-edit]').forEach(b=>b.onclick=()=>editEntry(b.dataset.edit));$$('[data-del]').forEach(b=>b.onclick=()=>deleteEntry(b.dataset.del));$$('[data-report-range]').forEach(b=>b.onclick=()=>store.update(s=>s.reportRange=+b.dataset.reportRange));$('#doctorNote')?.addEventListener('input',e=>{S().doctorNote=e.target.value;store.persist()});$('#print')?.addEventListener('click',()=>print());$('#json')?.addEventListener('click',exportJson);$('#csv')?.addEventListener('click',exportCsv);$('#deleteAll')?.addEventListener('click',openDeleteAll)}
+function saveEntry(){if(!draft.sleepBand&&!draft.sleepQuality&&!draft.energy&&!Object.keys(draft.symptoms).length&&!draft.mood&&!draft.bleeding&&!draft.hrtTaken){toast(S().lang==='de'?'Bitte mindestens einen Wert auswählen.':'Please choose at least one value.');return}const old=editing?S().entries.find(e=>e.id===editing):null,e=norm({id:editing||uid(),ts:old?.ts||new Date(),type:'checkin',...draft});store.update(s=>{if(editing)s.entries=s.entries.map(x=>x.id===editing?e:x);else s.entries.push(e)});draft=blank();editing=null;toast(tr('savedToast'));setTimeout(()=>store.update(s=>s.activeTab='dashboard'),400)}
+function editEntry(id){const e=S().entries.find(x=>x.id===id);if(!e)return;if(e.type==='acute'){modal={type:'acute',editId:id,symptom:e.acuteSymptom,intensity:e.intensity};showModal();return}editing=id;draft={sleepBand:e.sleepBand,sleepHours:e.sleepHours,sleepQuality:e.sleepQuality,energy:e.energy,symptoms:{...e.symptoms},mood:e.mood,bleeding:e.bleeding,hrtTaken:e.hrtTaken};store.update(s=>s.activeTab='log')}
+function deleteEntry(id){store.update(s=>s.entries=s.entries.filter(e=>e.id!==id));toast(S().lang==='de'?'Eintrag gelöscht.':'Entry deleted.')}
+function openAcute(){modal={type:'acute',editId:null,symptom:'',intensity:2};showModal()}function openDeleteAll(){modal={type:'deleteAll'};showModal()}
+function showModal(){document.querySelector('.backdrop')?.remove();const w=document.createElement('div');w.className='backdrop';if(modal.type==='acute')w.innerHTML=`<section class="sheet"><div class="grabber"></div><div class="sheet-head"><div><div class="eyebrow">${tr('acute')}</div><h2>${S().lang==='de'?'Was passiert gerade?':'What is happening now?'}</h2></div><button class="close" id="close">×</button></div><div class="symptom-grid modal-grid">${ACUTE.map(id=>`<button class="symptom-chip ${modal.symptom===id?'active':''}" data-acute="${id}">${tr(id)}</button>`).join('')}</div><div class="mini-severity modal-severity">${[1,2,3].map(n=>`<button data-int="${n}" class="${modal.intensity===n?'active':''}">${sevShort(n)}</button>`).join('')}</div><button class="primary" id="saveAcute">${tr('save')}</button></section>`;else w.innerHTML=`<section class="sheet"><div class="grabber"></div><h2>${tr('deleteAll')}</h2><p class="sub">${tr('confirmDelete')}</p><div class="data-actions"><button class="secondary" id="cancel">${tr('cancel')}</button><button class="secondary danger-text" id="confirm">${tr('deleteNow')}</button></div></section>`;document.body.appendChild(w);w.onclick=e=>{if(e.target===w){modal=null;w.remove()}};$('#close')?.addEventListener('click',()=>{modal=null;w.remove()});$$('[data-acute]').forEach(b=>b.onclick=()=>{modal.symptom=b.dataset.acute;showModal()});$$('[data-int]').forEach(b=>b.onclick=()=>{modal.intensity=+b.dataset.int;showModal()});$('#saveAcute')?.addEventListener('click',()=>{if(!modal.symptom)return;const e=norm({id:modal.editId||uid(),ts:modal.editId?(S().entries.find(x=>x.id===modal.editId)?.ts||new Date()):new Date(),type:'acute',acuteSymptom:modal.symptom,intensity:modal.intensity});store.update(s=>{if(modal.editId)s.entries=s.entries.map(x=>x.id===modal.editId?e:x);else s.entries.push(e)});modal=null;w.remove();toast(tr('acuteSaved'));render()});$('#cancel')?.addEventListener('click',()=>{modal=null;w.remove()});$('#confirm')?.addEventListener('click',()=>{const lang=S().lang;store.state={...structuredClone(DEFAULTS),lang};store.persist();draft=blank();editing=null;modal=null;w.remove();render();toast(lang==='de'?'Alle Daten gelöscht.':'All data deleted.')})}
+function toast(m){$('.toast')?.remove();const e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);navigator.vibrate?.(20);setTimeout(()=>e.remove(),1700)}
+function dl(name,c,type){const b=new Blob([c],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+function exportJson(){dl(`midlife-os-${key(new Date())}.json`,JSON.stringify(S(),null,2),'application/json')}
+function cell(v){const s=String(v??'');return/[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}
+function exportCsv(){const h=['id','timestamp','type','sleepBand','sleepHours','sleepQuality','energy','symptoms','mood','bleeding','hrtTaken','acuteSymptom','intensity'],rows=S().entries.map(e=>h.map(k=>cell(k==='symptoms'?JSON.stringify(e.symptoms):e[k])).join(','));dl(`midlife-os-${key(new Date())}.csv`,[h.join(','),...rows].join('\n'),'text/csv;charset=utf-8')}
+function visual(i){const svg=[`<svg viewBox="0 0 120 120"><circle cx="42" cy="45" r="19" fill="#EFE5DC"/><path d="M42 14v9M42 67v9M11 45h9M64 45h9M20 23l7 7M57 60l7 7M64 23l-7 7M27 60l-7 7" stroke="#BA5D48" stroke-width="4" stroke-linecap="round"/><path d="M89 30a27 27 0 1 0 0 54 31 31 0 0 1 0-54Z" fill="#DFE8E2" stroke="#4E725F" stroke-width="2"/></svg>`,`<svg viewBox="0 0 120 120"><circle cx="28" cy="72" r="13" fill="#EFE5DC"/><circle cx="62" cy="45" r="13" fill="#DFE8E2"/><circle cx="93" cy="72" r="13" fill="#EAE0D5"/><path d="M39 65 51 53M73 53l10 12" stroke="#4E725F" stroke-width="4" stroke-linecap="round"/></svg>`,`<svg viewBox="0 0 120 120"><rect x="27" y="18" width="66" height="84" rx="14" fill="#fff" stroke="#D4C7B8" stroke-width="2"/><path d="M43 42h34M43 58h34M43 74h23" stroke="#4E725F" stroke-width="4" stroke-linecap="round"/><circle cx="84" cy="82" r="14" fill="#EFE5DC"/><path d="m78 82 4 4 8-9" fill="none" stroke="#BA5D48" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`][i];return`<div class="slide-visual">${svg}</div>`}
+function onboarding(){const r=$('#onboarding');if(localStorage.getItem(ONBOARD)!==null){r.hidden=true;return}r.hidden=false;const slides=[[tr('intro1'),tr('intro1sub')],[tr('intro2'),tr('intro2sub')],[tr('intro3'),tr('intro3sub')]],s=slides[onStep];r.innerHTML=`<div class="onboarding-card"><div class="onboarding-brand">Midlife <b>OS.</b></div><div class="slides"><section class="slide">${visual(onStep)}<h1>${s[0]}</h1><p>${s[1]}</p></section></div><div class="progress-dots">${slides.map((_,i)=>`<i class="${i===onStep?'active':''}"></i>`).join('')}</div><div class="onboarding-actions"><button class="primary" id="onNext">${onStep===2?tr('start'):tr('next')}</button><div class="sub privacy">${tr('private')}</div></div></div>`;$('#onNext').onclick=()=>{if(onStep<2){onStep++;onboarding()}else{localStorage.setItem(ONBOARD,'1');r.hidden=true;store.update(s=>s.activeTab='dashboard')}}}
+store.subscribe(render);render();})();
