@@ -1,0 +1,80 @@
+/* LUNA v52 — final harmonization */
+.today-screen{gap:10px;min-height:auto}
+.today-screen .luna-header{padding-top:max(0px,var(--safe-top))}
+.today-screen .hero-zone{gap:7px}
+.today-screen .balance-ring{width:180px;height:180px}
+.today-screen .ring-track{stroke-width:12}
+.today-screen .ring-progress{stroke-width:13;filter:drop-shadow(0 4px 12px rgba(91,142,125,.26))}
+.today-screen .ring-copy{gap:5px}
+.today-screen .ring-copy .score{font-size:42px}
+.today-screen .ring-copy>span{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em}
+.body-weather{font-style:normal;font-size:11px;font-weight:650;color:var(--primary);max-width:142px;line-height:1.25}
+.today-screen .level-badge{padding:6px 10px;font-size:9px}
+.today-screen .status-pills{gap:6px}
+.today-screen .status-pills span{padding:7px 6px;font-size:8.8px}
+.today-screen .action-dock.single-action{display:block}
+.today-screen .action-dock.single-action .acute-wide{width:100%;min-height:58px;border-radius:20px;padding:11px 14px;display:grid;grid-template-columns:28px 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;background:var(--glass);border:1px solid rgba(255,255,255,.78);box-shadow:var(--shadow);text-align:left}
+.today-screen .action-dock.single-action .acute-wide .action-emoji{grid-row:1/3;font-size:20px}
+.today-screen .action-dock.single-action .acute-wide strong{font-size:12.5px}
+.today-screen .action-dock.single-action .acute-wide small{font-size:10px;color:var(--secondary)}
+.today-screen .insight-card{padding:12px 14px;border-radius:20px}
+.today-screen .insight-card p{font-size:11.2px;line-height:1.4;margin-top:4px}
+
+/* Full-focus daily check-in: true iOS safe-area spacing */
+.main-content:has(.checkin-screen){padding:max(2rem,var(--safe-top)) 16px max(2.5rem,calc(var(--safe-bottom) + 1.5rem))}
+.checkin-screen.safe-modal{min-height:auto;gap:10px}
+.focus-header{display:grid;grid-template-columns:1fr 40px;gap:12px;align-items:start;padding-top:max(.5rem,calc(var(--safe-top) + .25rem))}
+.focus-header>div{display:grid;gap:4px}
+.focus-header>div>span{font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:var(--sage-dark);font-weight:750}
+.focus-header h1{font-size:23px;letter-spacing:-.04em}
+.focus-header p{font-size:11px;line-height:1.38;color:var(--secondary)}
+#btn-close-checkin{margin-top:0;justify-self:end}
+.checkin-screen .glass-card{border-radius:18px;padding:12px}
+.checkin-screen .check-card h2{font-size:12px}
+.checkin-screen .energy-segments{margin-top:9px}
+.checkin-screen .symptom-grid{gap:6px;margin-top:8px}
+.checkin-screen .symptom-card{height:48px;border-radius:16px}
+.checkin-screen .bleed-row{gap:7px}
+.checkin-screen .check-save{padding:4px 0 max(2.5rem,calc(var(--safe-bottom) + 1.5rem))}
+.checkin-screen .primary-btn{border-radius:18px}
+
+/* Quick SOS: same visual language as daily check-in */
+.sheet-backdrop{padding:0;align-items:flex-end}
+.bottom-sheet.quick-sheet{width:min(100%,430px);padding:max(2.5rem,calc(var(--safe-top) + 1rem)) 16px max(1.5rem,calc(var(--safe-bottom) + 1rem));border-radius:26px 26px 0 0}
+.quick-sheet .grabber{display:none}
+.quick-sheet .sheet-head{padding-top:0;margin-bottom:12px}
+.quick-sheet .sheet-head h2{font-size:23px;letter-spacing:-.04em}
+.quick-sheet .acute-grid{gap:8px;margin-top:10px}
+.quick-sheet .acute-grid button{min-height:54px;border-radius:16px}
+.inline-sos-tip{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;margin:10px 0 2px;padding:10px 12px;border-radius:16px;background:rgba(143,169,140,.12);border:1px solid rgba(143,169,140,.22);color:var(--primary)}
+.inline-sos-tip b{font-size:9px;letter-spacing:.08em;color:#61745f}
+.inline-sos-tip span{font-size:10.5px;line-height:1.35}
+.quick-sheet .intensity-row{margin:10px 0}
+.quick-sheet .intensity-row button,.quick-sheet .primary-btn{border-radius:16px}
+
+/* Toolkit: all four tools equal, calm 2-column grid */
+.tool-grid{grid-template-columns:1fr 1fr;gap:10px}
+.tool-card,.tool-card.wide{grid-column:auto;min-height:126px;border-radius:22px;padding:14px}
+.tool-card>span{font-size:22px}
+.tool-card strong{font-size:13px}
+.tool-card small{font-size:10.5px}
+
+/* Toast is intentionally retired in v52; SOS help lives inside the sheet. */
+.toast-card{display:none!important}
+
+@media(max-height:760px){
+  .today-screen{gap:8px}
+  .today-screen .balance-ring{width:164px;height:164px}
+  .today-screen .ring-copy .score{font-size:38px}
+  .today-screen .status-pills span{padding:6px 5px;font-size:8.3px}
+  .today-screen .level-badge{padding:5px 9px;font-size:8.5px}
+  .today-screen .action-dock.single-action .acute-wide{min-height:54px}
+  .today-screen .insight-card{padding:10px 12px}
+  .today-screen .insight-card p{font-size:10.6px}
+}
+@media(max-width:360px){
+  .today-screen .balance-ring{width:170px;height:170px}
+  .tool-grid{gap:8px}
+  .tool-card,.tool-card.wide{min-height:118px;padding:12px}
+  .checkin-screen .bleed-row{gap:5px}
+}
