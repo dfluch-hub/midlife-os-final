@@ -1,0 +1,122 @@
+:root{--ui-gap:14px;--ui-card-radius:22px;--ui-card-pad:15px}
+
+/* LUNA v39 — visual harmonisation pass only. Product logic unchanged. */
+.main-content{padding:0 18px calc(92px + var(--safe))}
+.screen{gap:var(--ui-gap)}
+.screen-header{min-height:40px;padding-top:max(1rem,var(--safe-top));padding-left:0;padding-right:0}
+.brand-title{font-size:14px;font-weight:650;letter-spacing:.24em}
+.header-title{font-size:15px;font-weight:620}
+.header-lang{padding-right:0;gap:4px}
+.header-lang button{padding:6px 2px;font-size:9.5px}
+.today-date h1{font-size:27px;font-weight:650}
+.today-date p{margin-top:5px;font-size:12px}
+
+/* Dashboard — reduce visual dominance of hero and bring content together. */
+.dashboard{gap:13px}
+.ring-wrap{gap:7px;margin-top:-2px}
+.hero-ring{width:202px;height:202px}
+.ring-track{stroke-width:9}
+.ring-progress{stroke-width:11;filter:drop-shadow(0 4px 10px rgba(91,142,125,.18))}
+.ring-center{gap:6px}
+.ring-center strong{font-size:41px}
+.ring-center .open-label{font-size:18px;font-weight:620}
+.ring-center span{font-size:11.5px}
+.ring-center .open-cta{max-width:145px;font-size:11px;line-height:1.3}
+.ring-center .open-cta b{font-size:13px}
+.streak-badge{max-width:292px;padding:6px 10px;font-size:10px;font-weight:600;background:rgba(143,169,140,.10)}
+.knowledge-card{grid-template-columns:36px 1fr;gap:10px;padding:12px 14px;border-radius:20px}
+.knowledge-icon{width:34px;height:34px}
+.knowledge-icon svg{width:17px;height:17px}
+.knowledge-card strong{font-size:12.5px;font-weight:620}
+.knowledge-card p{margin-top:3px;font-size:11.5px;line-height:1.38}
+.breath-card{grid-template-columns:1fr auto;gap:10px;padding:11px 12px;border-radius:20px}
+.breath-copy{grid-template-columns:32px 1fr;gap:9px}
+.breath-mini{width:32px;height:32px;font-size:19px}
+.breath-copy strong{font-size:12.5px;font-weight:620;line-height:1.25}
+.breath-copy p{font-size:10.5px;line-height:1.3}
+.breath-start{min-height:34px;padding:0 12px;font-size:10.5px}
+.quick-card{min-height:54px;border-radius:20px;padding:8px 10px 8px 15px;font-size:13px}
+.quick-card b{width:36px;height:36px}
+.quick-card b svg{width:17px;height:17px}
+.dashboard-tip{gap:2px;padding:10px 38px 10px 13px;border-radius:18px;box-shadow:0 10px 28px rgba(43,42,74,.08)}
+.dashboard-tip strong{font-size:10.5px}
+.dashboard-tip p{font-size:11.5px;line-height:1.38}
+.dashboard-tip>button{right:7px;top:7px;width:26px;height:26px;font-size:16px}
+
+/* Daily check-in — high-density but still calm and touch-friendly. */
+.checkin-screen{gap:12px}
+.checkin-title{padding-top:max(1rem,var(--safe-top));min-height:42px}
+.checkin-title h1{font-size:16px;font-weight:620}
+.close-btn{width:36px;height:36px;font-size:21px}
+.check-section{border-radius:22px;padding:14px}
+.check-section h2,.journey-card h2,.summary-card h2,.question-card h2{font-size:13px;font-weight:620}
+.energy-wrap{margin-top:14px}
+.energy-track{height:10px;margin:0 13px}
+.energy-knob{width:30px;height:30px;font-size:11px}
+.energy-labels{margin-top:11px}
+.energy-labels button{min-height:22px;font-size:10.5px}
+.sym-list{margin-top:7px}
+.sym-row{min-height:49px;grid-template-columns:30px 1fr auto;gap:9px;padding:5px 0}
+.sym-icon{width:28px;height:28px}
+.sym-icon svg{width:15px;height:15px}
+.sym-name{font-size:12.5px;font-weight:550}
+.sym-status{min-width:27px;min-height:25px;padding:0 8px;font-size:9.5px}
+.bleeding-section{gap:11px}
+.bleed-pills{gap:4px}
+.bleed-pills button{min-height:34px;font-size:8.5px}
+.hrt-row{font-size:12.5px}
+.switch{width:46px;height:27px}
+.switch i{width:21px;height:21px}
+.switch.on i{transform:translateX(19px)}
+.save-zone{padding:2px 0 34px}
+.primary-btn{min-height:48px;border-radius:16px;font-size:13px}
+
+/* Secondary screens — one shared density and radius system. */
+.journey-screen,.appointment-screen,.me-screen{gap:14px}
+.segment{padding:3px}
+.segment button{min-height:35px;font-size:10.5px}
+.journey-card,.summary-card,.notes-card,.profile-card,.question-card{border-radius:var(--ui-card-radius);padding:var(--ui-card-pad)}
+.summary-card h2,.question-card h2{padding-bottom:8px}
+.summary-row{padding:10px 0;font-size:11.5px}
+.question-row{grid-template-columns:25px 1fr;gap:8px;padding:9px 0}
+.question-row span{width:25px;height:25px;font-size:10.5px}
+.question-row p{font-size:11.5px;line-height:1.4}
+.medical-note{grid-template-columns:30px 1fr;gap:9px;padding:12px 13px;border-radius:18px}
+.medical-note>span{width:28px;height:28px}
+.medical-note p{font-size:11.5px;line-height:1.4}
+.notes-card textarea{min-height:74px;margin-top:8px;padding:10px;border-radius:14px;font-size:12px}
+.profile-card h2{font-size:14px;font-weight:620}
+.profile-card p{margin-top:4px;font-size:12px}
+.lang-switch{margin-top:11px;padding:3px}
+.lang-switch button{min-height:35px;font-size:12px}
+.danger-btn{min-height:44px;border-radius:15px;font-size:12.5px}
+
+/* Bottom nav — reclaim vertical space without compromising tap targets. */
+.bottom-nav{padding:5px 10px calc(5px + var(--safe))}
+.bottom-nav button{min-height:52px;gap:3px;font-size:8.5px}
+.bottom-nav svg{width:18px;height:18px}
+.nav-check b{width:30px;height:30px;border-radius:9px}
+.nav-check b svg{width:16px;height:16px}
+
+/* Onboarding — stop vertically centering the whole card on tall iPhones. */
+.onboarding.show{align-items:start;overflow-y:auto;padding:calc(max(22px,var(--safe-top)) + 18px) 18px calc(24px + var(--safe))}
+.onboard-card{gap:12px}
+.onboard-night{border-radius:24px;box-shadow:0 9px 24px rgba(31,39,66,.10)}
+.onboard-card h1{font-size:25px;font-weight:650}
+.onboard-sub{font-size:12.5px;line-height:1.4}
+.feature-list{gap:9px}
+.feature-list>div{grid-template-columns:34px 1fr;gap:10px}
+.feature-list span{width:32px;height:32px}
+.feature-list svg{width:16px;height:16px}
+.feature-list p{font-size:11.5px;line-height:1.35}
+.pager{gap:4px}
+.onboard-card .primary-btn{min-height:49px}
+
+@media(max-width:360px){
+  .main-content{padding-left:14px;padding-right:14px}
+  .hero-ring{width:190px;height:190px}
+  .check-section,.journey-card,.summary-card,.notes-card,.profile-card,.question-card{padding:13px}
+  .sym-row{min-height:47px}
+  .breath-card{grid-template-columns:1fr auto}
+  .breath-start{justify-self:auto}
+}
