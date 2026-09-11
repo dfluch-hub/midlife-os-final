@@ -2,8 +2,8 @@
   'use strict';
   const root=document.getElementById('view-root');
   if(!root)return;
-
   const STORAGE_KEY='luna_v32';
+  let scheduled=false;
 
   function todayKey(value=new Date()){
     const d=new Date(value);
@@ -17,9 +17,7 @@
   function latestTodayCheckin(){
     const entries=state()?.entries;
     if(!Array.isArray(entries))return null;
-    return entries
-      .filter(e=>e?.type==='checkin'&&todayKey(e.ts)===todayKey())
-      .sort((a,b)=>new Date(b.ts)-new Date(a.ts))[0]||null;
+    return entries.filter(e=>e?.type==='checkin'&&todayKey(e.ts)===todayKey()).sort((a,b)=>new Date(b.ts)-new Date(a.ts))[0]||null;
   }
 
   function localBleeding(v,lang){
@@ -37,15 +35,16 @@
     if(!gradient){
       gradient=document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
       gradient.id='lunaRingGradient';
-      gradient.setAttribute('x1','0%');
-      gradient.setAttribute('y1','0%');
-      gradient.setAttribute('x2','100%');
-      gradient.setAttribute('y2','100%');
       defs.appendChild(gradient);
     }
-    gradient.innerHTML='<stop offset="0%" stop-color="#5B8E7D"/><stop offset="70%" stop-color="#2B2A4A"/><stop offset="100%" stop-color="#F2C57C"/>';
+    gradient.setAttribute('x1','0%');
+    gradient.setAttribute('y1','0%');
+    gradient.setAttribute('x2','100%');
+    gradient.setAttribute('y2','100%');
+    const wanted='<stop offset="0%" stop-color="#5B8E7D"/><stop offset="70%" stop-color="#2B2A4A"/><stop offset="100%" stop-color="#F2C57C"/>';
+    if(gradient.innerHTML!==wanted)gradient.innerHTML=wanted;
     const progress=svg.querySelector('.ring-progress');
-    if(progress)progress.setAttribute('stroke','url(#lunaRingGradient)');
+    if(progress&&progress.getAttribute('stroke')!=='url(#lunaRingGradient)')progress.setAttribute('stroke','url(#lunaRingGradient)');
   }
 
   function fixStreak(){
@@ -68,7 +67,11 @@
     const entry=latestTodayCheckin();
 
     if(!entry){
-      if(pills){pills.hidden=true;pills.classList.add('is-empty');pills.replaceChildren()}
+      if(pills){
+        if(!pills.hidden)pills.hidden=true;
+        pills.classList.add('is-empty');
+        if(pills.childElementCount)pills.replaceChildren();
+      }
       return;
     }
 
@@ -87,19 +90,26 @@
     const labels=lang==='en'
       ?[['Energy',`${energyPct}%`],['Signals',String(signals)],['Bleeding',bleeding]]
       :[['Energie',`${energyPct}%`],['Signale',String(signals)],['Blutung',bleeding]];
+    const html=labels.map(([label,value],i)=>`<div class="day-quick-pill ${i===2?'bleeding':''}"><span class="pill-dot"></span><span>${label}</span><b>${value}</b></div>`).join('');
 
-    pills.hidden=false;
+    if(pills.hidden)pills.hidden=false;
     pills.classList.remove('is-empty');
-    pills.innerHTML=labels.map(([label,value],i)=>`<div class="day-quick-pill ${i===2?'bleeding':''}"><span class="pill-dot"></span><span>${label}</span><b>${value}</b></div>`).join('');
+    if(pills.innerHTML!==html)pills.innerHTML=html;
   }
 
   function repair(){
+    scheduled=false;
     ensureRingGradient();
     fixStreak();
     rebuildPills();
   }
 
-  const observer=new MutationObserver(()=>queueMicrotask(repair));
-  observer.observe(document.body,{childList:true,subtree:true});
-  repair();
+  function schedule(){
+    if(scheduled)return;
+    scheduled=true;
+    requestAnimationFrame(repair);
+  }
+
+  new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true});
+  schedule();
 })();
