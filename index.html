@@ -9,9 +9,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="LUNA">
   <meta name="description" content="LUNA – deine handlungsorientierte Midlife-Begleiterin für Tages-Check-ins, Akut-Signale, Muster und Arzttermine.">
-  <link rel="manifest" href="./manifest.webmanifest?v=39">
-  <link rel="stylesheet" href="./styles.css?v=39">
-  <link rel="stylesheet" href="./luna-v39.css?v=39">
+  <link rel="manifest" href="./manifest.webmanifest?v=40">
+  <link rel="stylesheet" href="./styles.css?v=40">
+  <link rel="stylesheet" href="./luna-v39.css?v=40">
+  <link rel="stylesheet" href="./luna-v40.css?v=40">
   <title>LUNA – Midlife Companion</title>
 </head>
 <body>
@@ -20,10 +21,11 @@
     <nav id="bottom-nav" class="bottom-nav" aria-label="Hauptnavigation"></nav>
   </div>
   <section id="onboarding" class="onboarding" aria-label="Willkommen bei LUNA"></section>
-  <script src="./app.js?v=39" defer></script>
+  <script src="./app.js?v=40" defer></script>
+  <script src="./luna-v40.js?v=40" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js?v=39').catch(() => {}));
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js?v=40').catch(() => {}));
     }
   </script>
 </body>
