@@ -1,5 +1,5 @@
-const CACHE='luna-v43';
-const ASSETS=['./','./index.html','./styles.css?v=43','./luna-v39.css?v=43','./luna-v40.css?v=43','./luna-v41.css?v=43','./luna-v42.css?v=43','./luna-v43.css?v=43','./app.js?v=43','./luna-v40.js?v=43','./luna-v42.js?v=43','./luna-v43.js?v=43','./manifest.webmanifest?v=43','./icon.svg'];
+const CACHE='luna-v50';
+const ASSETS=['./','./index.html','./styles.css?v=50','./app.js?v=50','./manifest.webmanifest?v=50','./icon.svg'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match(e.request).then(hit=>hit||caches.match('./index.html'))))});
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).catch(()=>caches.match(e.request).then(hit=>hit||caches.match('./index.html'))))});
