@@ -1,23 +1,19 @@
 {
   "name": "Midlife OS",
   "short_name": "Midlife OS",
-  "id": "./",
+  "description": "Private, local-first Midlife Health Tracking und Arztvorbereitung.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#F7F5F0",
-  "theme_color": "#F7F5F0",
-  "description": "Private, local-first symptom tracking for perimenopause and menopause.",
+  "background_color": "#F6F3EE",
+  "theme_color": "#F6F3EE",
   "lang": "de",
-  "categories": [
-    "health",
-    "lifestyle"
-  ],
+  "categories": ["health", "lifestyle"],
   "icons": [
     {
-      "src": "icon.svg",
-      "sizes": "any",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='118' fill='%23F6F3EE'/%3E%3Ccircle cx='232' cy='240' r='128' fill='%232B2A4A'/%3E%3Ccircle cx='290' cy='205' r='126' fill='%23F6F3EE'/%3E%3Ccircle cx='346' cy='342' r='18' fill='%235B8E7D'/%3E%3C/svg%3E",
+      "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
