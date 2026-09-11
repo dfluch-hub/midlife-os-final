@@ -1,61 +1,331 @@
-(()=>{"use strict";
-const VERSION=32,KEY="luna_v32",ONBOARD="luna_onboarded";
-const CORE=["hot","brain","sleepQualitySignal","moodSignal","joints","palpitations"];
-const ACUTE=["hot","palpitations","brain","anxious"];
-const DEFAULT_STATE={schemaVersion:VERSION,lang:"de",activeTab:"today",entries:[],analysisRange:30,reportRange:30,doctorNote:"",reminderTime:"20:00"};
-const TXT={
- de:{today:"Heute",map:"Landkarte",checkin:"Check-in",appointment:"Termine",me:"Ich",welcome:"Willkommen bei LUNA",welcomeSub:"Verstehe deinen Körper. Ein kleiner Schritt pro Tag.",feature1:"Ein tieferes Verständnis für deinen Körper",feature2:"Erkenne Muster statt einzelner Momente",feature3:"Gut vorbereitet für deinen nächsten Arzttermin",getStarted:"Jetzt starten",energyQ:"Wie ist deine Energie heute?",symptomsToday:"Symptome heute",hot:"Hitzewallung",brain:"Brain Fog",sleepQualitySignal:"Schlafqualität",moodSignal:"Stimmung",joints:"Gelenkschmerz",palpitations:"Herzklopfen",anxious:"Unruhe",light:"Leicht",medium:"Mittel",strong:"Stark",none:"Keine",bleeding:"Blutung",spotting:"Spotting",hrt:"HRT/HET heute",finish:"Tages-Check-in abschließen ✓",knowledge:"Wissen für heute",knowledgeBody:"Kleine Muster werden wertvoll, wenn du sie regelmäßig erfasst.",balanced:"Ausgeglichen",attention:"Mehr Aufmerksamkeit",journey:"Deine Reise",wellbeing:"Wohlbefinden im Verlauf",cycle:"Zyklus & Blutung",days7:"7 Tage",days30:"30 Tage",days60:"60 Tage",days90:"90 Tage",summary:"Zusammenfassung für deinen Termin",avgWellbeing:"Durchschnittliches Wohlbefinden",common:"Häufigste Symptome",peak:"Häufigste Zeit",cyclePattern:"Zyklusmuster",evenings:"Abends",irregular:"Unregelmäßig",medicalWarning:"Blutungen nach 12 Monaten ohne Periode sollten ärztlich abgeklärt werden.",notes:"Deine Notizen",notesPlaceholder:"Persönliche Notiz hinzufügen...",data:"Deine Daten",privacy:"Deine Daten bleiben auf deinem Gerät",deleteAll:"Alle lokalen Daten löschen",lang:"Sprache",captured:"Heute erfasst ✓",dailyTitle:"Täglicher Check-in",dailySub:"Deine einmalige Tages-Baseline",quickCta:"Akut-Signal erfassen",quickTitle:"Akut-Signal erfassen",quickSub:"In wenigen Sekunden dokumentiert",saveQuick:"Speichern",tipTitle:"Direkt danach",tipHot:"Kühle Handgelenke oder Nacken für etwa 60 Sekunden mit angenehm kühlem Wasser.",tipBrain:"Trink ein Glas Wasser und reduziere für einige Minuten komplexe Reize oder Aufgaben.",tipPalp:"Setz dich hin, lockere die Schultern und atme langsam. Bei neuem starkem Herzklopfen mit Brustschmerz, Ohnmacht oder Atemnot: sofort medizinische Hilfe holen.",tipAnxious:"Reduziere für ein paar Minuten Reize und konzentriere dich nur auf einen kleinen nächsten Schritt.",questionTitle:"Fragen für dein Gespräch",questionSleep:"Mein Schlaf ist wiederholt gestört. Können wir mögliche Ursachen und meinen aktuellen Behandlungsplan gemeinsam überprüfen?",questionHot:"Trotz HRT/HET dokumentiere ich weiterhin gehäufte Hitzewallungen. Können wir Einnahmezeitpunkt, Dosierung und weitere Optionen besprechen?",questionGeneral:"Welche meiner zuletzt dokumentierten Beschwerden sollten wir bei diesem Termin priorisieren oder weiter abklären?",questionTracking:"Welche zusätzlichen Symptome oder Zeitpunkte soll ich bis zum nächsten Termin gezielt dokumentieren?",breathTitle:"Akute Linderung · 60s Atemübung",breathSub:"Ein ruhiger 4–6-Rhythmus für einen kurzen Reset.",start:"Starten",inhale:"Einatmen",exhale:"Ausatmen",done:"Geschafft",open:"Check-in offen",tapToTrack:"Tippen, um den Tag zu erfassen",streakActive:"Tage erfasst · Deine Muster-Erkennung wird aktiver",streakStart:"Heute starten · Jeder Eintrag macht Muster klarer"},
- en:{today:"Today",map:"Map",checkin:"Check-in",appointment:"Appointments",me:"Me",welcome:"Welcome to LUNA",welcomeSub:"Understand your body. One small step a day.",feature1:"A deeper understanding of your body",feature2:"Recognise patterns, not just moments",feature3:"Be well prepared for your next medical appointment",getStarted:"Get started",energyQ:"How is your energy today?",symptomsToday:"Symptoms today",hot:"Hot flush",brain:"Brain fog",sleepQualitySignal:"Sleep quality",moodSignal:"Mood",joints:"Joint pain",palpitations:"Palpitations",anxious:"Restlessness",light:"Mild",medium:"Moderate",strong:"Strong",none:"None",bleeding:"Bleeding",spotting:"Spotting",hrt:"HRT/MHT today",finish:"Complete daily check-in ✓",knowledge:"Knowledge for today",knowledgeBody:"Small patterns become more useful when you track them consistently.",balanced:"Feeling balanced",attention:"Needs more attention",journey:"Your Journey",wellbeing:"Wellbeing over time",cycle:"Cycle & bleeding",days7:"7 days",days30:"30 days",days60:"60 days",days90:"90 days",summary:"Summary for your appointment",avgWellbeing:"Average wellbeing",common:"Most common symptoms",peak:"Peak times",cyclePattern:"Cycle pattern",evenings:"Evenings",irregular:"Irregular",medicalWarning:"Bleeding after 12 months without a period should be medically checked.",notes:"Your notes",notesPlaceholder:"Add a personal note...",data:"Your data",privacy:"Your data stays on your device",deleteAll:"Delete all local data",lang:"Language",captured:"Captured today ✓",dailyTitle:"Daily check-in",dailySub:"Your once-a-day baseline",quickCta:"Log acute signal",quickTitle:"Log acute signal",quickSub:"Documented in seconds",saveQuick:"Save",tipTitle:"Right now",tipHot:"Cool your wrists or neck with comfortably cool water for about 60 seconds.",tipBrain:"Drink a glass of water and reduce complex input or tasks for a few minutes.",tipPalp:"Sit down, relax your shoulders and breathe slowly. If palpitations are new or severe with chest pain, fainting or breathlessness, seek urgent medical help.",tipAnxious:"Reduce input for a few minutes and focus on one small next action.",questionTitle:"Questions to take with you",questionSleep:"My sleep has been repeatedly disrupted. Could we review possible causes and whether my current treatment plan needs adjustment?",questionHot:"I still record clusters of hot flushes despite HRT/MHT. Could we review timing, dose and other treatment options?",questionGeneral:"Based on my recent symptom pattern, what should we prioritise or investigate at this appointment?",questionTracking:"Are there any additional symptoms or timings you would like me to track before our next review?",breathTitle:"Quick relief · 60s breathing",breathSub:"A calm 4–6 rhythm for a short reset.",start:"Start",inhale:"Breathe in",exhale:"Breathe out",done:"Done",open:"Check-in open",tapToTrack:"Tap to log your day",streakActive:"days tracked · Your pattern view is getting stronger",streakStart:"Start today · Every check-in makes patterns clearer"}
-};
-let state,draft={energy:0,symptoms:{},bleeding:"",hrtTaken:false},editingId=null,modal=null,breathTimer=null,breathEnd=0,pendingTip=null;
-const T=k=>TXT[state.lang][k]||k,uid=()=>globalThis.crypto?.randomUUID?.()||`e_${Date.now()}`;
-const clamp=(v,a,b)=>Math.max(a,Math.min(b,Number(v)||0));
-const localKey=v=>{const d=new Date(v);return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
-function normalize(e){const symptoms={};if(e?.symptoms)for(const[id,v]of Object.entries(e.symptoms))if(CORE.includes(id))symptoms[id]=["L","M","S"].includes(v)?v:"M";return{id:String(e?.id||uid()),ts:new Date(e?.ts||Date.now()).toISOString(),type:e?.type==="acute"?"acute":"checkin",energy:clamp(e?.energy,0,5),symptoms,bleeding:["none","spotting","light","medium","strong"].includes(e?.bleeding)?e.bleeding:"",hrtTaken:!!e?.hrtTaken,acuteSymptom:e?.acuteSymptom||"",intensity:["L","M","S"].includes(e?.intensity)?e.intensity:"M"}}
-function load(){try{const cur=JSON.parse(localStorage.getItem(KEY)||"null");if(cur?.schemaVersion===VERSION)return{...DEFAULT_STATE,...cur,entries:Array.isArray(cur.entries)?cur.entries.map(normalize):[]}}catch{}for(const k of["luna_v31","luna_v30","luna_v29","midlifeOS_v27"]){try{const old=JSON.parse(localStorage.getItem(k)||"null");if(old)return{...DEFAULT_STATE,...old,schemaVersion:VERSION,entries:Array.isArray(old.entries)?old.entries.map(normalize):[]}}catch{}}return structuredClone(DEFAULT_STATE)}
-state=load();const persist=()=>localStorage.setItem(KEY,JSON.stringify({...state,schemaVersion:VERSION}));
-const todayEntries=()=>state.entries.filter(e=>e.type==="checkin"&&localKey(e.ts)===localKey(new Date()));
-const latestToday=()=>todayEntries().sort((a,b)=>new Date(b.ts)-new Date(a.ts))[0];
-const intNum=v=>v==="L"?1:v==="S"?3:2;
-const haptic=(p=12)=>{try{navigator.vibrate?.(p)}catch{}};
-function score(e){if(!e||e.type!=="checkin")return null;let v=100+(e.energy-3)*7;for(const x of Object.values(e.symptoms||{}))v-=x==="L"?5:x==="M"?10:15;return clamp(Math.round(v),18,100)}
-function icon(name){const d={today:'<path d="M4 11.5 12 5l8 6.5V20H4z"/><path d="M9 20v-6h6v6"/>',map:'<path d="M4 18V8l5-3 6 3 5-3v10l-5 3-6-3-5 3Z"/><path d="M9 5v10M15 8v10"/>',appointment:'<path d="M6 4h12v16H6z"/><path d="M9 9h6M9 13h6"/>',me:'<circle cx="12" cy="8" r="3"/><path d="M5 20c.8-4 3.2-6 7-6s6.2 2 7 6"/>',plus:'<path d="M12 5v14M5 12h14"/>',brain:'<path d="M9 4a3 3 0 0 0-3 3v1a3 3 0 0 0-1 5.8A3 3 0 0 0 8 18h1m6-14a3 3 0 0 1 3 3v1a3 3 0 0 1 1 5.8A3 3 0 0 1 16 18h-1M9 4v16m6-16v16"/>',heart:'<path d="M12 20S4 15 4 9.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8 3.5C20 15 12 20 12 20Z"/>',sleep:'<path d="M18 15A7 7 0 0 1 9 6a7 7 0 1 0 9 9Z"/>',mood:'<circle cx="12" cy="12" r="8"/><path d="M9 10h.01M15 10h.01M9 14c1.5 1.4 4.5 1.4 6 0"/>',joints:'<path d="M8 5c3 2 3 5 0 7s-3 5 0 7M16 5c-3 2-3 5 0 7s3 5 0 7"/>',hot:'<path d="M12 3c-3 4-5 6-5 10a5 5 0 0 0 10 0c0-3-2-5-5-10Z"/>',back:'<path d="m15 6-6 6 6 6"/>'}[name]||'';return`<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`}
-function languageToggle(){return`<div class="header-lang"><button data-lang="de" class="${state.lang==="de"?"active":""}">DE</button><span>|</span><button data-lang="en" class="${state.lang==="en"?"active":""}">EN</button></div>`}
-function topHeader(kind,title){if(kind==="today")return`<header class="screen-header clean"><span></span><div class="brand-title">LUNA</div>${languageToggle()}</header>`;return`<header class="screen-header sub"><button class="icon-btn" data-tab="today">${icon("back")}</button><div class="header-title">${title}</div>${languageToggle()}</header>`}
-function streak(){const days=new Set(state.entries.filter(e=>e.type==="checkin").map(e=>localKey(e.ts)));let n=0,d=new Date();d.setHours(12,0,0,0);if(!days.has(localKey(d)))d.setDate(d.getDate()-1);while(days.has(localKey(d))){n++;d.setDate(d.getDate()-1)}return n}
-function ring(e){const s=score(e),r=68,c=2*Math.PI*r,off=s==null?c:c*(1-s/100),open=s==null;return`<div class="ring-wrap"><button class="hero-ring ${open?"open":"done"}" ${open?'id="openDailyFromRing"':''} aria-label="${open?T("tapToTrack"):(s+"%")}"><svg viewBox="0 0 190 190"><defs><linearGradient id="ringGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FA98C"/><stop offset="1" stop-color="#2B2A4A"/></linearGradient></defs><circle class="ring-track" cx="95" cy="95" r="68"/>${open?"":`<circle class="ring-progress" cx="95" cy="95" r="68" stroke-dasharray="${c}" style="--offset:${off};--circ:${c}"/>`}</svg><div class="ring-center">${open?`<strong class="open-label">${T("open")}</strong><span class="open-cta">${T("tapToTrack")} <b>→</b></span>`:`<strong>${s}%</strong><span>${T(s>=70?"balanced":"attention")}<i></i></span>`}</div></button>${streakBadge()}</div>`}
-function streakBadge(){const n=streak();return`<div class="streak-badge">${n?`🔥 ${n} ${T("streakActive")}`:`✦ ${T("streakStart")}`}</div>`}
-function dateLabel(){return new Date().toLocaleDateString(state.lang==="de"?"de-DE":"en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"})}
-function breathCard(){return`<section class="breath-card"><div class="breath-copy"><span class="breath-mini">◌</span><div><strong>${T("breathTitle")}</strong><p>${T("breathSub")}</p></div></div><button id="startBreath" class="breath-start">${T("start")}</button></section>`}
-function tipBanner(){return pendingTip?`<section class="dashboard-tip"><button id="closeTip" aria-label="${state.lang==="de"?"Hinweis schließen":"Close tip"}">×</button><strong>${T("tipTitle")}</strong><p>${pendingTip}</p></section>`:""}
-function dashboard(){const e=latestToday();return`<div class="screen dashboard">${topHeader("today")}${tipBanner()}<section class="today-date"><h1>${T("today")}</h1><p>${dateLabel()}</p></section>${ring(e)}<section class="knowledge-card"><div class="knowledge-icon">${icon("brain")}</div><div><strong>${T("knowledge")}</strong><p>${T("knowledgeBody")}</p></div></section>${breathCard()}<button class="quick-card" id="openQuick"><span>${T("quickCta")}</span><b>${icon("plus")}</b></button></div>`}
-function energyBar(){return`<div class="energy-wrap"><div class="energy-track"><span class="energy-fill" style="width:${draft.energy?((draft.energy-1)/4*100):0}%"></span><span class="energy-knob" style="left:${draft.energy?((draft.energy-1)/4*100):0}%">${draft.energy||1}</span></div><div class="energy-labels">${[1,2,3,4,5].map(n=>`<button data-energy="${n}">${n}</button>`).join("")}</div></div>`}
-function symIcon(id){return icon(id==="brain"?"brain":id==="sleepQualitySignal"?"sleep":id==="moodSignal"?"mood":id==="joints"?"joints":id==="palpitations"?"heart":"hot")}
-function levelWord(v){return v==="L"?T("light"):v==="S"?T("strong"):T("medium")}
-function symptomRow(id){const v=draft.symptoms[id];return`<button class="sym-row ${v?`selected ${v.toLowerCase()}`:""}" data-sym="${id}"><span class="sym-icon">${symIcon(id)}</span><span class="sym-name">${T(id)}</span><span class="sym-status">${v?levelWord(v):"+"}</span></button>`}
-function checkin(){return`<div class="screen checkin-screen"><header class="checkin-title"><span></span><h1>${T("dailyTitle")}</h1><button id="cancelCheck" class="close-btn">×</button></header><section class="check-section"><h2>${T("energyQ")}</h2>${energyBar()}</section><section class="check-section"><h2>${T("symptomsToday")}</h2><div class="sym-list">${CORE.map(symptomRow).join("")}</div></section><section class="check-section bleeding-section"><h2>${T("bleeding")}</h2><div class="bleed-pills">${[["none","none"],["spotting","spotting"],["light","light"],["medium","medium"],["strong","strong"]].map(([v,k])=>`<button data-bleeding="${v}" class="${draft.bleeding===v?"active":""}">${T(k)}</button>`).join("")}</div><label class="hrt-row"><span>${T("hrt")}</span><button id="hrt" class="switch ${draft.hrtTaken?"on":""}"><i></i></button></label></section><div class="save-zone"><button id="saveCheck" class="primary-btn">${T("finish")}</button></div></div>`}
-function range(days){const start=new Date();start.setHours(0,0,0,0);start.setDate(start.getDate()-days+1);return state.entries.filter(e=>new Date(e.ts)>=start)}
-function daySeries(days){const es=range(days).filter(e=>e.type==="checkin"),m={};for(const e of es){const k=localKey(e.ts);m[k]??=[];m[k].push(e)}return Object.keys(m).sort().map(k=>{const vals=m[k].map(score).filter(v=>v!=null);return{date:new Date(k+"T12:00:00"),v:vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):60}})}
-function chart(days){const s=daySeries(days);if(!s.length)return`<div class="empty-chart">${state.lang==="de"?"Noch nicht genug Tagesdaten.":"Not enough daily data yet."}</div>`;const w=360,h=180,l=34,r=10,t=18,b=28,x=i=>l+i*((w-l-r)/Math.max(1,s.length-1)),y=v=>t+(100-v)/75*(h-t-b);let path=`M ${x(0)} ${y(s[0].v)}`;for(let i=1;i<s.length;i++)path+=` L ${x(i)} ${y(s[i].v)}`;return`<svg class="journey-chart" viewBox="0 0 ${w} ${h}">${[25,50,75,100].map(v=>`<line x1="${l}" y1="${y(v)}" x2="${w-r}" y2="${y(v)}"/><text x="4" y="${y(v)+3}">${v}</text>`).join("")}<path d="${path}"/>${s.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p.v)}" r="4"/>`).join("")}</svg>`}
-function bleedingViz(){const days=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const e=state.entries.find(x=>x.type==="checkin"&&localKey(x.ts)===localKey(d));days.push(e?.bleeding||"none")}return`<div class="cycle-bars">${days.map(v=>`<i class="${v}"></i>`).join("")}</div><div class="cycle-legend">${["none","spotting","light","medium","strong"].map(v=>`<span><i class="${v}"></i>${T(v)}</span>`).join("")}</div>`}
-function journey(){return`<div class="screen journey-screen">${topHeader("sub",T("journey"))}<div class="segment">${[7,30,90].map(n=>`<button data-range="${n}" class="${state.analysisRange===n?"active":""}">${T(`days${n}`)}</button>`).join("")}</div><section class="journey-card"><h2>${T("wellbeing")}</h2>${chart(state.analysisRange)}</section><section class="journey-card"><h2>${T("cycle")}</h2>${bleedingViz()}</section></div>`}
-function symptomStats(days){const es=range(days),m={};for(const e of es){if(e.type==="acute"&&e.acuteSymptom){m[e.acuteSymptom]??={c:0,s:0,h:[]};m[e.acuteSymptom].c++;m[e.acuteSymptom].s+=intNum(e.intensity);m[e.acuteSymptom].h.push(new Date(e.ts).getHours())}for(const[id,v]of Object.entries(e.symptoms||{})){m[id]??={c:0,s:0,h:[]};m[id].c++;m[id].s+=intNum(v);m[id].h.push(new Date(e.ts).getHours())}}return Object.entries(m).sort((a,b)=>b[1].c-a[1].c)}
-function generatedQuestions(){const es=range(state.reportRange),stats=symptomStats(state.reportRange);const sleep=stats.find(([id])=>id==="sleepQualitySignal")?.[1]?.c||0;const hot=es.filter(e=>(e.type==="acute"&&e.acuteSymptom==="hot")||(e.type==="checkin"&&e.symptoms?.hot));const afternoon=hot.filter(e=>new Date(e.ts).getHours()>=12&&new Date(e.ts).getHours()<18).length;const hrt=es.filter(e=>e.type==="checkin"&&e.hrtTaken).length,q=[];if(sleep>=3)q.push(T("questionSleep"));if(afternoon>=2&&hrt>0)q.push(T("questionHot"));if(q.length<2)q.push(T("questionGeneral"));if(q.length<2)q.push(T("questionTracking"));return q.slice(0,2)}
-function appointment(){const es=range(state.reportRange),vals=es.filter(e=>e.type==="checkin").map(score).filter(v=>v!=null),avg=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):"–",stats=symptomStats(state.reportRange).slice(0,3),qs=generatedQuestions();return`<div class="screen appointment-screen">${topHeader("sub",T("appointment"))}<div class="segment">${[30,60,90].map(n=>`<button data-report-range="${n}" class="${state.reportRange===n?"active":""}">${T(`days${n}`)}</button>`).join("")}</div><section class="summary-card"><h2>${T("summary")}</h2><div class="summary-row"><span>${T("avgWellbeing")}</span><strong>${avg}${avg==="–"?"":"%"}</strong></div><div class="summary-row stacky"><span>${T("common")}</span><strong>${stats.length?stats.map(([id])=>T(id)).join(" · "):"—"}</strong></div><div class="summary-row"><span>${T("peak")}</span><strong>${T("evenings")}</strong></div><div class="summary-row"><span>${T("cyclePattern")}</span><strong>${T("irregular")}</strong></div></section><section class="question-card"><h2>${T("questionTitle")}</h2>${qs.map((q,i)=>`<div class="question-row"><span>${i+1}</span><p>${q}</p></div>`).join("")}</section><section class="medical-note"><span>!</span><p>${T("medicalWarning")}</p></section><section class="notes-card"><label>${T("notes")}</label><textarea id="doctorNote" placeholder="${T("notesPlaceholder")}">${state.doctorNote||""}</textarea></section></div>`}
-function me(){return`<div class="screen me-screen">${topHeader("sub",T("me"))}<section class="profile-card"><h2>${T("data")}</h2><p>${T("privacy")}</p></section><section class="profile-card"><h2>${T("lang")}</h2><div class="lang-switch"><button data-lang="en" class="${state.lang==="en"?"active":""}">English</button><button data-lang="de" class="${state.lang==="de"?"active":""}">Deutsch</button></div></section><button id="deleteAll" class="danger-btn">${T("deleteAll")}</button></div>`}
-function nav(){document.getElementById("bottom-nav").innerHTML=[["today","today"],["map","map"],["checkin","plus"],["appointment","appointment"],["me","me"]].map(([tab,ic])=>`<button data-tab="${tab}" class="${state.activeTab===tab?"active":""} ${tab==="checkin"?"nav-check":""}">${tab==="checkin"?`<b>${icon("plus")}</b>`:icon(ic)}<span>${T(tab)}</span></button>`).join("")}
-function render(){document.documentElement.lang=state.lang;document.getElementById("view-root").innerHTML=state.activeTab==="today"?dashboard():state.activeTab==="checkin"?checkin():state.activeTab==="map"?journey():state.activeTab==="appointment"?appointment():me();nav();bind();renderOnboarding();renderModal()}
-function startCheck(){const e=latestToday();draft=e?{energy:e.energy,symptoms:{...e.symptoms},bleeding:e.bleeding,hrtTaken:e.hrtTaken}:{energy:0,symptoms:{},bleeding:"",hrtTaken:false};editingId=e?.id||null;state.activeTab="checkin";persist();render()}
-function openQuick(){modal={type:"quick",symptom:"hot",intensity:"M"};renderModal()}
-function quickTip(id){return T(id==="hot"?"tipHot":id==="brain"?"tipBrain":id==="palpitations"?"tipPalp":"tipAnxious")}
-function acuteName(id){return id==="anxious"?T("anxious"):T(id)}
-function renderModal(){document.querySelector(".modal-backdrop")?.remove();if(!modal)return;const w=document.createElement("div");w.className="modal-backdrop";if(modal.type==="quick")w.innerHTML=`<section class="quick-sheet"><div class="grabber"></div><header><div><h2>${T("quickTitle")}</h2><p>${T("quickSub")}</p></div><button id="closeQuick" class="close-btn">×</button></header><div class="acute-grid">${ACUTE.map(id=>`<button data-acute="${id}" class="${modal.symptom===id?"active":""}">${symIcon(id==="anxious"?"moodSignal":id)}<span>${acuteName(id)}</span></button>`).join("")}</div><div class="acute-levels">${["L","M","S"].map(v=>`<button data-acute-level="${v}" class="${modal.intensity===v?"active":""}">${levelWord(v)}</button>`).join("")}</div><button id="saveQuick" class="primary-btn">${T("saveQuick")}</button></section>`;else if(modal.type==="breath")w.innerHTML=breathModalHtml();document.body.appendChild(w);w.onclick=e=>{if(e.target===w)closeModal()};document.getElementById("closeQuick")?.addEventListener("click",closeModal);document.querySelectorAll("[data-acute]").forEach(b=>b.onclick=()=>{modal.symptom=b.dataset.acute;haptic();renderModal()});document.querySelectorAll("[data-acute-level]").forEach(b=>b.onclick=()=>{modal.intensity=b.dataset.acuteLevel;haptic();renderModal()});document.getElementById("saveQuick")?.addEventListener("click",()=>{const tip=quickTip(modal.symptom);state.entries.push(normalize({id:uid(),ts:new Date(),type:"acute",acuteSymptom:modal.symptom,intensity:modal.intensity}));persist();haptic([14,35,14]);modal=null;pendingTip=tip;state.activeTab="today";w.remove();render();window.scrollTo({top:0,behavior:"smooth"})});document.getElementById("beginBreath")?.addEventListener("click",startBreathTimer)}
-function closeModal(){clearInterval(breathTimer);breathTimer=null;modal=null;document.querySelector(".modal-backdrop")?.remove()}
-function breathModalHtml(){return`<section class="quick-sheet breath-sheet"><div class="grabber"></div><header><div><h2>${T("breathTitle")}</h2><p>${T("breathSub")}</p></div><button id="closeQuick" class="close-btn">×</button></header><div class="breath-stage"><div id="breathOrb" class="breath-orb idle"></div><strong id="breathPhase">${T("start")}</strong><span id="breathCountdown">60s</span></div><button id="beginBreath" class="primary-btn">${T("start")}</button></section>`}
-function startBreathTimer(){breathEnd=Date.now()+60000;const btn=document.getElementById("beginBreath");if(btn)btn.hidden=true;const tick=()=>{const left=Math.max(0,Math.ceil((breathEnd-Date.now())/1000)),elapsed=60-left,cycle=elapsed%10,inhale=cycle<4,orb=document.getElementById("breathOrb"),phase=document.getElementById("breathPhase"),count=document.getElementById("breathCountdown");if(orb){orb.classList.toggle("inhale",inhale);orb.classList.toggle("exhale",!inhale);orb.classList.remove("idle")}if(phase)phase.textContent=left?T(inhale?"inhale":"exhale"):T("done");if(count)count.textContent=`${left}s`;if(left<=0){clearInterval(breathTimer);breathTimer=null;haptic([14,40,14])}};tick();breathTimer=setInterval(tick,250)}
-function bind(){document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{if(b.dataset.tab==="checkin")startCheck();else{state.activeTab=b.dataset.tab;persist();render();window.scrollTo({top:0,behavior:"smooth"})}});document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{state.lang=b.dataset.lang;persist();render()});document.getElementById("openDailyFromRing")?.addEventListener("click",startCheck);document.getElementById("openQuick")?.addEventListener("click",openQuick);document.getElementById("closeTip")?.addEventListener("click",()=>{pendingTip=null;render()});document.getElementById("startBreath")?.addEventListener("click",()=>{modal={type:"breath"};renderModal()});document.getElementById("cancelCheck")?.addEventListener("click",()=>{draft={energy:0,symptoms:{},bleeding:"",hrtTaken:false};editingId=null;state.activeTab="today";persist();render()});document.querySelectorAll("[data-energy]").forEach(b=>b.onclick=()=>{draft.energy=+b.dataset.energy;haptic();render()});document.querySelectorAll("[data-sym]").forEach(b=>b.onclick=()=>{const id=b.dataset.sym,v=draft.symptoms[id];draft.symptoms[id]=!v?"L":v==="L"?"M":v==="M"?"S":undefined;if(!draft.symptoms[id])delete draft.symptoms[id];haptic();render()});document.querySelectorAll("[data-bleeding]").forEach(b=>b.onclick=()=>{draft.bleeding=b.dataset.bleeding;haptic();render()});document.getElementById("hrt")?.addEventListener("click",()=>{draft.hrtTaken=!draft.hrtTaken;haptic();render()});document.getElementById("saveCheck")?.addEventListener("click",saveCheck);document.querySelectorAll("[data-range]").forEach(b=>b.onclick=()=>{state.analysisRange=+b.dataset.range;persist();render()});document.querySelectorAll("[data-report-range]").forEach(b=>b.onclick=()=>{state.reportRange=+b.dataset.reportRange;persist();render()});document.getElementById("doctorNote")?.addEventListener("input",e=>{state.doctorNote=e.target.value;persist()});document.getElementById("deleteAll")?.addEventListener("click",()=>{if(confirm(T("deleteAll")+"?")){localStorage.removeItem(KEY);state=structuredClone(DEFAULT_STATE);persist();render()}})}
-function saveCheck(){const entry=normalize({id:editingId||uid(),ts:editingId?(state.entries.find(e=>e.id===editingId)?.ts||new Date()):new Date(),type:"checkin",...draft});if(editingId)state.entries=state.entries.map(e=>e.id===editingId?entry:e);else state.entries.push(entry);persist();document.body.insertAdjacentHTML("beforeend",'<div class="completion"><span>✓</span></div>');haptic([14,35,14]);setTimeout(()=>{document.querySelector(".completion")?.remove();state.activeTab="today";editingId=null;draft={energy:0,symptoms:{},bleeding:"",hrtTaken:false};persist();render()},400)}
-function onboardVisual(){return`<div class="onboard-night"><svg viewBox="0 0 320 160" aria-hidden="true"><defs><linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#232844"/><stop offset="1" stop-color="#454C69"/></linearGradient></defs><rect width="320" height="160" rx="28" fill="url(#sky)"/><path d="M188 38c-28 7-42 36-28 61 8 14 23 23 40 24-33 12-67-10-70-45-3-32 21-61 53-65 13-2 25 1 35 7-11 2-21 8-30 18Z" fill="#FFF7E9"/><path d="M34 113c34-23 67-23 99 0s65 23 99 0 64-23 88-4" fill="none" stroke="#E7DBD0" stroke-width="2" opacity=".55"/></svg></div>`}
-function renderOnboarding(){const el=document.getElementById("onboarding");if(localStorage.getItem(ONBOARD)==="1"){el.classList.remove("show");el.innerHTML="";return}el.classList.add("show");el.innerHTML=`<div class="onboard-card">${onboardVisual()}<h1>${T("welcome")}</h1><p class="onboard-sub">${T("welcomeSub")}</p><div class="feature-list"><div><span>${icon("heart")}</span><p>${T("feature1")}</p></div><div><span>${icon("brain")}</span><p>${T("feature2")}</p></div><div><span>${icon("appointment")}</span><p>${T("feature3")}</p></div></div><div class="pager"><i class="active"></i><i></i></div><button id="onboardNext" class="primary-btn">${T("getStarted")}</button></div>`;document.getElementById("onboardNext").onclick=()=>{localStorage.setItem(ONBOARD,"1");el.classList.remove("show");el.innerHTML=""}}
-render();
+(()=>{
+  'use strict';
+
+  const VERSION=32;
+  const KEY='luna_v32';
+  const ONBOARD='luna_onboarded';
+  const CORE=['hot','brain','sleepQualitySignal','moodSignal','joints','palpitations'];
+  const ACUTE=['hot','palpitations','brain','pain'];
+  const DEFAULT_STATE={schemaVersion:VERSION,lang:'de',activeTab:'today',entries:[],analysisRange:30,reportRange:30,doctorNote:'',reminderTime:'20:00'};
+
+  const TXT={
+    de:{
+      today:'Heute',patterns:'Muster',toolkit:'Toolkit',doctor:'Arzt',checkin:'Check-in',
+      balance:'Tages-Balance',startDay:'Jetzt Tag erfassen',todayFocus:'Tagesfokus',
+      level:'Level 1',levelName:'Rhythmus-Pionierin',daysCaptured:'Tage erfasst',patternActive:'Hormonmuster aktiv',
+      energy:'Energie',signals:'Signale',cycle:'Zyklus',cycleCalm:'Ruhe',
+      breathReset:'60s Nerven-Reset',breathResetSub:'4–6 · runterregeln',acuteSOS:'Akut-SOS',acuteSOSSub:'3 Sekunden · direkt helfen',
+      impulse:'Tages-Impuls',impulseDefault:'Dein System profitiert heute von kleinen, planbaren Pausen statt von Perfektion.',
+      dailyTitle:'10-Sekunden Check-in',dailySub:'Einmal pro Tag. Schnell, ruhig, ohne Bewertung.',energyQ:'Wie startet deine Energie?',
+      symptomsToday:'Wie stark sind diese Signale heute?',hot:'Hitzewallung',brain:'Brain Fog',sleepQualitySignal:'Schlafqualität',moodSignal:'Stimmung',joints:'Gelenkschmerz',palpitations:'Herzklopfen',
+      bleeding:'Blutung',none:'Keine',spotting:'Spotting',light:'Leicht',medium:'Mittel',strong:'Stark',hrt:'HRT/HET heute',finish:'Check-in abschließen ✓',
+      patternTitle:'Was deine Daten erzählen',patternSub:'Zusammenhänge statt einzelner schlechter Tage.',
+      wellbeing:'Balance im Verlauf',correlations:'Aha-Momente',notEnough:'Noch nicht genug Daten für ein belastbares Muster.',
+      toolkitTitle:'Midlife-Toolkit',toolkitSub:'Sofort-Hilfe für Situationen, die gerade passieren.',
+      calm46:'4–6 Beruhigung',calm46Sub:'Bei Hitzewallung, Unruhe oder Herzklopfen',focus444:'4–4–4 Fokus',focus444Sub:'Bei Brain Fog und mentaler Überlastung',
+      nightSOS:'Nacht-SOS',nightSOSSub:'Wenn du um 3:00 Uhr hellwach bist',coolPoints:'Kühl- & Nervenpunkte',coolPointsSub:'Diskrete Punkte für Meeting, Bahn oder Alltag',
+      doctorTitle:'Vorbereitet ins Gespräch',doctorSub:'Die letzten Daten kompakt statt aus dem Gedächtnis.',avgBalance:'Ø Tages-Balance',commonSignals:'Häufigste Signale',acuteEvents:'Akut-Signale',notes:'Deine Notizen',notesPlaceholder:'Was möchtest du beim Termin ansprechen?',print:'Als PDF / Drucken',
+      quickTitle:'Akut-SOS',quickSub:'Was ist gerade los?',saveQuick:'Speichern & Hilfe zeigen',mild:'Sanft',noticeable:'Deutlich',heavy:'Heftig',pain:'Gelenk- / Kopfschmerz',
+      tipHot:'SOS-Tipp: Kühle Handgelenke oder Nacken 30–60 Sekunden mit angenehm kühlem Wasser.',
+      tipPalp:'SOS-Tipp: Schultern lösen, hinsetzen und länger aus- als einatmen. Bei Brustschmerz, Ohnmacht oder Atemnot sofort medizinische Hilfe holen.',
+      tipBrain:'SOS-Tipp: Ein Glas Wasser, 60 Sekunden Reizpause und genau eine kleine nächste Aufgabe.',
+      tipPain:'SOS-Tipp: Position wechseln, betroffene Region entlasten und für 60 Sekunden ruhig ausatmen; neue starke Schmerzen bitte abklären.',
+      breatheIn:'Einatmen',breatheOut:'Ausatmen',hold:'Halten',done:'Geschafft',start:'Starten',close:'Schließen',
+      night1:'Kein Uhrzeit-Check: Display wegdrehen und Licht niedrig halten.',night2:'Körper beruhigen: 6 langsame Ausatmungen, ohne Schlaf erzwingen zu wollen.',night3:'Wenn du nach etwa 20 Minuten wach bist: kurz aufstehen, etwas Ruhiges bei wenig Licht tun.',
+      cool1:'Handgelenke: angenehm kühl, 30–60 Sekunden.',cool2:'Nacken / Schlüsselbein: kühlen Stoff auflegen.',cool3:'Daumenballen sanft drücken und lange ausatmen.',
+      insightHot:'Deine Hitzewallungen häufen sich aktuell. Plane heute einen kleinen Temperatur-Puffer und halte Wasser griffbereit.',
+      insightBrain:'Brain Fog ist zuletzt häufiger. Heute helfen klare Einzelschritte und ein kurzer Reiz-Reset mehr als Multitasking.',
+      insightSleep:'Deine Schlafqualität war zuletzt öfter auffällig. Plane heute bewusst weniger späten Leistungsdruck ein.',
+      focusGood:'Heute wirkt dein System stabil. Nutze die Energie, aber lass bewusst einen kleinen Puffer.',
+      focusMedium:'Heute ist solide, aber nicht grenzenlos. Plane einen Puffer für den Nachmittag.',
+      focusLow:'Heute braucht dein System weniger Druck. Priorisiere das Nötigste und baue kurze Erholung ein.'
+    },
+    en:{
+      today:'Today',patterns:'Patterns',toolkit:'Toolkit',doctor:'Doctor',checkin:'Check-in',
+      balance:'Daily balance',startDay:'Log today',todayFocus:'Today’s focus',level:'Level 1',levelName:'Rhythm pioneer',daysCaptured:'days captured',patternActive:'patterns activating',
+      energy:'Energy',signals:'Signals',cycle:'Cycle',cycleCalm:'Calm',breathReset:'60s nervous-system reset',breathResetSub:'4–6 · downshift',acuteSOS:'Acute SOS',acuteSOSSub:'3 seconds · immediate help',
+      impulse:'Daily insight',impulseDefault:'Your system benefits more from small planned pauses today than from perfection.',
+      dailyTitle:'10-second check-in',dailySub:'Once a day. Quick, calm, no judgement.',energyQ:'How is your energy starting?',symptomsToday:'How strong are these signals today?',
+      hot:'Hot flush',brain:'Brain fog',sleepQualitySignal:'Sleep quality',moodSignal:'Mood',joints:'Joint pain',palpitations:'Palpitations',bleeding:'Bleeding',none:'None',spotting:'Spotting',light:'Light',medium:'Medium',strong:'Strong',hrt:'HRT/MHT today',finish:'Complete check-in ✓',
+      patternTitle:'What your data is saying',patternSub:'Connections, not isolated bad days.',wellbeing:'Balance over time',correlations:'Aha moments',notEnough:'Not enough data for a reliable pattern yet.',
+      toolkitTitle:'Midlife toolkit',toolkitSub:'Immediate help for what is happening right now.',calm46:'4–6 calm',calm46Sub:'For hot flushes, restlessness or palpitations',focus444:'4–4–4 focus',focus444Sub:'For brain fog and mental overload',nightSOS:'Night SOS',nightSOSSub:'When you are wide awake at 3am',coolPoints:'Cooling & nerve points',coolPointsSub:'Discreet options for meetings, travel or daily life',
+      doctorTitle:'Ready for your appointment',doctorSub:'Recent data in one place instead of from memory.',avgBalance:'Average daily balance',commonSignals:'Most common signals',acuteEvents:'Acute signals',notes:'Your notes',notesPlaceholder:'What do you want to discuss?',print:'Print / save as PDF',
+      quickTitle:'Acute SOS',quickSub:'What is happening right now?',saveQuick:'Save & show help',mild:'Mild',noticeable:'Noticeable',heavy:'Intense',pain:'Joint / headache',
+      tipHot:'SOS tip: Cool your wrists or neck with comfortably cool water for 30–60 seconds.',tipPalp:'SOS tip: Drop your shoulders, sit down and exhale longer than you inhale. Seek urgent help for chest pain, fainting or breathlessness.',tipBrain:'SOS tip: Drink a glass of water, take a 60-second input break and choose exactly one next task.',tipPain:'SOS tip: Change position, unload the painful area and exhale slowly for 60 seconds; new severe pain should be checked.',
+      breatheIn:'Breathe in',breatheOut:'Breathe out',hold:'Hold',done:'Done',start:'Start',close:'Close',
+      night1:'Do not check the time: turn the display away and keep light low.',night2:'Settle the body: six slow exhalations without forcing sleep.',night3:'If you are still awake after roughly 20 minutes, get up briefly and do something quiet in low light.',
+      cool1:'Wrists: comfortably cool for 30–60 seconds.',cool2:'Neck / collarbone: place a cool cloth.',cool3:'Gently press the base of the thumb while extending the exhale.',
+      insightHot:'Hot flushes have been more frequent lately. Build in a small temperature buffer and keep water close today.',insightBrain:'Brain fog has been showing up more often. Single-tasking and a short input reset will likely help more than multitasking.',insightSleep:'Sleep quality has been flagged more often lately. Reduce late-day pressure where you can.',
+      focusGood:'Your system looks steady today. Use the energy, but keep a little buffer.',focusMedium:'Today looks solid, not unlimited. Keep some room for the afternoon.',focusLow:'Your system needs less pressure today. Prioritise essentials and short recovery breaks.'
+    }
+  };
+
+  let state=load();
+  let draft={energy:0,symptoms:{},bleeding:'',hrtTaken:false};
+  let editingId=null;
+  let modal=null;
+  let toast=null;
+  let toastTimer=null;
+  let breathTimer=null;
+  let breathMode='46';
+  let breathEnd=0;
+  let lastBreathPhase='';
+
+  const root=document.getElementById('view-root');
+  const navEl=document.getElementById('bottom-nav');
+  const overlay=document.getElementById('overlay-root');
+  const T=k=>TXT[state.lang][k]||k;
+  const uid=()=>globalThis.crypto?.randomUUID?.()||`e_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,Number(v)||0));
+  const haptic=(pattern=12)=>{try{navigator.vibrate?.(pattern)}catch{}};
+  const localKey=value=>{const d=new Date(value);return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+
+  function normalize(e){
+    if(e?.type==='tool')return{id:String(e.id||uid()),ts:new Date(e.ts||Date.now()).toISOString(),type:'tool',tool:String(e.tool||'')};
+    const symptoms={};
+    if(e?.symptoms)for(const [id,v] of Object.entries(e.symptoms))if(CORE.includes(id))symptoms[id]=['L','M','S'].includes(v)?v:'M';
+    return{
+      id:String(e?.id||uid()),ts:new Date(e?.ts||Date.now()).toISOString(),type:e?.type==='acute'?'acute':'checkin',
+      energy:clamp(e?.energy,0,5),symptoms,
+      bleeding:['none','spotting','light','medium','strong'].includes(e?.bleeding)?e.bleeding:'',
+      hrtTaken:!!e?.hrtTaken,acuteSymptom:e?.acuteSymptom||'',intensity:['L','M','S'].includes(e?.intensity)?e.intensity:'M'
+    };
+  }
+
+  function load(){
+    try{
+      const cur=JSON.parse(localStorage.getItem(KEY)||'null');
+      if(cur?.schemaVersion===VERSION)return{...DEFAULT_STATE,...cur,activeTab:mapLegacyTab(cur.activeTab),entries:Array.isArray(cur.entries)?cur.entries.map(normalize):[]};
+    }catch{}
+    for(const k of ['luna_v31','luna_v30','luna_v29','midlifeOS_v27']){
+      try{const old=JSON.parse(localStorage.getItem(k)||'null');if(old)return{...DEFAULT_STATE,...old,schemaVersion:VERSION,activeTab:'today',entries:Array.isArray(old.entries)?old.entries.map(normalize):[]}}catch{}
+    }
+    return structuredClone(DEFAULT_STATE);
+  }
+
+  function mapLegacyTab(tab){
+    return tab==='map'?'patterns':tab==='appointment'?'doctor':tab==='me'?'today':tab==='checkin'?'today':(['today','patterns','toolkit','doctor'].includes(tab)?tab:'today');
+  }
+
+  function persist(){localStorage.setItem(KEY,JSON.stringify({...state,schemaVersion:VERSION}))}
+  function latestToday(){return state.entries.filter(e=>e.type==='checkin'&&localKey(e.ts)===localKey(new Date())).sort((a,b)=>new Date(b.ts)-new Date(a.ts))[0]}
+  function score(e){if(!e||e.type!=='checkin')return null;let v=100+(e.energy-3)*7;for(const x of Object.values(e.symptoms||{}))v-=x==='L'?5:x==='M'?10:15;return clamp(Math.round(v),18,100)}
+  function intNum(v){return v==='L'?1:v==='S'?3:2}
+  function daysCaptured(){return new Set(state.entries.filter(e=>e.type==='checkin').map(e=>localKey(e.ts))).size}
+  function cycleLabel(v){return T(v||'none')}
+
+  function header(){
+    return `<header class="luna-header"><div class="brand-lockup"><span class="moon-mark" aria-hidden="true"></span><strong>LUNA</strong></div><div class="lang-toggle"><button data-lang="de" class="${state.lang==='de'?'active':''}">DE</button><span>|</span><button data-lang="en" class="${state.lang==='en'?'active':''}">EN</button></div></header>`;
+  }
+
+  function nav(){
+    const items=[['today','☀️',T('today')],['patterns','📈',T('patterns')],['checkin','+',T('checkin')],['toolkit','🌿',T('toolkit')],['doctor','📋',T('doctor')]];
+    navEl.innerHTML=`<div class="nav-inner">${items.map(([tab,ic,label])=>tab==='checkin'?`<button id="btn-main-checkin" class="nav-main" aria-label="${label}">${ic}</button>`:`<button class="nav-item ${state.activeTab===tab?'active':''}" data-tab="${tab}"><span class="nav-icon">${ic}</span><span>${label}</span></button>`).join('')}</div>`;
+  }
+
+  function ring(e){
+    const s=score(e),open=s==null,r=78,c=2*Math.PI*r,offset=open?c:c*(1-s/100);
+    const focus=open?'':focusText(s);
+    return `<section class="hero-zone">
+      <button class="balance-ring ${open?'open':'done'}" id="heroRing" aria-label="${open?T('startDay'):`${s}%`}">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <defs><linearGradient id="lunaRingGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#5B8E7D"/><stop offset="70%" stop-color="#2B2A4A"/><stop offset="100%" stop-color="#F2C57C"/></linearGradient></defs>
+          <circle class="ring-track" cx="100" cy="100" r="78"/>
+          ${open?'':`<circle class="ring-progress" cx="100" cy="100" r="78" stroke-dasharray="${c}" style="--ring-offset:${offset};--ring-circ:${c}"/>`}
+        </svg>
+        <div class="ring-copy">${open?`<span>${T('balance')}</span><strong>${T('startDay')}</strong><i>+</i>`:`<strong class="score">${s}%</strong><span>${T('todayFocus')}</span>`}</div>
+        ${open?'':`<span class="ring-glint" style="--angle:${-90+s*3.6}deg" aria-hidden="true"></span>`}
+      </button>
+      ${open?'':`<p class="focus-line">${focus}</p>`}
+      ${levelBadge()}
+      ${statusPills(e)}
+    </section>`;
+  }
+
+  function focusText(s){return s>=82?T('focusGood'):s>=60?T('focusMedium'):T('focusLow')}
+
+  function levelBadge(){
+    const n=daysCaptured();
+    if(!n)return `<div class="level-badge muted">✨ ${T('level')} · ${T('levelName')}</div>`;
+    return `<div class="level-badge">✨ ${T('level')} · ${Math.min(n,7)}/7 ${T('daysCaptured')} · ${T('patternActive')}</div>`;
+  }
+
+  function statusPills(e){
+    if(!e)return'';
+    const signalCount=Object.keys(e.symptoms||{}).length;
+    return `<div class="status-pills"><span>⚡️ <b>${T('energy')} ${e.energy}/5</b></span><span>💓 <b>${signalCount} ${T('signals')}</b></span><span>🩸 <b>${T('cycle')} ${cycleLabel(e.bleeding)}</b></span></div>`;
+  }
+
+  function insightText(){
+    const recent=state.entries.filter(e=>e.type==='checkin').sort((a,b)=>new Date(b.ts)-new Date(a.ts)).slice(0,5);
+    if(!recent.length)return T('impulseDefault');
+    const counts={};
+    for(const e of recent)for(const id of Object.keys(e.symptoms||{}))counts[id]=(counts[id]||0)+1;
+    const top=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0]?.[0];
+    if(top==='hot')return T('insightHot');
+    if(top==='brain')return T('insightBrain');
+    if(top==='sleepQualitySignal')return T('insightSleep');
+    return T('impulseDefault');
+  }
+
+  function today(){
+    const e=latestToday();
+    return `<div class="screen today-screen">${header()}${toastHtml()}${ring(e)}<section class="action-dock"><button class="action-card" id="openBreath"><span class="action-emoji">🌬</span><strong>${T('breathReset')}</strong><small>${T('breathResetSub')}</small></button><button class="action-card" id="openQuick"><span class="action-emoji">⚡️</span><strong>${T('acuteSOS')}</strong><small>${T('acuteSOSSub')}</small></button></section><section class="insight-card"><div><span>${T('impulse')}</span><p>${insightText()}</p></div></section></div>`;
+  }
+
+  function chartSvg(days=30){
+    const start=new Date();start.setHours(0,0,0,0);start.setDate(start.getDate()-days+1);
+    const entries=state.entries.filter(e=>e.type==='checkin'&&new Date(e.ts)>=start).sort((a,b)=>new Date(a.ts)-new Date(b.ts));
+    const by={};for(const e of entries)by[localKey(e.ts)]=e;
+    const vals=Object.values(by);if(vals.length<2)return `<div class="empty-state">${T('notEnough')}</div>`;
+    const w=340,h=150,p=18;const pts=vals.map((e,i)=>({x:p+i*((w-2*p)/Math.max(1,vals.length-1)),y:p+(100-score(e))*(h-2*p)/82}));
+    const d=pts.map((p,i)=>`${i?'L':'M'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+    return `<svg class="pattern-chart" viewBox="0 0 ${w} ${h}" role="img"><defs><linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FA98C" stop-opacity=".24"/><stop offset="1" stop-color="#8FA98C" stop-opacity="0"/></linearGradient></defs><path class="chart-area" d="${d} L ${pts.at(-1).x} ${h-p} L ${pts[0].x} ${h-p} Z"/><path class="chart-line" d="${d}"/>${pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3.5"/>`).join('')}</svg>`;
+  }
+
+  function correlationCards(){
+    const checks=state.entries.filter(e=>e.type==='checkin');
+    if(checks.length<4)return `<div class="empty-state">${T('notEnough')}</div>`;
+    const stats={};
+    for(const e of checks)for(const [id,v] of Object.entries(e.symptoms||{})){stats[id]??={count:0,severity:0};stats[id].count++;stats[id].severity+=intNum(v)}
+    const top=Object.entries(stats).sort((a,b)=>b[1].count-a[1].count).slice(0,2);
+    if(!top.length)return `<div class="insight-row"><span>✨</span><p>${state.lang==='de'?'An symptomarmen Tagen bleibt deine Balance sichtbar stabiler. Sammle weiter Daten, damit LUNA Zeitfenster erkennen kann.':'On lower-symptom days your balance stays visibly steadier. Keep tracking so LUNA can detect timing patterns.'}</p></div>`;
+    return top.map(([id,s])=>`<div class="insight-row"><span>${id==='hot'?'🔥':id==='brain'?'🌫':id==='sleepQualitySignal'?'🌙':'✨'}</span><p>${state.lang==='de'?`${T(id)} taucht in ${Math.round(s.count/checks.length*100)} % deiner erfassten Tage auf. Die mittlere Stärke liegt bei ${(s.severity/s.count).toFixed(1)} von 3.`:`${T(id)} appears on ${Math.round(s.count/checks.length*100)}% of tracked days. Average intensity is ${(s.severity/s.count).toFixed(1)} of 3.`}</p></div>`).join('');
+  }
+
+  function patterns(){return `<div class="screen sub-screen">${header()}<section class="page-head"><span>${T('patterns')}</span><h1>${T('patternTitle')}</h1><p>${T('patternSub')}</p></section><section class="glass-card"><div class="section-title"><span>${T('wellbeing')}</span><b>30</b></div>${chartSvg(30)}</section><section class="glass-card"><div class="section-title"><span>${T('correlations')}</span><b>✦</b></div><div class="insight-list">${correlationCards()}</div></section></div>`}
+
+  function toolkit(){
+    return `<div class="screen sub-screen">${header()}<section class="page-head"><span>${T('toolkit')}</span><h1>${T('toolkitTitle')}</h1><p>${T('toolkitSub')}</p></section><section class="tool-grid"><button class="tool-card" data-breath="46"><span>🌬</span><strong>${T('calm46')}</strong><small>${T('calm46Sub')}</small></button><button class="tool-card" data-breath="444"><span>⚡️</span><strong>${T('focus444')}</strong><small>${T('focus444Sub')}</small></button><button class="tool-card wide" data-guide="night"><span>🌙</span><strong>${T('nightSOS')}</strong><small>${T('nightSOSSub')}</small></button><button class="tool-card wide" data-guide="cool"><span>🧊</span><strong>${T('coolPoints')}</strong><small>${T('coolPointsSub')}</small></button></section></div>`;
+  }
+
+  function doctor(){
+    const checks=state.entries.filter(e=>e.type==='checkin').sort((a,b)=>new Date(b.ts)-new Date(a.ts)).slice(0,state.reportRange||30);
+    const scores=checks.map(score).filter(v=>v!=null);
+    const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):'–';
+    const stats={};for(const e of checks)for(const id of Object.keys(e.symptoms||{}))stats[id]=(stats[id]||0)+1;
+    const common=Object.entries(stats).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([id])=>T(id)).join(' · ')||'–';
+    const acuteCount=state.entries.filter(e=>e.type==='acute').length;
+    return `<div class="screen sub-screen doctor-screen">${header()}<section class="page-head"><span>${T('doctor')}</span><h1>${T('doctorTitle')}</h1><p>${T('doctorSub')}</p></section><section class="glass-card doctor-summary"><div><span>${T('avgBalance')}</span><strong>${avg}${avg==='–'?'':'%'}</strong></div><div><span>${T('commonSignals')}</span><strong>${common}</strong></div><div><span>${T('acuteEvents')}</span><strong>${acuteCount}</strong></div></section><section class="glass-card"><label class="note-label" for="doctorNote">${T('notes')}</label><textarea id="doctorNote" placeholder="${T('notesPlaceholder')}">${state.doctorNote||''}</textarea></section><button class="primary-btn" id="printReport">${T('print')}</button><p class="medical-footnote">${state.lang==='de'?'LUNA unterstützt bei Mustererkennung und Vorbereitung, ersetzt aber keine medizinische Diagnose. Neue oder starke Beschwerden bitte ärztlich abklären.':'LUNA supports pattern recognition and appointment preparation, but does not replace medical diagnosis. New or severe symptoms should be medically assessed.'}</p></div>`;
+  }
+
+  function checkin(){
+    return `<div class="screen checkin-screen"><header class="checkin-head"><div><span>${T('checkin')}</span><h1>${T('dailyTitle')}</h1><p>${T('dailySub')}</p></div><button id="cancelCheck" class="close-btn" aria-label="${T('close')}">×</button></header><section class="glass-card check-card"><h2>${T('energyQ')}</h2><div class="energy-segments">${[1,2,3,4,5].map(n=>`<button data-energy="${n}" class="${draft.energy===n?'active':''}">${n}</button>`).join('')}</div></section><section class="glass-card check-card"><h2>${T('symptomsToday')}</h2><div class="symptom-grid">${CORE.map(symptomCard).join('')}</div></section><section class="glass-card check-card bleeding-card"><h2>${T('bleeding')}</h2><div class="bleed-row">${['none','spotting','light','medium','strong'].map(v=>`<button data-bleeding="${v}" class="${draft.bleeding===v?'active':''}">${T(v)}</button>`).join('')}</div><div class="hrt-row"><span>${T('hrt')}</span><button id="hrt" class="switch ${draft.hrtTaken?'on':''}" aria-pressed="${draft.hrtTaken}"><i></i></button></div></section><div class="check-save"><button id="saveCheck" class="primary-btn">${T('finish')}</button></div></div>`;
+  }
+
+  function symptomCard(id){
+    const v=draft.symptoms[id],level=v==='L'?1:v==='M'?2:v==='S'?3:0;
+    const dots=[1,2,3].map(n=>n<=level?'●':'○').join(' ');
+    return `<button class="symptom-card level-${level}" data-sym="${id}"><span>${T(id)}</span><b>${dots}</b></button>`;
+  }
+
+  function render(){
+    document.documentElement.lang=state.lang;
+    root.innerHTML=state.activeTab==='today'?today():state.activeTab==='patterns'?patterns():state.activeTab==='toolkit'?toolkit():state.activeTab==='doctor'?doctor():checkin();
+    nav();bind();renderOverlay();renderOnboarding();
+  }
+
+  function startCheck(){
+    const e=latestToday();
+    draft=e?{energy:e.energy,symptoms:{...e.symptoms},bleeding:e.bleeding,hrtTaken:e.hrtTaken}:{energy:0,symptoms:{},bleeding:'',hrtTaken:false};
+    editingId=e?.id||null;state.activeTab='checkin';persist();render();window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function saveCheck(){
+    if(!draft.energy)draft.energy=3;
+    const old=editingId?state.entries.find(e=>e.id===editingId):null;
+    const entry=normalize({id:editingId||uid(),ts:old?.ts||new Date(),type:'checkin',...draft});
+    if(editingId)state.entries=state.entries.map(e=>e.id===editingId?entry:e);else state.entries.push(entry);
+    state.activeTab='today';persist();haptic([20,40,20]);editingId=null;draft={energy:0,symptoms:{},bleeding:'',hrtTaken:false};render();window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function openQuick(){modal={type:'quick',symptom:'hot',intensity:'M'};renderOverlay()}
+  function openBreath(mode='46'){breathMode=mode;modal={type:'breath'};renderOverlay();setTimeout(startBreathTimer,80)}
+  function openGuide(kind){modal={type:'guide',kind};renderOverlay()}
+  function closeModal(){clearInterval(breathTimer);breathTimer=null;modal=null;overlay.innerHTML=''}
+
+  function renderOverlay(){
+    if(!modal){overlay.innerHTML='';return}
+    if(modal.type==='quick'){
+      const names={hot:`🔥 ${T('hot')}`,palpitations:`💓 ${state.lang==='de'?'Herzrasen / Unruhe':'Palpitations / restlessness'}`,brain:`🌫 ${T('brain')}`,pain:`💥 ${T('pain')}`};
+      overlay.innerHTML=`<div class="sheet-backdrop"><section class="bottom-sheet"><div class="grabber"></div><header><div><h2>${T('quickTitle')}</h2><p>${T('quickSub')}</p></div><button class="close-btn" id="closeModal">×</button></header><div class="acute-grid">${ACUTE.map(id=>`<button data-acute="${id}" class="${modal.symptom===id?'active':''}">${names[id]}</button>`).join('')}</div><div class="intensity-row">${[['L','mild'],['M','noticeable'],['S','heavy']].map(([v,k])=>`<button data-intensity="${v}" class="${modal.intensity===v?'active':''}">${T(k)}</button>`).join('')}</div><button id="saveQuick" class="primary-btn">${T('saveQuick')}</button></section></div>`;
+    }else if(modal.type==='breath'){
+      overlay.innerHTML=`<div class="breath-overlay"><button class="breath-close" id="closeModal">×</button><div class="breath-visual"><div class="breath-orb" id="breathOrb"></div><span id="breathModeLabel">${breathMode==='46'?T('calm46'):T('focus444')}</span><strong id="breathPhase">${T('breatheIn')}</strong><b id="breathCount">60</b></div></div>`;
+    }else{
+      const night=modal.kind==='night';
+      const steps=night?[T('night1'),T('night2'),T('night3')]:[T('cool1'),T('cool2'),T('cool3')];
+      overlay.innerHTML=`<div class="sheet-backdrop"><section class="bottom-sheet guide-sheet"><div class="grabber"></div><header><div><h2>${night?T('nightSOS'):T('coolPoints')}</h2><p>${night?T('nightSOSSub'):T('coolPointsSub')}</p></div><button class="close-btn" id="closeModal">×</button></header><ol>${steps.map(s=>`<li>${s}</li>`).join('')}</ol></section></div>`;
+    }
+    bindOverlay();
+  }
+
+  function bindOverlay(){
+    overlay.querySelector('#closeModal')?.addEventListener('click',closeModal);
+    overlay.querySelector('.sheet-backdrop')?.addEventListener('click',e=>{if(e.target.classList.contains('sheet-backdrop'))closeModal()});
+    overlay.querySelectorAll('[data-acute]').forEach(b=>b.onclick=()=>{modal.symptom=b.dataset.acute;haptic(12);renderOverlay()});
+    overlay.querySelectorAll('[data-intensity]').forEach(b=>b.onclick=()=>{modal.intensity=b.dataset.intensity;haptic(12);renderOverlay()});
+    overlay.querySelector('#saveQuick')?.addEventListener('click',saveQuick);
+  }
+
+  function saveQuick(){
+    const symptom=modal.symptom,intensity=modal.intensity;
+    state.entries.push(normalize({id:uid(),ts:new Date(),type:'acute',acuteSymptom:symptom,intensity}));persist();
+    const tip=T(symptom==='hot'?'tipHot':symptom==='palpitations'?'tipPalp':symptom==='brain'?'tipBrain':'tipPain');
+    closeModal();showToast(tip);state.activeTab='today';persist();render();window.scrollTo({top:0,behavior:'smooth'});haptic([14,30,14]);
+  }
+
+  function showToast(message){
+    toast=message;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{toast=null;if(state.activeTab==='today')render()},4000);
+  }
+  function toastHtml(){return toast?`<aside class="toast-card"><button id="closeToast">×</button><strong>SOS</strong><p>${toast}</p></aside>`:''}
+
+  function startBreathTimer(){
+    state.entries.push(normalize({id:uid(),ts:new Date(),type:'tool',tool:breathMode==='46'?'breath46':'breath444'}));persist();
+    breathEnd=Date.now()+60000;lastBreathPhase='';
+    const tick=()=>{
+      const left=Math.max(0,Math.ceil((breathEnd-Date.now())/1000));
+      let phase='',scale='';
+      if(breathMode==='46'){
+        const pos=(60-left)%10;phase=pos<4?'in':'out';scale=phase==='in'?'1.18':'.72';
+      }else{
+        const pos=(60-left)%12;phase=pos<4?'in':pos<8?'hold':'out';scale=phase==='in'?'1.15':phase==='hold'?'1.15':'.72';
+      }
+      const phaseText=left===0?T('done'):T(phase==='in'?'breatheIn':phase==='out'?'breatheOut':'hold');
+      const el=overlay.querySelector('#breathPhase'),orb=overlay.querySelector('#breathOrb'),count=overlay.querySelector('#breathCount');
+      if(el)el.textContent=phaseText;if(count)count.textContent=String(left);if(orb){orb.style.setProperty('--breath-scale',scale);orb.dataset.phase=phase}
+      if(phase!==lastBreathPhase&&left>0){lastBreathPhase=phase;haptic(25)}
+      if(left<=0){clearInterval(breathTimer);breathTimer=null;haptic([20,40,20])}
+    };
+    tick();breathTimer=setInterval(tick,250);
+  }
+
+  function bind(){
+    document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{state.lang=b.dataset.lang;persist();render()});
+    document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{state.activeTab=b.dataset.tab;persist();render();window.scrollTo({top:0,behavior:'smooth'})});
+    document.getElementById('btn-main-checkin')?.addEventListener('click',startCheck);
+    document.getElementById('heroRing')?.addEventListener('click',startCheck);
+    document.getElementById('openBreath')?.addEventListener('click',()=>openBreath('46'));
+    document.getElementById('openQuick')?.addEventListener('click',openQuick);
+    document.getElementById('closeToast')?.addEventListener('click',()=>{toast=null;clearTimeout(toastTimer);render()});
+    document.querySelectorAll('[data-breath]').forEach(b=>b.onclick=()=>openBreath(b.dataset.breath));
+    document.querySelectorAll('[data-guide]').forEach(b=>b.onclick=()=>openGuide(b.dataset.guide));
+    document.getElementById('cancelCheck')?.addEventListener('click',()=>{editingId=null;draft={energy:0,symptoms:{},bleeding:'',hrtTaken:false};state.activeTab='today';persist();render()});
+    document.querySelectorAll('[data-energy]').forEach(b=>b.onclick=()=>{draft.energy=+b.dataset.energy;haptic(10);render()});
+    document.querySelectorAll('[data-sym]').forEach(b=>b.onclick=()=>{const id=b.dataset.sym,v=draft.symptoms[id];draft.symptoms[id]=!v?'L':v==='L'?'M':v==='M'?'S':undefined;if(!draft.symptoms[id])delete draft.symptoms[id];haptic(10);render()});
+    document.querySelectorAll('[data-bleeding]').forEach(b=>b.onclick=()=>{draft.bleeding=b.dataset.bleeding;haptic(10);render()});
+    document.getElementById('hrt')?.addEventListener('click',()=>{draft.hrtTaken=!draft.hrtTaken;haptic(10);render()});
+    document.getElementById('saveCheck')?.addEventListener('click',saveCheck);
+    document.getElementById('doctorNote')?.addEventListener('input',e=>{state.doctorNote=e.target.value;persist()});
+    document.getElementById('printReport')?.addEventListener('click',()=>window.print());
+  }
+
+  function renderOnboarding(){
+    const el=document.getElementById('onboarding');
+    if(localStorage.getItem(ONBOARD)==='1'){el.hidden=true;el.innerHTML='';return}
+    el.hidden=false;
+    el.innerHTML=`<div class="welcome-card"><span class="welcome-moon"></span><small>LUNA</small><h1>${state.lang==='de'?'Dein Midlife-System verstehen. Im Alltag handeln.':'Understand your midlife system. Act in daily life.'}</h1><p>${state.lang==='de'?'10 Sekunden Tracking, Sofort-Hilfe und Muster, die mit der Zeit wirklich nützlich werden.':'10-second tracking, immediate support and patterns that become useful over time.'}</p><button id="welcomeStart" class="primary-btn">${state.lang==='de'?'LUNA starten':'Start LUNA'}</button></div>`;
+    el.querySelector('#welcomeStart').onclick=()=>{localStorage.setItem(ONBOARD,'1');el.hidden=true;el.innerHTML=''};
+  }
+
+  render();
 })();
