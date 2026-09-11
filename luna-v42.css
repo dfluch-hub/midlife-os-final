@@ -1,0 +1,47 @@
+/* LUNA v42 — final interaction polish */
+
+/* Toast: compact, directly below header, never over the ring */
+.dashboard-tip.v40-toast{
+  top:calc(max(1.5rem,var(--safe-top)) + 52px);
+  width:min(calc(100% - 32px),398px);
+  padding:11px 38px 11px 13px;
+  border-radius:16px;
+  background:rgba(255,255,255,.90);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 10px 28px rgba(43,42,74,.10),0 3px 14px rgba(242,197,124,.18);
+  transition:opacity .32s var(--luna-ease),transform .32s var(--luna-ease)
+}
+.dashboard-tip.v40-toast.is-leaving{
+  opacity:0;
+  transform:translate(-50%,-8px) scale(.985)
+}
+.dashboard-tip.v40-toast strong{font-size:10px}
+.dashboard-tip.v40-toast p{font-size:11px;line-height:1.35}
+
+/* Open-day state: breathe, but stay quiet */
+.hero-ring.v41-ring.open,
+.hero-ring.v40-ring.open{
+  animation:lunaOpenPulse 3s ease-in-out infinite;
+  transform-origin:center
+}
+@keyframes lunaOpenPulse{
+  0%,100%{transform:scale(1);opacity:.94;filter:drop-shadow(0 3px 10px rgba(143,169,140,.10))}
+  50%{transform:scale(1.035);opacity:1;filter:drop-shadow(0 7px 18px var(--luna-champagne-glow))}
+}
+.hero-ring.open .open-plus{
+  background:rgba(242,197,124,.18)!important;
+  box-shadow:0 0 0 8px rgba(242,197,124,.07),0 7px 22px var(--luna-champagne-glow)
+}
+
+/* Quick status pills only exist after today's baseline is captured */
+.day-quick-pills{animation:lunaPillsIn .42s var(--luna-ease) both}
+.day-quick-pills[hidden]{display:none!important}
+@keyframes lunaPillsIn{
+  from{opacity:0;transform:translateY(6px) scale(.98)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+@media(max-width:360px){
+  .dashboard-tip.v40-toast{width:calc(100% - 24px)}
+}
