@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>LUNA — Dein Midlife Companion</title>
+  <title>LUNA — Midlife Companion</title>
   
   <style>
     :root {
@@ -19,8 +19,10 @@
       --text-muted: #9E9DB0;
       --sage: #7B9B82;
       --sage-soft: rgba(123, 155, 130, 0.16);
+      --berry: #8B4A5C;
+      --berry-soft: rgba(139, 74, 92, 0.12);
       --champagne: #F0C47F;
-      --champagne-soft: rgba(240, 196, 127, 0.18);
+      --champagne-soft: rgba(240, 196, 127, 0.22);
       --shadow-sm: 0 4px 16px -2px rgba(43, 42, 74, 0.05);
       --shadow-lg: 0 16px 36px -6px rgba(43, 42, 74, 0.1);
       --radius-card: 26px;
@@ -58,11 +60,12 @@
       flex: 1;
     }
 
+    /* HEADER */
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.5rem 0 1.25rem 0;
+      padding: 0.5rem 0 1rem 0;
     }
 
     .brand {
@@ -80,6 +83,12 @@
       fill: var(--text-main);
     }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .lang-pill {
       font-size: 0.78rem;
       font-weight: 600;
@@ -91,6 +100,7 @@
       cursor: pointer;
     }
 
+    /* TABS */
     .tab-content {
       display: none;
       flex-direction: column;
@@ -118,12 +128,13 @@
       margin-bottom: 1rem;
     }
 
+    /* HERO RING */
     .ring-container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 0.75rem 0 1.25rem 0;
+      padding: 0.5rem 0 1rem 0;
     }
 
     .ring-box {
@@ -212,6 +223,7 @@
       margin-top: 0.5rem;
     }
 
+    /* BUTTONS */
     .btn-primary {
       width: 100%;
       height: 52px;
@@ -258,6 +270,20 @@
       background: #FFFFFF;
     }
 
+    .btn-danger {
+      width: 100%;
+      height: 46px;
+      background: rgba(139, 74, 92, 0.1);
+      color: var(--berry);
+      border: 1px solid rgba(139, 74, 92, 0.25);
+      border-radius: 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    /* KÖRPER-WETTERLAGE */
     .weather-box {
       border-left: 4px solid var(--sage);
       margin-top: 1rem;
@@ -285,6 +311,25 @@
       line-height: 1.5;
     }
 
+    /* PILLS ROW NACH CHECK-IN */
+    .pills-row {
+      display: none;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .status-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(43, 42, 74, 0.06);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      color: var(--text-sub);
+    }
+
+    /* TOOLKIT */
     .tool-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -303,7 +348,7 @@
       justify-content: space-between;
       height: 145px;
       cursor: pointer;
-      transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+      transition: transform 0.15s var(--ease);
     }
 
     .tool-tile:active {
@@ -311,8 +356,8 @@
     }
 
     .tool-icon-wrap {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 12px;
       background: var(--sage-soft);
       display: flex;
@@ -343,6 +388,7 @@
       margin-top: 2px;
     }
 
+    /* MODAL PANELS */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -473,6 +519,18 @@
       animation: tabFadeIn 0.2s var(--ease);
     }
 
+    /* ATEM-PULS ANIMATION */
+    @keyframes breatheExpand {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.45); }
+      100% { transform: scale(1); }
+    }
+
+    .breathing-active {
+      animation: breatheExpand 10s ease-in-out infinite;
+    }
+
+    /* BOTTOM NAV */
     nav.tab-bar {
       position: fixed;
       bottom: 0;
@@ -531,10 +589,14 @@
         </svg>
         <span>LUNA</span>
       </div>
-      <button class="lang-pill" id="lang-btn" onclick="toggleLang()">DE | EN</button>
+      <div class="header-actions">
+        <button class="lang-pill" id="lang-btn" onclick="toggleLang()">DE | EN</button>
+      </div>
     </header>
 
+    <!-- TAB 1: HEUTE -->
     <main id="view-heute" class="tab-content active">
+      
       <section class="ring-container">
         <div class="ring-box ring-idle-breath" id="ring-hitbox" onclick="openBaselineModal()">
           <svg class="ring-svg" viewBox="0 0 200 200">
@@ -560,12 +622,19 @@
         </div>
       </section>
 
+      <!-- DYNAMISCHE PILLS (NUR NACH CHECK-IN) -->
+      <div class="pills-row" id="pills-row">
+        <div class="status-pill" id="pill-energy">⚡️ Energie —</div>
+        <div class="status-pill" id="pill-sleep">🌙 Schlaf —</div>
+        <div class="status-pill" id="pill-signals">💓 0 Signale</div>
+      </div>
+
       <button class="btn-primary" id="btn-baseline" onclick="openBaselineModal()">
-        <span>+</span> <span>Tages-Baseline (8 Sek.)</span>
+        <span>+</span> <span id="btn-baseline-text">Tages-Baseline (8 Sek.)</span>
       </button>
 
       <button class="btn-secondary" onclick="openAcuteModal()">
-        <span>⚡️</span> <span>Akut-SOS (3 Sek.)</span>
+        <span>⚡️</span> <span>Akut-SOS erfassen (3 Sek.)</span>
       </button>
 
       <div class="card weather-box">
@@ -577,10 +646,11 @@
       </div>
     </main>
 
+    <!-- TAB 2: TOOLKIT -->
     <section id="view-toolkit" class="tab-content">
       <div class="card" style="margin-bottom: 0.75rem;">
         <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Midlife-Toolkit</h2>
-        <p style="font-size: 0.8rem; color: var(--text-sub);">Gezielte physiologische Werkzeuge für den Akutmoment.</p>
+        <p style="font-size: 0.8rem; color: var(--text-sub);">Gezielte physiologische Sofort-Hilfe für den Moment.</p>
       </div>
 
       <div class="tool-grid">
@@ -626,20 +696,22 @@
       </div>
     </section>
 
+    <!-- TAB 3: MUSTER -->
     <section id="view-trends" class="tab-content">
       <div class="card">
         <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Deine Zusammenhänge</h2>
         <p style="font-size: 0.8rem; color: var(--text-sub);">Automatische Korrelationen statt einfacher Datengräber.</p>
         
         <div style="margin-top: 1.25rem; padding: 1rem; background: var(--sage-soft); border-radius: 18px;">
-          <div style="font-size: 0.72rem; font-weight: 700; color: var(--sage); text-transform: uppercase;">Erste Erkenntnis</div>
-          <div style="font-size: 0.88rem; font-weight: 600; margin-top: 4px;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--sage); text-transform: uppercase;">Biologischer Zusammenhang</div>
+          <div style="font-size: 0.88rem; font-weight: 600; margin-top: 4px;" id="trend-correlation-text">
             Erfasse mindestens 3 Tage, um Zusammenhänge zwischen Schlaf, Ernährung und Hitzespitzen freizuschalten.
           </div>
         </div>
       </div>
     </section>
 
+    <!-- TAB 4: ARZT & DATEN -->
     <section id="view-arzt" class="tab-content">
       <div class="card">
         <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Arzt-Vorbereitung</h2>
@@ -657,8 +729,16 @@
           PDF-Bericht erstellen
         </button>
       </div>
+
+      <!-- DATEN-RESET / LOKALER SPEICHER -->
+      <div class="card" style="margin-top: 0.5rem;">
+        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;">Lokale Daten & Privatsphäre</h3>
+        <p style="font-size: 0.75rem; color: var(--text-sub);">Alle Einträge liegen ausschließlich in deinem Browser-Speicher.</p>
+        <button class="btn-danger" onclick="resetAllData()">Alle lokalen Einträge zurücksetzen</button>
+      </div>
     </section>
 
+    <!-- NAV BAR -->
     <nav class="tab-bar">
       <button class="tab-item active" onclick="navigate('heute', this)">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
@@ -679,12 +759,13 @@
     </nav>
   </div>
 
+  <!-- MODAL: TAGES-BASELINE -->
   <div class="modal-backdrop" id="modal-baseline">
     <div class="modal-panel">
       <div class="modal-top">
         <div>
           <h3>Tages-Baseline</h3>
-          <p>8 Sekunden. Antippen und loslassen.</p>
+          <p>8 Sekunden. Spüren, kurz tippen, fertig.</p>
         </div>
         <button class="close-btn" onclick="closeSheet('modal-baseline')">✕</button>
       </div>
@@ -694,8 +775,8 @@
         <div class="chip-row chip-row-5" id="row-energy">
           <div class="select-chip" onclick="handleChipClick(this, 'energy', 1)">1</div>
           <div class="select-chip" onclick="handleChipClick(this, 'energy', 2)">2</div>
-          <div class="select-chip" onclick="handleChipClick(this, 'energy', 3)">3</div>
-          <div class="select-chip active" onclick="handleChipClick(this, 'energy', 4)">4</div>
+          <div class="select-chip active" onclick="handleChipClick(this, 'energy', 3)">3</div>
+          <div class="select-chip" onclick="handleChipClick(this, 'energy', 4)">4</div>
           <div class="select-chip" onclick="handleChipClick(this, 'energy', 5)">5</div>
         </div>
       </div>
@@ -704,19 +785,19 @@
         <label class="field-label">Schlaf der Nacht</label>
         <div class="chip-row" id="row-sleep">
           <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'unruhig')">Unruhig</div>
-          <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'maessig')">Mäßig</div>
-          <div class="select-chip active" onclick="handleChipClick(this, 'sleep', 'gut')">Gut</div>
+          <div class="select-chip active" onclick="handleChipClick(this, 'sleep', 'maessig')">Mäßig</div>
+          <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'gut')">Gut</div>
           <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'tief')">Tief</div>
         </div>
       </div>
 
       <div class="field-group">
-        <label class="field-label">Spürbare Signale (Optional)</label>
+        <label class="field-label">Spürbare Signale heute (Mehrfachauswahl)</label>
         <div class="chip-row chip-row-2">
-          <div class="select-chip" onclick="handleToggleChip(this)">🔥 Hitzewallung</div>
-          <div class="select-chip" onclick="handleToggleChip(this)">💓 Herzklopfen</div>
-          <div class="select-chip" onclick="handleToggleChip(this)">🌫 Brain Fog</div>
-          <div class="select-chip" onclick="handleToggleChip(this)">💥 Gelenkdruck</div>
+          <div class="select-chip" onclick="handleToggleChip(this, 'hitze')">🔥 Hitzewallung</div>
+          <div class="select-chip" onclick="handleToggleChip(this, 'puls')">💓 Herzklopfen</div>
+          <div class="select-chip" onclick="handleToggleChip(this, 'fog')">🌫 Brain Fog</div>
+          <div class="select-chip" onclick="handleToggleChip(this, 'schmerz')">💥 Gelenkdruck</div>
         </div>
       </div>
 
@@ -731,11 +812,12 @@
       </div>
 
       <button class="btn-primary" onclick="completeBaseline()">
-        Baseline speichern ✓
+        Baseline berechnen & speichern ✓
       </button>
     </div>
   </div>
 
+  <!-- MODAL: AKUT-SOS SHEET -->
   <div class="modal-backdrop" id="modal-acute">
     <div class="modal-panel">
       <div class="modal-top">
@@ -761,6 +843,7 @@
     </div>
   </div>
 
+  <!-- MODAL: ATEM-TRAINER -->
   <div class="modal-backdrop" id="modal-breathe">
     <div class="modal-panel" style="text-align: center;">
       <div class="modal-top">
@@ -772,13 +855,14 @@
       </div>
 
       <div style="padding: 2.5rem 0; display: flex; flex-direction: column; align-items: center;">
-        <div id="breathe-ball" style="width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle, var(--champagne-soft), var(--sage)); transition: transform 4s ease-in-out; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 35px var(--sage-soft);"></div>
+        <div id="breathe-ball" style="width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle, var(--champagne-soft), var(--sage)); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 35px var(--sage-soft); transition: transform 0.3s ease;"></div>
         <div id="breathe-state" style="font-size: 1.35rem; font-weight: 700; margin-top: 1.5rem;">Einatmen</div>
-        <div id="breathe-countdown" style="font-size: 0.85rem; color: var(--text-sub); margin-top: 4px;">60 Sekunden</div>
+        <div id="breathe-countdown" style="font-size: 0.85rem; color: var(--text-sub); margin-top: 4px;">60 Sekunden verbleibend</div>
       </div>
     </div>
   </div>
 
+  <!-- MODAL: STATIC SHEETS -->
   <div class="modal-backdrop" id="modal-static">
     <div class="modal-panel">
       <div class="modal-top">
@@ -790,6 +874,14 @@
   </div>
 
   <script>
+    // FORMULAR STATE
+    const formState = {
+      energy: 3,
+      sleep: 'maessig',
+      signals: [],
+      cycle: 'keine'
+    };
+
     function vibrate(ms = 14) {
       if ('vibrate' in navigator) navigator.vibrate(ms);
     }
@@ -824,18 +916,26 @@
       document.getElementById(id).classList.remove('open');
     }
 
+    // CHIP CLICKS
     function handleChipClick(el, group, val) {
       vibrate(12);
       const parent = el.parentElement;
       parent.querySelectorAll('.select-chip').forEach(c => c.classList.remove('active'));
       el.classList.add('active');
+      formState[group] = val;
     }
 
-    function handleToggleChip(el) {
+    function handleToggleChip(el, sym) {
       vibrate(12);
       el.classList.toggle('active');
+      if (formState.signals.includes(sym)) {
+        formState.signals = formState.signals.filter(s => s !== sym);
+      } else {
+        formState.signals.push(sym);
+      }
     }
 
+    // AKUT-SIGNAL LIVE TIPP
     function pickAcuteSymptom(el, sym) {
       vibrate(15);
       el.parentElement.querySelectorAll('.select-chip').forEach(c => c.classList.remove('active'));
@@ -843,38 +943,74 @@
 
       const tipBox = document.getElementById('sos-live-tip');
       const tips = {
-        hitze: '💧 <strong>Sofort-Kühlung:</strong> Lass 60 Sekunden kaltes Wasser über beide Handgelenke laufen. Das kühlt das Blutvolumen und dämpft den Sympathikus.',
-        puls: '🌬 <strong>Vagus-Atem:</strong> Atme 4 Sekunden durch die Nase ein und 6 Sekunden langsam durch den leicht geöffneten Mund aus.',
-        fog: '🧠 <strong>Kognitiver Entlaster:</strong> Trink 300ml Wasser und vertage wichtige Entscheidungen um 30 Minuten. Keine Überforderung jetzt.',
-        unruhe: '⚡️ <strong>Körper-Erdung:</strong> Stell beide Füße flach auf den Boden, senke die Schultern und löse die Zunge sanft vom Gaumen.'
+        hitze: '💧 <strong>Sofort-Kühlung:</strong> Lass 60 Sekunden kaltes Wasser über beide Handgelenke laufen. Das kühlt das Blutvolumen und beruhigt den Sympathikus.',
+        puls: '🌬 <strong>Vagus-Atem:</strong> 4 Sekunden durch die Nase einatmen, 6 Sekunden langsam durch den Mund ausatmen.',
+        fog: '🧠 <strong>Kognitiver Entlaster:</strong> Trink 300ml Wasser und vertage wichtige Entscheidungen um 30 Minuten.',
+        unruhe: '⚡️ <strong>Körper-Erdung:</strong> Stell beide Füße flach auf den Boden, senke die Schultern und löse die Zunge vom Gaumen.'
       };
       tipBox.innerHTML = tips[sym] || '';
       tipBox.style.display = 'block';
     }
 
+    // ECHTE DYNAMISCHE SCORE-BERECHNUNG (KEIN FAKE MEHR!)
     function completeBaseline() {
       vibrate([20, 50, 20]);
       closeSheet('modal-baseline');
 
+      // 1. Energie-Punkte (1-5 -> 20 bis 100 Punkte, Gewicht 40%)
+      const energyScore = formState.energy * 20;
+
+      // 2. Schlaf-Punkte (Gewicht 35%)
+      const sleepMap = { unruhig: 25, maessig: 50, gut: 80, tief: 100 };
+      const sleepScore = sleepMap[formState.sleep] || 50;
+
+      // 3. Signal-Abzüge (Jedes aktive Symptom zieht 12 Punkte ab)
+      const signalPenalty = formState.signals.length * 12;
+
+      // Gesamte Balance berechnen (Bereich: 15% bis 100%)
+      let finalScore = Math.round((energyScore * 0.45) + (sleepScore * 0.35) - signalPenalty);
+      if (finalScore < 15) finalScore = 15;
+      if (finalScore > 100) finalScore = 100;
+
+      // UI Update Ring
       const ringBox = document.getElementById('ring-hitbox');
       ringBox.classList.remove('ring-idle-breath');
 
       const circumference = 515;
-      const targetScore = 84;
-      const offset = circumference - (circumference * (targetScore / 100));
+      const offset = circumference - (circumference * (finalScore / 100));
       document.getElementById('ring-fill-bar').style.strokeDashoffset = offset;
+      document.getElementById('score-val').innerText = finalScore + '%';
 
-      document.getElementById('score-val').innerText = targetScore + '%';
-      document.getElementById('score-sub').innerText = 'Stabil & Aufmerksam';
+      // Status & Körper-Wetterlage anhand des echten Scores
+      const statusLabel = document.getElementById('score-sub');
+      const headline = document.getElementById('weather-headline');
+      const body = document.getElementById('weather-text');
 
-      document.getElementById('weather-headline').innerText = 'Stabiler Verlauf mit kleinem Nachmittags-Puffer';
-      document.getElementById('weather-text').innerText = 
-        'Dein System zeigt heute eine gute Grundenergie. Da der Schlaf durchwachsen war, reagiere am frühen Nachmittag sensibler auf Stress. Plane 10 Minuten echte Pause ein.';
-      
-      document.getElementById('btn-baseline').innerHTML = '<span>✓</span> <span>Baseline für heute erfasst</span>';
+      if (finalScore >= 75) {
+        statusLabel.innerText = 'Stabil & Aufmerksam';
+        headline.innerText = 'Stabiles Biorhythmus-Fenster';
+        body.innerText = 'Dein Nervensystem zeigt heute eine hohe Resilienz. Nutze den Tag für anspruchsvolle Aufgaben, aber behalte feste Essenszeiten bei.';
+      } else if (finalScore >= 50) {
+        statusLabel.innerText = 'Sensibel & Durchwachsen';
+        headline.innerText = 'Erhöhte Reizbarkeit · Puffer nötig';
+        body.innerText = 'Die Nacht oder dein Energielevel fordern heute Pufferzeiten. Vertage Multitasking am Nachmittag und trinke ausreichend Wasser gegen Kopf- oder Gelenkdruck.';
+      } else {
+        statusLabel.innerText = 'Akuter Schonmodus';
+        headline.innerText = 'Niedriger Hormon-Puffer · Akuter Rückzug';
+        body.innerText = 'Dein Körper kämpft heute mit Erschöpfung oder intensiven Signalen. Reduziere Termine auf das Nötigste, meide Koffein am Nachmittag und nutze die 4-6 Atem-Bremse.';
+      }
+
+      // Dynamic Info Pills
+      document.getElementById('pills-row').style.display = 'flex';
+      document.getElementById('pill-energy').innerText = `⚡️ Energie ${formState.energy}/5`;
+      document.getElementById('pill-sleep').innerText = `🌙 Schlaf: ${formState.sleep}`;
+      document.getElementById('pill-signals').innerText = `💓 ${formState.signals.length} Signal${formState.signals.length === 1 ? '' : 'e'}`;
+
+      document.getElementById('btn-baseline-text').innerText = 'Baseline anpassen';
     }
 
-    let timerId = null;
+    // ATEMÜBUNG MIT FLÜSSIGEM KEYFRAME-LOOP
+    let breatheInterval = null;
     function openBreathe(inSec, outSec, title, desc) {
       vibrate(15);
       document.getElementById('breathe-title').innerText = title;
@@ -885,34 +1021,30 @@
       const stateTxt = document.getElementById('breathe-state');
       const counterTxt = document.getElementById('breathe-countdown');
       let remain = 60;
-      let phase = 'in';
 
-      function runBreath() {
-        if (phase === 'in') {
-          stateTxt.innerText = 'Einatmen (Nase)';
-          ball.style.transform = 'scale(1.4)';
-          vibrate(15);
-          phase = 'out';
-          setTimeout(runBreath, inSec * 1000);
-        } else {
-          stateTxt.innerText = 'Ausatmen (Mund)';
-          ball.style.transform = 'scale(1)';
-          vibrate(25);
-          phase = 'in';
-          setTimeout(runBreath, outSec * 1000);
-        }
-      }
+      ball.classList.add('breathing-active');
+      stateTxt.innerText = 'Tief durch die Nase einatmen...';
 
-      runBreath();
-      timerId = setInterval(() => {
+      let toggle = false;
+      breatheInterval = setInterval(() => {
         remain--;
         counterTxt.innerText = `${remain} Sekunden verbleibend`;
+        
+        // Alle 5 Sekunden Wechsel anzeigen
+        if (remain % 5 === 0) {
+          toggle = !toggle;
+          stateTxt.innerText = toggle ? 'Langsam durch den Mund ausatmen...' : 'Tief durch die Nase einatmen...';
+          vibrate(20);
+        }
+
         if (remain <= 0) closeBreathe();
       }, 1000);
     }
 
     function closeBreathe() {
-      clearInterval(timerId);
+      clearInterval(breatheInterval);
+      const ball = document.getElementById('breathe-ball');
+      ball.classList.remove('breathing-active');
       closeSheet('modal-breathe');
     }
 
@@ -937,6 +1069,15 @@
         `;
       }
       document.getElementById('modal-static').classList.add('open');
+    }
+
+    // VOLLSTÄNDIGER DATEN-RESET
+    function resetAllData() {
+      if (confirm('Möchtest du alle erfassten Daten wirklich unwiderruflich löschen?')) {
+        localStorage.clear();
+        vibrate([30, 80, 30]);
+        location.reload();
+      }
     }
   </script>
 </body>
