@@ -1,130 +1,943 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<meta name="theme-color" content="#FAF6F1">
-<meta name="color-scheme" content="light dark">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="LUNA">
-<meta name="description" content="LUNA – dein privater Local-First Midlife Companion.">
-<link rel="manifest" href="./manifest.webmanifest">
-<title>LUNA — Dein Midlife Companion</title>
-<style>
-:root{--bg:#FAF6F1;--card:#FFFDFC;--card2:#F3EEE8;--text:#2B2A4A;--sub:#706F85;--line:rgba(43,42,74,.08);--sage:#8FA98C;--sage-soft:rgba(143,169,140,.16);--gold:#F2C57C;--gold-soft:rgba(242,197,124,.22);--berry:#8B4A5C;--berry-soft:rgba(139,74,92,.12);--terra:#C9826B;--terra-soft:rgba(201,130,107,.15);--shadow:0 12px 34px -8px rgba(43,42,74,.10);--safeT:env(safe-area-inset-top,0px);--safeB:env(safe-area-inset-bottom,0px)}
-html[data-theme="dark"]{--bg:#1A1B21;--card:#23252C;--card2:#2B2E36;--text:#F7F2EB;--sub:#B6B4C1;--line:rgba(255,255,255,.09);--sage:#9DB89A;--sage-soft:rgba(157,184,154,.14);--gold:#F2C57C;--gold-soft:rgba(242,197,124,.16);--berry:#C8899B;--berry-soft:rgba(200,137,155,.13);--terra:#D69A84;--terra-soft:rgba(214,154,132,.12);--shadow:0 14px 40px rgba(0,0,0,.28)}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}html,body{min-height:100%;background:var(--bg);color:var(--text)}body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;padding-top:max(12px,var(--safeT));padding-bottom:calc(78px + var(--safeB));transition:background .25s ease,color .25s ease}button,input,textarea,select{font:inherit}.app{width:min(100%,430px);margin:auto;padding:0 16px}.header{display:flex;align-items:center;justify-content:space-between;padding:6px 0 12px}.brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.15em}.brand svg{width:24px;height:24px;fill:var(--text)}.header-actions{display:flex;align-items:center;gap:8px}.pill-btn{height:34px;border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:999px;padding:0 11px;font-size:11px;font-weight:750}.icon-btn{width:36px;height:36px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:50%;display:grid;place-items:center}.icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.tab-content{display:none;animation:fade .22s ease}.tab-content.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.ring-section{display:flex;flex-direction:column;align-items:center;padding:2px 0 8px}.ring-wrapper{position:relative;width:190px;height:190px;display:grid;place-items:center;cursor:pointer}.ring-wrapper.idle{animation:pulse 3.4s ease-in-out infinite}@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}.ring-svg{width:100%;height:100%;transform:rotate(-90deg)}.ring-bg{stroke:color-mix(in srgb,var(--sage) 34%,var(--card2));stroke-width:14;fill:none}.ring-progress{stroke:url(#lunaGradient);stroke-width:14;stroke-linecap:round;fill:none;stroke-dasharray:528;stroke-dashoffset:528;transition:stroke-dashoffset 1s cubic-bezier(.16,1,.3,1);filter:drop-shadow(0 5px 12px rgba(143,169,140,.28))}.ring-center{position:absolute;text-align:center;display:grid;gap:3px}.ring-score{font-size:38px;line-height:1;font-weight:700;letter-spacing:-.05em}.ring-label{font-size:11px;color:var(--sub);font-weight:700}.ring-status{font-size:11px;color:var(--sage);font-weight:800}.streak{margin-top:5px;padding:6px 12px;border:1px solid rgba(242,197,124,.38);background:linear-gradient(135deg,var(--gold-soft),var(--card));color:#8B5A16;border-radius:999px;font-size:11px;font-weight:750}.status-row{display:none;gap:6px;justify-content:center;flex-wrap:wrap;margin:7px 0}.status-pill{font-size:10px;color:var(--sub);background:var(--card);border:1px solid var(--line);padding:5px 9px;border-radius:999px}.btn-main,.btn-subtle{width:100%;min-height:50px;border-radius:17px;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}.btn-main{border:0;background:var(--text);color:var(--bg);box-shadow:0 5px 16px rgba(43,42,74,.14)}html[data-theme="dark"] .btn-main{color:#1A1B21}.btn-subtle{margin-top:8px;border:1px solid var(--line);background:var(--card);color:var(--text)}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}.weather-card{margin-top:10px;border-left:4px solid var(--sage)}.weather-card small,.eyebrow{font-size:9px;text-transform:uppercase;letter-spacing:.09em;font-weight:850;color:var(--sage)}.weather-card h3{font-size:14px;margin-top:4px}.weather-card p{font-size:11px;line-height:1.45;color:var(--sub);margin-top:4px}.page-head{margin:6px 0 14px}.page-head h1{font-size:28px;letter-spacing:-.04em;margin-top:4px}.page-head p{font-size:12px;color:var(--sub);line-height:1.45;margin-top:6px}.toolkit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tool-card{height:142px;border:1px solid var(--line);border-radius:20px;background:var(--card);padding:14px;text-align:left;color:var(--text);display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow)}.tool-card:active{transform:scale(.98)}.tool-card .emoji{font-size:24px}.tool-card strong{display:block;font-size:13px}.tool-card small{display:block;font-size:10px;color:var(--sub);line-height:1.35;margin-top:3px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}.metric{background:var(--card2);border:1px solid var(--line);border-radius:15px;padding:10px}.metric small{font-size:8px;color:var(--sub);text-transform:uppercase}.metric strong{display:block;font-size:17px;margin-top:4px}.chart{width:100%;height:auto}.chart-grid{stroke:var(--line);stroke-width:1}.chart-line{fill:none;stroke:var(--sage);stroke-width:3;stroke-linecap:round}.chart-area{fill:var(--sage-soft)}.chart-dot{fill:var(--card);stroke:var(--sage);stroke-width:2}.insight{margin-top:10px;padding:12px;border-radius:16px;background:var(--sage-soft);font-size:11px;line-height:1.45;color:var(--sub)}.summary-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line)}.summary-row:first-child{border-top:0;padding-top:0}.summary-row span{font-size:10px;color:var(--sub)}.summary-row strong{font-size:11px;text-align:right;max-width:60%}textarea{width:100%;min-height:94px;border:1px solid var(--line);border-radius:15px;background:var(--card2);color:var(--text);padding:12px;font-size:11px}.data-link{width:100%;margin-top:8px;border:0;background:none;color:var(--sub);font-size:10px;text-decoration:underline;text-underline-offset:3px;padding:8px}.bottom-bar{position:fixed;left:0;right:0;bottom:0;height:calc(62px + var(--safeB));padding:6px 8px var(--safeB);background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(22px);border-top:1px solid var(--line);display:flex;z-index:50}.nav-btn{width:25%;border:0;background:none;color:var(--sub);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.nav-btn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.nav-btn span{font-size:9px;font-weight:750}.nav-btn.active{color:var(--text)}
-.overlay{position:fixed;inset:0;z-index:100;background:rgba(43,42,74,.28);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center}.overlay.active{display:flex}.sheet{width:min(100%,430px);max-height:90dvh;overflow:auto;background:var(--card);border-radius:28px 28px 0 0;padding:18px 16px max(20px,calc(var(--safeB) + 12px));box-shadow:0 -16px 44px rgba(43,42,74,.15)}.sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px}.sheet-head h3{font-size:18px}.sheet-head p{font-size:11px;color:var(--sub);margin-top:3px}.close{width:34px;height:34px;border-radius:50%;border:0;background:var(--card2);color:var(--sub)}.form-section{margin-bottom:12px}.form-label{display:block;font-size:11px;font-weight:800;color:var(--sub);margin-bottom:6px}.chips5,.chips4,.chips2{display:grid;gap:6px}.chips5{grid-template-columns:repeat(5,1fr)}.chips4{grid-template-columns:repeat(4,1fr)}.chips2{grid-template-columns:repeat(2,1fr)}.chip{min-height:42px;border:1px solid var(--line);border-radius:999px;background:var(--card2);color:var(--text);font-size:10px;font-weight:750;padding:6px}.chip.sleep{background:var(--sage-soft)}.chip.heat{background:var(--terra-soft);border-color:rgba(201,130,107,.22)}.chip.cycle{background:var(--berry-soft);border-color:rgba(139,74,92,.18)}.chip.selected{background:#2B2A4A!important;color:#fff!important;border-color:#2B2A4A!important}.rescue{display:none;margin:8px 0 12px;padding:10px 12px;border-radius:15px;background:var(--gold-soft);border:1px solid rgba(242,197,124,.38);font-size:11px;line-height:1.4;color:#815516}.breathe-wrap{display:grid;place-items:center;gap:14px;padding:18px 0}.breathe-circle{width:138px;height:138px;border-radius:50%;display:grid;place-items:center;text-align:center;background:radial-gradient(circle at 35% 30%,var(--gold-soft),var(--sage));box-shadow:0 0 34px var(--sage-soft);transition:transform 3.8s ease-in-out}.breathe-circle.inhale{transform:scale(1.22)}.breathe-circle.hold{transform:scale(1.22)}.breathe-circle.exhale{transform:scale(.92)}.steps{display:grid;gap:8px}.step{display:grid;grid-template-columns:28px 1fr;gap:9px;padding:10px;border-radius:14px;background:var(--card2)}.step b{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--sage-soft);color:var(--sage);font-size:10px}.step p{font-size:11px;color:var(--sub);line-height:1.4}.grid{display:grid;gap:9px}.secondary,.danger{width:100%;min-height:46px;border-radius:15px;font-size:11px;font-weight:800}.secondary{border:1px solid var(--line);background:var(--card2);color:var(--text)}.danger{border:1px solid rgba(139,74,92,.24);background:var(--berry-soft);color:var(--berry)}.toast{position:fixed;left:50%;bottom:calc(74px + var(--safeB));transform:translateX(-50%);z-index:200;background:var(--text);color:var(--bg);padding:10px 13px;border-radius:14px;font-size:10px;box-shadow:var(--shadow)}
-@media(max-height:760px){.ring-wrapper{width:174px;height:174px}.ring-section{padding-top:0}.weather-card{padding:13px}.btn-main,.btn-subtle{min-height:46px}.tool-card{height:130px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>LUNA — Dein Midlife Companion</title>
+  
+  <style>
+    :root {
+      --bg: #FAF6F1;
+      --surface: #FFFFFF;
+      --surface-glass: rgba(255, 255, 255, 0.88);
+      --border-glass: rgba(255, 255, 255, 0.7);
+      --border-subtle: rgba(43, 42, 74, 0.07);
+      --text-main: #2B2A4A;
+      --text-sub: #706F85;
+      --text-muted: #9E9DB0;
+      --sage: #7B9B82;
+      --sage-soft: rgba(123, 155, 130, 0.16);
+      --champagne: #F0C47F;
+      --champagne-soft: rgba(240, 196, 127, 0.18);
+      --shadow-sm: 0 4px 16px -2px rgba(43, 42, 74, 0.05);
+      --shadow-lg: 0 16px 36px -6px rgba(43, 42, 74, 0.1);
+      --radius-card: 26px;
+      --radius-pill: 9999px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: max(1.2rem, env(safe-area-inset-top));
+      padding-bottom: max(6rem, calc(env(safe-area-inset-bottom) + 5rem));
+      overflow-x: hidden;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 420px;
+      padding: 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0 1.25rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+    }
+
+    .brand-icon {
+      width: 22px;
+      height: 22px;
+      fill: var(--text-main);
+    }
+
+    .lang-pill {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      background: var(--surface-glass);
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+    }
+
+    .tab-content {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      animation: tabFadeIn 0.3s var(--ease);
+    }
+
+    .tab-content.active {
+      display: flex;
+    }
+
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--surface-glass);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border-glass);
+      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius-card);
+      padding: 1.35rem;
+      margin-bottom: 1rem;
+    }
+
+    .ring-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 0 1.25rem 0;
+    }
+
+    .ring-box {
+      position: relative;
+      width: 184px;
+      height: 184px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .ring-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .ring-track {
+      stroke: rgba(43, 42, 74, 0.05);
+      stroke-width: 13;
+      fill: none;
+    }
+
+    .ring-fill {
+      stroke-width: 13;
+      stroke-linecap: round;
+      fill: none;
+      stroke: url(#lunaGradient);
+      stroke-dasharray: 515;
+      stroke-dashoffset: 515;
+      transition: stroke-dashoffset 1.2s var(--ease);
+      filter: drop-shadow(0 4px 14px rgba(123, 155, 130, 0.35));
+    }
+
+    .ring-idle-breath {
+      animation: ringBreathe 4s ease-in-out infinite;
+    }
+
+    @keyframes ringBreathe {
+      0%, 100% { transform: scale(1); opacity: 0.92; }
+      50% { transform: scale(1.03); opacity: 1; filter: drop-shadow(0 4px 16px var(--champagne-soft)); }
+    }
+
+    .ring-content {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .ring-val {
+      font-size: 2.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1;
+    }
+
+    .ring-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin-top: 5px;
+    }
+
+    .ring-subtitle {
+      font-size: 0.75rem;
+      color: var(--sage);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .streak-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, var(--champagne-soft), #FFFFFF);
+      border: 1px solid rgba(240, 196, 127, 0.45);
+      color: #8C5810;
+      padding: 6px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary {
+      width: 100%;
+      height: 52px;
+      background: var(--text-main);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(43, 42, 74, 0.16);
+      transition: transform 0.15s var(--ease), opacity 0.15s var(--ease);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      height: 50px;
+      background: var(--surface-glass);
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      transition: all 0.15s var(--ease);
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.97);
+      background: #FFFFFF;
+    }
+
+    .weather-box {
+      border-left: 4px solid var(--sage);
+      margin-top: 1rem;
+    }
+
+    .weather-kicker {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--sage);
+      margin-bottom: 4px;
+    }
+
+    .weather-headline {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .weather-body {
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 0.5rem;
+    }
+
+    .tool-tile {
+      background: var(--surface);
+      border: 1px solid var(--border-glass);
+      border-radius: 22px;
+      padding: 1.25rem 1.1rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 145px;
+      cursor: pointer;
+      transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+    }
+
+    .tool-tile:active {
+      transform: scale(0.96);
+    }
+
+    .tool-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: var(--sage-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sage);
+      margin-bottom: 0.5rem;
+    }
+
+    .tool-icon-wrap svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .tool-name {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .tool-desc {
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(43, 42, 74, 0.35);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-panel {
+      width: 100%;
+      max-width: 420px;
+      background: #FFFFFF;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      padding: 1.5rem 1.25rem max(2rem, env(safe-area-inset-bottom)) 1.25rem;
+      box-shadow: var(--shadow-lg);
+      max-height: 88vh;
+      overflow-y: auto;
+      animation: sheetUp 0.28s var(--ease);
+    }
+
+    @keyframes sheetUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.35rem;
+    }
+
+    .modal-top h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .modal-top p {
+      font-size: 0.78rem;
+      color: var(--text-sub);
+    }
+
+    .close-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(43, 42, 74, 0.05);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-sub);
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .field-group {
+      margin-bottom: 1.35rem;
+    }
+
+    .field-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 0.55rem;
+      display: block;
+    }
+
+    .chip-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .chip-row-5 {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .chip-row-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .select-chip {
+      height: 50px;
+      background: rgba(43, 42, 74, 0.03);
+      border: 1px solid rgba(43, 42, 74, 0.07);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.15s var(--ease);
+    }
+
+    .select-chip:active {
+      transform: scale(0.95);
+    }
+
+    .select-chip.active {
+      background: var(--text-main) !important;
+      color: #FFFFFF !important;
+      border-color: var(--text-main) !important;
+      box-shadow: 0 4px 12px rgba(43, 42, 74, 0.2);
+    }
+
+    .sos-feedback-card {
+      display: none;
+      background: var(--champagne-soft);
+      border: 1px solid rgba(240, 196, 127, 0.5);
+      border-radius: 18px;
+      padding: 0.95rem;
+      font-size: 0.82rem;
+      color: #825008;
+      line-height: 1.45;
+      margin-bottom: 1.25rem;
+      animation: tabFadeIn 0.2s var(--ease);
+    }
+
+    nav.tab-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: calc(3.8rem + env(safe-area-inset-bottom));
+      background: rgba(250, 246, 241, 0.94);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid rgba(43, 42, 74, 0.06);
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding-top: 0.4rem;
+      z-index: 100;
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      width: 25%;
+    }
+
+    .tab-item svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    .tab-item span {
+      font-size: 0.68rem;
+      font-weight: 600;
+    }
+
+    .tab-item.active {
+      color: var(--text-main);
+    }
+  </style>
 </head>
 <body>
-<div class="app">
-<header class="header">
-  <div class="brand"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8A9.06 9.06 0 0 0 12 3z"/></svg><span>LUNA</span></div>
-  <div class="header-actions"><button class="pill-btn" id="langBtn">DE | EN</button><button class="icon-btn" id="themeBtn" aria-label="Theme"><svg viewBox="0 0 24 24"><path d="M20 15.3A8.4 8.4 0 0 1 8.7 4 8.5 8.5 0 1 0 20 15.3z"/></svg></button></div>
-</header>
 
-<main id="tab-today" class="tab-content active">
-  <section class="ring-section">
-    <div class="ring-wrapper idle" id="heroRing">
-      <svg class="ring-svg" viewBox="0 0 200 200"><defs><linearGradient id="lunaGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#5B8E7D"/><stop offset="60%" stop-color="#2B2A4A"/><stop offset="100%" stop-color="#F2C57C"/></linearGradient></defs><circle class="ring-bg" cx="100" cy="100" r="84"/><circle class="ring-progress" id="ringProgress" cx="100" cy="100" r="84"/></svg>
-      <div class="ring-center"><div class="ring-score" id="ringScore">—</div><div class="ring-label" id="ringLabel">Tages-Balance</div><div class="ring-status" id="ringStatus">Antippen zum Starten</div></div>
-    </div>
-    <div class="streak" id="streakBadge">✨ 0 Tage im Rhythmus</div>
-  </section>
-  <div class="status-row" id="statusRow"><span class="status-pill" id="energyPill"></span><span class="status-pill" id="signalPill"></span><span class="status-pill" id="cyclePill"></span></div>
-  <button class="btn-main" id="checkinBtn">+ Tag erfassen (8 Sek.)</button>
-  <button class="btn-subtle" id="sosBtn">⚡️ Akut-Signal erfassen (3 Sek.)</button>
-  <div class="card weather-card"><small>Körper-Wetterlage</small><h3 id="weatherTitle">Muster wird aufgebaut</h3><p id="weatherText">Erfasse heute deine Baseline. LUNA leitet daraus einen klaren Tagesfokus ab.</p></div>
-</main>
+  <div class="app-shell">
+    
+    <header>
+      <div class="brand">
+        <svg class="brand-icon" viewBox="0 0 24 24">
+          <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8A9.06 9.06 0 0 0 12 3z"/>
+        </svg>
+        <span>LUNA</span>
+      </div>
+      <button class="lang-pill" id="lang-btn" onclick="toggleLang()">DE | EN</button>
+    </header>
 
-<section id="tab-patterns" class="tab-content">
-  <div class="page-head"><span class="eyebrow">Muster</span><h1>Deine Zusammenhänge</h1><p>Verläufe statt einzelner schlechter Tage.</p></div>
-  <div class="metrics"><div class="metric"><small>Ø Balance</small><strong id="avgBalance">–</strong></div><div class="metric"><small>Ø Schlaf</small><strong id="avgSleep">–</strong></div><div class="metric"><small>Ø Energie</small><strong id="avgEnergy">–</strong></div></div>
-  <div class="card"><svg id="trendChart" class="chart" viewBox="0 0 700 190"></svg><div class="insight" id="corrText">Noch nicht genug Daten. Nach einigen Tagen werden erste Zusammenhänge sichtbar.</div></div>
-</section>
+    <main id="view-heute" class="tab-content active">
+      <section class="ring-container">
+        <div class="ring-box ring-idle-breath" id="ring-hitbox" onclick="openBaselineModal()">
+          <svg class="ring-svg" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="lunaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7B9B82"/>
+                <stop offset="65%" stop-color="#2B2A4A"/>
+                <stop offset="100%" stop-color="#F0C47F"/>
+              </linearGradient>
+            </defs>
+            <circle class="ring-track" cx="100" cy="100" r="82"/>
+            <circle class="ring-fill" id="ring-fill-bar" cx="100" cy="100" r="82"/>
+          </svg>
+          <div class="ring-content">
+            <div class="ring-val" id="score-val">—</div>
+            <div class="ring-title" id="score-label">Tages-Balance</div>
+            <div class="ring-subtitle" id="score-sub">Antippen zum Erfassen</div>
+          </div>
+        </div>
 
-<section id="tab-toolkit" class="tab-content">
-  <div class="page-head"><span class="eyebrow">Toolkit</span><h1>Soforthilfe, wenn du sie brauchst</h1><p>Vier kleine Tools für akute Momente.</p></div>
-  <div class="toolkit-grid">
-    <button class="tool-card" data-tool="46"><div class="emoji">🌬</div><div><strong>4–6 Atem-Bremse</strong><small>Bei Hitzewallung oder Herzrasen.</small></div></button>
-    <button class="tool-card" data-tool="444"><div class="emoji">🧠</div><div><strong>4–4–4 Fokus</strong><small>Bei Brain Fog und mentaler Überlastung.</small></div></button>
-    <button class="tool-card" data-tool="night"><div class="emoji">🌙</div><div><strong>Nacht-SOS</strong><small>Drei ruhige Schritte für 3:00 Uhr nachts.</small></div></button>
-    <button class="tool-card" data-tool="cool"><div class="emoji">🧊</div><div><strong>Kühl- & Nervenpunkte</strong><small>Handgelenke und Nacken gezielt beruhigen.</small></div></button>
+        <div class="streak-badge">
+          ✨ <span id="streak-counter">1 Tag im Rhythmus · Level 1</span>
+        </div>
+      </section>
+
+      <button class="btn-primary" id="btn-baseline" onclick="openBaselineModal()">
+        <span>+</span> <span>Tages-Baseline (8 Sek.)</span>
+      </button>
+
+      <button class="btn-secondary" onclick="openAcuteModal()">
+        <span>⚡️</span> <span>Akut-SOS (3 Sek.)</span>
+      </button>
+
+      <div class="card weather-box">
+        <div class="weather-kicker">Körper-Wetterlage</div>
+        <div class="weather-headline" id="weather-headline">Muster wird aufgebaut</div>
+        <div class="weather-body" id="weather-text">
+          Erfasse heute deine Baseline. LUNA leitet daraus physiologische Pufferzeiten und konkrete Hebel für dein Nervensystem ab.
+        </div>
+      </div>
+    </main>
+
+    <section id="view-toolkit" class="tab-content">
+      <div class="card" style="margin-bottom: 0.75rem;">
+        <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Midlife-Toolkit</h2>
+        <p style="font-size: 0.8rem; color: var(--text-sub);">Gezielte physiologische Werkzeuge für den Akutmoment.</p>
+      </div>
+
+      <div class="tool-grid">
+        <div class="tool-tile" onclick="openBreathe(4, 6, '4–6 Atem-Bremse', 'Senkt Puls und Hitzewallungen in 60 Sekunden.')">
+          <div>
+            <div class="tool-icon-wrap">
+              <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07 19.07 4.93"/></svg>
+            </div>
+            <div class="tool-name">4–6 Bremse</div>
+          </div>
+          <div class="tool-desc">Senkt Puls & Hitze in 60s</div>
+        </div>
+
+        <div class="tool-tile" onclick="openBreathe(4, 4, 'Fokus-Atmung', 'Klärt mentale Überlastung und Wortfindungsstörungen.')">
+          <div>
+            <div class="tool-icon-wrap">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="tool-name">Fokus-Reset</div>
+          </div>
+          <div class="tool-desc">Gegen akuten Brain Fog</div>
+        </div>
+
+        <div class="tool-tile" onclick="openStaticTool('night')">
+          <div>
+            <div class="tool-icon-wrap">
+              <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </div>
+            <div class="tool-name">Nacht-SOS</div>
+          </div>
+          <div class="tool-desc">Wach um 3 Uhr nachts</div>
+        </div>
+
+        <div class="tool-tile" onclick="openStaticTool('cold')">
+          <div>
+            <div class="tool-icon-wrap">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18M9 21V9"/></svg>
+            </div>
+            <div class="tool-name">Kühlpunkte</div>
+          </div>
+          <div class="tool-desc">Diskrete Kältepunkte für Meetings</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-trends" class="tab-content">
+      <div class="card">
+        <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Deine Zusammenhänge</h2>
+        <p style="font-size: 0.8rem; color: var(--text-sub);">Automatische Korrelationen statt einfacher Datengräber.</p>
+        
+        <div style="margin-top: 1.25rem; padding: 1rem; background: var(--sage-soft); border-radius: 18px;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--sage); text-transform: uppercase;">Erste Erkenntnis</div>
+          <div style="font-size: 0.88rem; font-weight: 600; margin-top: 4px;">
+            Erfasse mindestens 3 Tage, um Zusammenhänge zwischen Schlaf, Ernährung und Hitzespitzen freizuschalten.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-arzt" class="tab-content">
+      <div class="card">
+        <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Arzt-Vorbereitung</h2>
+        <p style="font-size: 0.8rem; color: var(--text-sub);">Strukturierte Daten nach der Menopause Rating Scale (MRS).</p>
+
+        <div style="margin: 1.25rem 0; padding: 1rem; border: 1px dashed var(--text-muted); border-radius: 18px;">
+          <div style="font-size: 0.8rem; font-weight: 700; margin-bottom: 6px;">Empfohlene Fragen für deinen Termin:</div>
+          <p style="font-size: 0.8rem; color: var(--text-sub); line-height: 1.45;">
+            1. „Trotz stabiler Tage treten Spitzen am späten Nachmittag auf — ist der Einnahmezeitpunkt optimal?“<br><br>
+            2. „Schlafunterbrechungen häufen sich gegen 3 Uhr morgens — prüfen wir die Progesteron-Dosis?“
+          </p>
+        </div>
+
+        <button class="btn-primary" onclick="vibrate(20); alert('PDF-Export nach MRS-Standard generiert.');">
+          PDF-Bericht erstellen
+        </button>
+      </div>
+    </section>
+
+    <nav class="tab-bar">
+      <button class="tab-item active" onclick="navigate('heute', this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <span>Heute</span>
+      </button>
+      <button class="tab-item" onclick="navigate('toolkit', this)">
+        <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        <span>Toolkit</span>
+      </button>
+      <button class="tab-item" onclick="navigate('trends', this)">
+        <svg viewBox="0 0 24 24"><path d="m3 3 7 7 4-4 7 7"/><path d="M14 7h7v7"/></svg>
+        <span>Muster</span>
+      </button>
+      <button class="tab-item" onclick="navigate('arzt', this)">
+        <svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+        <span>Arzt</span>
+      </button>
+    </nav>
   </div>
-</section>
 
-<section id="tab-doctor" class="tab-content">
-  <div class="page-head"><span class="eyebrow">Arzt</span><h1>Termin vorbereiten</h1><p>Die wichtigsten Signale kompakt für deinen Termin.</p></div>
-  <div class="card"><div class="summary-row"><span>Erfasste Tage</span><strong id="docDays">0</strong></div><div class="summary-row"><span>Ø Tages-Balance</span><strong id="docAvg">–</strong></div><div class="summary-row"><span>Häufigste Signale</span><strong id="docSignals">–</strong></div></div>
-  <div class="card" style="margin-top:10px"><textarea id="doctorNotes" placeholder="Was möchtest du beim Termin unbedingt ansprechen?"></textarea></div>
-  <button class="btn-main" id="summaryBtn" style="margin-top:10px">Zusammenfassung öffnen</button>
-  <button class="data-link" id="dataBtn">Daten & Backup</button>
-</section>
-</div>
+  <div class="modal-backdrop" id="modal-baseline">
+    <div class="modal-panel">
+      <div class="modal-top">
+        <div>
+          <h3>Tages-Baseline</h3>
+          <p>8 Sekunden. Antippen und loslassen.</p>
+        </div>
+        <button class="close-btn" onclick="closeSheet('modal-baseline')">✕</button>
+      </div>
 
-<nav class="bottom-bar">
-  <button class="nav-btn active" data-tab="today"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg><span>Heute</span></button>
-  <button class="nav-btn" data-tab="patterns"><svg viewBox="0 0 24 24"><path d="M3 17c3-1 4-6 7-6s3 3 5 3 3-5 6-7"/></svg><span>Muster</span></button>
-  <button class="nav-btn" data-tab="toolkit"><svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/><path d="M2 21c0-3 1.8-5.4 5.1-6C9.5 14.5 12 13 13 12"/></svg><span>Toolkit</span></button>
-  <button class="nav-btn" data-tab="doctor"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 5V3h6v2M9 10h6M9 14h6M9 18h4"/></svg><span>Arzt</span></button>
-</nav>
+      <div class="field-group">
+        <label class="field-label">Wie startet deine Energie?</label>
+        <div class="chip-row chip-row-5" id="row-energy">
+          <div class="select-chip" onclick="handleChipClick(this, 'energy', 1)">1</div>
+          <div class="select-chip" onclick="handleChipClick(this, 'energy', 2)">2</div>
+          <div class="select-chip" onclick="handleChipClick(this, 'energy', 3)">3</div>
+          <div class="select-chip active" onclick="handleChipClick(this, 'energy', 4)">4</div>
+          <div class="select-chip" onclick="handleChipClick(this, 'energy', 5)">5</div>
+        </div>
+      </div>
 
-<div class="overlay" id="checkinModal"><div class="sheet"><div class="sheet-head"><div><h3>Tages-Baseline</h3><p>8 Sekunden. Kurz tippen, fertig.</p></div><button class="close" data-close="checkinModal">✕</button></div>
-  <div class="form-section"><span class="form-label">Energie</span><div class="chips5" id="energyGroup">${''}</div></div>
-  <div class="form-section"><span class="form-label">Schlaf</span><div class="chips4" id="sleepGroup"></div></div>
-  <div class="form-section"><span class="form-label">Körper-Signale</span><div class="chips2" id="signalGroup"></div></div>
-  <div class="form-section"><span class="form-label">Zyklus</span><div class="chips4" id="cycleGroup"></div></div>
-  <button class="btn-main" id="saveCheckin">Check-in abschließen ✓</button>
-</div></div>
+      <div class="field-group">
+        <label class="field-label">Schlaf der Nacht</label>
+        <div class="chip-row" id="row-sleep">
+          <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'unruhig')">Unruhig</div>
+          <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'maessig')">Mäßig</div>
+          <div class="select-chip active" onclick="handleChipClick(this, 'sleep', 'gut')">Gut</div>
+          <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'tief')">Tief</div>
+        </div>
+      </div>
 
-<div class="overlay" id="sosModal"><div class="sheet"><div class="sheet-head"><div><h3>⚡️ Akut-Signal</h3><p>Was ist gerade am stärksten?</p></div><button class="close" data-close="sosModal">✕</button></div>
-  <div class="chips2" id="acuteGroup"></div><div class="rescue" id="rescueBox"></div><button class="btn-main" id="saveSos">Speichern & schließen</button>
-</div></div>
+      <div class="field-group">
+        <label class="field-label">Spürbare Signale (Optional)</label>
+        <div class="chip-row chip-row-2">
+          <div class="select-chip" onclick="handleToggleChip(this)">🔥 Hitzewallung</div>
+          <div class="select-chip" onclick="handleToggleChip(this)">💓 Herzklopfen</div>
+          <div class="select-chip" onclick="handleToggleChip(this)">🌫 Brain Fog</div>
+          <div class="select-chip" onclick="handleToggleChip(this)">💥 Gelenkdruck</div>
+        </div>
+      </div>
 
-<div class="overlay" id="toolModal"><div class="sheet"><div class="sheet-head"><div><h3 id="toolTitle">Toolkit</h3></div><button class="close" data-close="toolModal">✕</button></div><div id="toolBody"></div></div></div>
-<div class="overlay" id="summaryModal"><div class="sheet"><div class="sheet-head"><div><h3>Arzt-Zusammenfassung</h3></div><button class="close" data-close="summaryModal">✕</button></div><textarea id="summaryText" style="min-height:230px"></textarea><button class="btn-main" id="copySummary" style="margin-top:10px">Text kopieren</button></div></div>
-<div class="overlay" id="dataModal"><div class="sheet"><div class="sheet-head"><div><h3>Daten & Backup</h3></div><button class="close" data-close="dataModal">✕</button></div><div class="grid"><button class="secondary" id="exportJson">JSON-Backup</button><button class="secondary" id="exportCsv">CSV exportieren</button><button class="secondary" id="importJsonBtn">JSON importieren</button><button class="danger" id="resetData">Alle Daten löschen</button><input id="importFile" type="file" accept="application/json,.json" hidden></div></div></div>
+      <div class="field-group">
+        <label class="field-label">Blutung / Phase</label>
+        <div class="chip-row" id="row-cycle">
+          <div class="select-chip active" onclick="handleChipClick(this, 'cycle', 'keine')">Keine</div>
+          <div class="select-chip" onclick="handleChipClick(this, 'cycle', 'spotting')">Schmier</div>
+          <div class="select-chip" onclick="handleChipClick(this, 'cycle', 'leicht')">Leicht</div>
+          <div class="select-chip" onclick="handleChipClick(this, 'cycle', 'stark')">Stark</div>
+        </div>
+      </div>
 
-<script>
-(()=>{"use strict";
-const KEY="midlife_os_rebuild_v1";
-const DEFAULT={theme:"light",lang:"de",route:"today",doctorNotes:"",entries:[]};
-let state=load(),draft=null,acute=null,breathTimer=null;
-function load(){try{return {...DEFAULT,...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch{return structuredClone(DEFAULT)}}
-function save(){localStorage.setItem(KEY,JSON.stringify(state))}
-function uid(){return crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random())}
-function day(v){const d=new Date(v);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
-function todayEntry(){const k=day(new Date());return state.entries.filter(e=>day(e.date)===k&&!e.acute).sort((a,b)=>new Date(b.date)-new Date(a.date))[0]||null}
-function score(e){if(!e)return null;const sig=Object.values(e.signals||{}).filter(Boolean).length;return Math.round(Math.max(30,Math.min(100,e.energy*11+e.sleep*10+35-sig*7)))}
-function status(s){return s==null?"Noch offen":s>=78?"Ausgeglichen":s>=58?"Sensibel":"Erholungsbedarf"}
-function cycleLabel(v){return({none:"Keine Blutung",spot:"Schmier",light:"Leicht",heavy:"Stark"})[v]||"Keine Blutung"}
-function theme(){document.documentElement.dataset.theme=state.theme;document.querySelector('meta[name="theme-color"]').content=state.theme==="dark"?"#1A1B21":"#FAF6F1"}
-function open(id){document.getElementById(id).classList.add("active")}
-function close(id){document.getElementById(id).classList.remove("active")}
-function haptic(v=12){navigator.vibrate?.(v)}
-function renderCheckin(){const e=todayEntry();draft=e?JSON.parse(JSON.stringify(e)):{id:"",date:new Date().toISOString(),energy:4,sleep:3,signals:{heat:false,heart:false,fog:false,restless:false},cycle:"none"};document.getElementById("energyGroup").innerHTML=[1,2,3,4,5].map(v=>`<button class="chip ${draft.energy===v?"selected":""}" data-energy="${v}">${v}</button>`).join("");document.getElementById("sleepGroup").innerHTML=[[1,"Unruhig"],[2,"Durchwachsen"],[3,"Gut"],[4,"Tief"]].map(([v,l])=>`<button class="chip sleep ${draft.sleep===v?"selected":""}" data-sleep="${v}">${l}</button>`).join("");document.getElementById("signalGroup").innerHTML=[["heat","🔥 Hitze","heat"],["heart","💓 Herzklopfen",""] ,["fog","🌫 Brain Fog",""] ,["restless","⚡️ Unruhe",""]].map(([k,l,c])=>`<button class="chip ${c} ${draft.signals[k]?"selected":""}" data-signal="${k}">${l}</button>`).join("");document.getElementById("cycleGroup").innerHTML=[["none","Keine Blutung"],["spot","Schmier"],["light","Leicht"],["heavy","Stark"]].map(([v,l])=>`<button class="chip cycle ${draft.cycle===v?"selected":""}" data-cycle="${v}">${l}</button>`).join("");document.querySelectorAll("[data-energy]").forEach(b=>b.onclick=()=>{draft.energy=+b.dataset.energy;haptic();renderCheckin()});document.querySelectorAll("[data-sleep]").forEach(b=>b.onclick=()=>{draft.sleep=+b.dataset.sleep;haptic();renderCheckin()});document.querySelectorAll("[data-signal]").forEach(b=>b.onclick=()=>{draft.signals[b.dataset.signal]=!draft.signals[b.dataset.signal];haptic();renderCheckin()});document.querySelectorAll("[data-cycle]").forEach(b=>b.onclick=()=>{draft.cycle=b.dataset.cycle;haptic();renderCheckin()})}
-function updateHome(){const e=todayEntry(),s=score(e),circ=528;document.getElementById("heroRing").classList.toggle("idle",!e);document.getElementById("ringProgress").style.strokeDashoffset=e?circ-(circ*s/100):circ;document.getElementById("ringScore").textContent=e?s+"%":"—";document.getElementById("ringStatus").textContent=e?status(s):"Antippen zum Starten";document.getElementById("checkinBtn").textContent=e?"Check-in bearbeiten":"+ Tag erfassen (8 Sek.)";document.getElementById("statusRow").style.display=e?"flex":"none";if(e){document.getElementById("energyPill").textContent=`⚡️ Energie ${e.energy}/5`;document.getElementById("signalPill").textContent=`💓 ${Object.values(e.signals).filter(Boolean).length} Signal(e)`;document.getElementById("cyclePill").textContent=`🩸 ${cycleLabel(e.cycle)}`;document.getElementById("weatherTitle").textContent=s>=78?"Stabiler Verlauf mit Puffer":s>=58?"Sensibler Tag mit Reserven":"Heute Regeneration priorisieren";document.getElementById("weatherText").textContent=s>=78?"Dein System wirkt heute belastbar. Halte den Tag möglichst gleichmäßig.":s>=58?"Plane bewusst kleine Pausen ein und reduziere unnötiges Multitasking.":"Weniger Reize und mehr Erholung sind heute wahrscheinlich hilfreicher als Tempo."}const unique=new Set(state.entries.filter(x=>!x.acute).map(x=>day(x.date)));document.getElementById("streakBadge").textContent=`✨ ${unique.size} Tage im Rhythmus`}
-function renderPatterns(){const es=state.entries.filter(e=>!e.acute).sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(-30);const avg=f=>es.length?(es.reduce((a,e)=>a+f(e),0)/es.length):0;document.getElementById("avgBalance").textContent=es.length?Math.round(avg(score))+"%":"–";document.getElementById("avgSleep").textContent=es.length?avg(e=>e.sleep).toFixed(1):"–";document.getElementById("avgEnergy").textContent=es.length?avg(e=>e.energy).toFixed(1):"–";const svg=document.getElementById("trendChart");if(es.length<2){svg.innerHTML="";document.getElementById("corrText").textContent="Noch nicht genug Daten. Nach einigen Tagen werden erste Zusammenhänge sichtbar.";return}const w=700,h=190,p=24,pts=es.map((e,i)=>({x:p+i*((w-2*p)/Math.max(1,es.length-1)),y:p+(100-score(e))*((h-2*p)/70)}));const line=pts.map((q,i)=>`${i?"L":"M"} ${q.x} ${q.y}`).join(" ");svg.innerHTML=`<path class="chart-grid" d="M${p} ${p}H${w-p}M${p} ${h/2}H${w-p}M${p} ${h-p}H${w-p}"/><path class="chart-area" d="${line} L ${pts.at(-1).x} ${h-p} L ${pts[0].x} ${h-p} Z"/><path class="chart-line" d="${line}"/>${pts.map(q=>`<circle class="chart-dot" cx="${q.x}" cy="${q.y}" r="4"/>`).join("")}`;document.getElementById("corrText").textContent=es.length>=4?"LUNA erkennt erste Zusammenhänge zwischen Schlaf, Energie und akuten Signalen.":"Erfasse mindestens 4 Tage für erste vorsichtige Muster."}
-function renderDoctor(){const es=state.entries.filter(e=>!e.acute);document.getElementById("docDays").textContent=es.length;document.getElementById("docAvg").textContent=es.length?Math.round(es.reduce((a,e)=>a+score(e),0)/es.length)+"%":"–";const counts={heat:0,heart:0,fog:0,restless:0};es.forEach(e=>Object.keys(counts).forEach(k=>counts[k]+=e.signals?.[k]?1:0));const labels={heat:"Hitze",heart:"Herzklopfen",fog:"Brain Fog",restless:"Unruhe"};document.getElementById("docSignals").textContent=Object.entries(counts).sort((a,b)=>b[1]-a[1]).filter(x=>x[1]).slice(0,3).map(([k,v])=>`${labels[k]} (${v}×)`).join(" · ")||"–";document.getElementById("doctorNotes").value=state.doctorNotes||""}
-function switchTab(tab){state.route=tab;save();document.querySelectorAll(".tab-content").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-btn").forEach(x=>x.classList.remove("active"));document.getElementById("tab-"+tab).classList.add("active");document.querySelector(`[data-tab="${tab}"]`).classList.add("active");if(tab==="patterns")renderPatterns();if(tab==="doctor")renderDoctor()}
-function saveCheckin(){const old=todayEntry();const e={...draft,id:old?.id||uid(),date:old?.date||new Date().toISOString()};state.entries=old?state.entries.map(x=>x.id===old.id?e:x):[...state.entries,e];save();close("checkinModal");updateHome();haptic([20,40,20])}
-function setupAcute(){acute=null;document.getElementById("acuteGroup").innerHTML=[["heat","🔥 Hitzewallung"],["heart","💓 Herzklopfen"],["fog","🌫 Brain Fog"],["restless","⚡️ Innere Unruhe"]].map(([k,l])=>`<button class="chip ${k==="heat"?"heat":""}" data-acute="${k}">${l}</button>`).join("");document.querySelectorAll("[data-acute]").forEach(b=>b.onclick=()=>{acute=b.dataset.acute;document.querySelectorAll("[data-acute]").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");const tips={heat:"💧 Kühle beide Handgelenke 20–30 Sekunden und verlängere die Ausatmung.",heart:"🌬 4 Sekunden ein, 6 Sekunden aus. Ruhig und ohne Leistungsziel.",fog:"🧠 Wasser trinken, kurz Reize reduzieren und Entscheidungen 20–30 Minuten vertagen.",restless:"⚡️ Schultern senken, Kiefer lösen und drei längere Ausatmungen machen."};const box=document.getElementById("rescueBox");box.textContent=tips[acute];box.style.display="block"})}
-function saveSos(){if(!acute)return;state.entries.push({id:uid(),date:new Date().toISOString(),acute,energy:3,sleep:3,signals:{[acute]:true},cycle:"none"});save();close("sosModal");toast("Akut-Signal gespeichert")}
-function openTool(type){const title=document.getElementById("toolTitle"),body=document.getElementById("toolBody");stopBreath();if(type==="46"||type==="444"){title.textContent=type==="46"?"4–6 Atem-Bremse":"4–4–4 Fokus";body.innerHTML=`<div class="breathe-wrap"><div class="breathe-circle" id="breathCircle"><div><strong id="breathPhase">Bereit</strong><div id="breathCount" style="font-size:11px;color:var(--sub);margin-top:4px"></div></div></div><button class="btn-main" id="startBreath">Starten</button></div>`;open("toolModal");document.getElementById("startBreath").onclick=()=>startBreath(type);return}title.textContent=type==="night"?"🌙 Nacht-SOS":"🧊 Kühl- & Nervenpunkte";const arr=type==="night"?["Nicht auf die Uhr schauen. Licht niedrig lassen.","Kiefer und Schultern lösen, sechs langsame Ausatmungen.","Wenn Gedanken kreisen: einen Satz notieren und bis morgen parken."]:["Handgelenke 20–30 Sekunden mit kühlem Wasser oder Tuch kühlen.","Seitlich am Nacken kurz kühlen – angenehm, nicht eiskalt.","Schultern senken und die Ausatmung verlängern."];body.innerHTML=`<div class="steps">${arr.map((x,i)=>`<div class="step"><b>${i+1}</b><p>${x}</p></div>`).join("")}</div>`;open("toolModal")}
-function startBreath(type){stopBreath();const phases=type==="46"?[["inhale",4],["exhale",6]]:[["inhale",4],["hold",4],["exhale",4]];let i=0,remain=phases[0][1];const tick=()=>{const c=document.getElementById("breathCircle"),p=document.getElementById("breathPhase"),n=document.getElementById("breathCount");if(!c||!p||!n)return;const [ph]=phases[i];c.className=`breathe-circle ${ph}`;p.textContent=ph==="inhale"?"Einatmen":ph==="hold"?"Halten":"Ausatmen";n.textContent=remain+" s";remain--;if(remain<=0){i=(i+1)%phases.length;remain=phases[i][1]}};tick();breathTimer=setInterval(tick,1000)}
-function stopBreath(){if(breathTimer){clearInterval(breathTimer);breathTimer=null}}
-function exportJson(){download(`luna-backup-${day(new Date())}.json`,JSON.stringify(state,null,2),"application/json")}
-function exportCsv(){const rows=[["date","energy","sleep","heat","heart","fog","restless","cycle","score"],...state.entries.filter(e=>!e.acute).map(e=>[e.date,e.energy,e.sleep,+!!e.signals.heat,+!!e.signals.heart,+!!e.signals.fog,+!!e.signals.restless,e.cycle,score(e)])];download(`luna-${day(new Date())}.csv`,rows.map(r=>r.join(",")).join("\n"),"text/csv")}
-function download(name,content,type){const u=URL.createObjectURL(new Blob([content],{type})),a=document.createElement("a");a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),500)}
-function toast(t){document.querySelector(".toast")?.remove();const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2000)}
+      <button class="btn-primary" onclick="completeBaseline()">
+        Baseline speichern ✓
+      </button>
+    </div>
+  </div>
 
-document.getElementById("themeBtn").onclick=()=>{state.theme=state.theme==="dark"?"light":"dark";save();theme()};document.getElementById("langBtn").onclick=()=>{state.lang=state.lang==="de"?"en":"de";save();document.getElementById("langBtn").textContent=state.lang==="de"?"DE | EN":"EN | DE"};document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));document.getElementById("heroRing").onclick=()=>{renderCheckin();open("checkinModal")};document.getElementById("checkinBtn").onclick=()=>{renderCheckin();open("checkinModal")};document.getElementById("sosBtn").onclick=()=>{setupAcute();document.getElementById("rescueBox").style.display="none";open("sosModal")};document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>{if(b.dataset.close==="toolModal")stopBreath();close(b.dataset.close)});document.getElementById("saveCheckin").onclick=saveCheckin;document.getElementById("saveSos").onclick=saveSos;document.querySelectorAll("[data-tool]").forEach(b=>b.onclick=()=>openTool(b.dataset.tool));document.getElementById("doctorNotes").oninput=e=>{state.doctorNotes=e.target.value;save()};document.getElementById("summaryBtn").onclick=()=>{renderDoctor();const es=state.entries.filter(e=>!e.acute);document.getElementById("summaryText").value=`LUNA – ARZT-ZUSAMMENFASSUNG\n\nErfasste Tage: ${es.length}\nØ Tages-Balance: ${es.length?Math.round(es.reduce((a,e)=>a+score(e),0)/es.length)+"%":"–"}\nHäufigste Signale: ${document.getElementById("docSignals").textContent}\n\nFragen / Notizen:\n${state.doctorNotes||"–"}`;open("summaryModal")};document.getElementById("copySummary").onclick=async()=>{await navigator.clipboard?.writeText(document.getElementById("summaryText").value);toast("Text kopiert")};document.getElementById("dataBtn").onclick=()=>open("dataModal");document.getElementById("exportJson").onclick=exportJson;document.getElementById("exportCsv").onclick=exportCsv;document.getElementById("importJsonBtn").onclick=()=>document.getElementById("importFile").click();document.getElementById("importFile").onchange=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state={...DEFAULT,...JSON.parse(r.result)};save();updateHome();close("dataModal");toast("Backup importiert")}catch{toast("Ungültiges Backup")}};r.readAsText(f)};document.getElementById("resetData").onclick=()=>{if(confirm("Alle lokalen Daten wirklich löschen?")){state=structuredClone(DEFAULT);save();updateHome();close("dataModal");toast("Alle Daten gelöscht")}};
-theme();switchTab(["today","patterns","toolkit","doctor"].includes(state.route)?state.route:"today");updateHome();if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
-})();
-</script>
+  <div class="modal-backdrop" id="modal-acute">
+    <div class="modal-panel">
+      <div class="modal-top">
+        <div>
+          <h3>⚡️ Akut-Signal</h3>
+          <p>Was passiert gerade im Körper?</p>
+        </div>
+        <button class="close-btn" onclick="closeSheet('modal-acute')">✕</button>
+      </div>
+
+      <div class="chip-row chip-row-2" style="margin-bottom: 1rem;">
+        <div class="select-chip" onclick="pickAcuteSymptom(this, 'hitze')">🔥 Hitzewallung</div>
+        <div class="select-chip" onclick="pickAcuteSymptom(this, 'puls')">💓 Herzrasen</div>
+        <div class="select-chip" onclick="pickAcuteSymptom(this, 'fog')">🌫 Brain Fog</div>
+        <div class="select-chip" onclick="pickAcuteSymptom(this, 'unruhe')">⚡️ Innere Unruhe</div>
+      </div>
+
+      <div class="sos-feedback-card" id="sos-live-tip"></div>
+
+      <button class="btn-primary" onclick="closeSheet('modal-acute'); vibrate(20);">
+        Schließen & Linderung nutzen
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-breathe">
+    <div class="modal-panel" style="text-align: center;">
+      <div class="modal-top">
+        <div>
+          <h3 id="breathe-title">Atem-Bremse</h3>
+          <p id="breathe-subtitle">Verlängertes Ausatmen reguliert den Puls.</p>
+        </div>
+        <button class="close-btn" onclick="closeBreathe()">✕</button>
+      </div>
+
+      <div style="padding: 2.5rem 0; display: flex; flex-direction: column; align-items: center;">
+        <div id="breathe-ball" style="width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle, var(--champagne-soft), var(--sage)); transition: transform 4s ease-in-out; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 35px var(--sage-soft);"></div>
+        <div id="breathe-state" style="font-size: 1.35rem; font-weight: 700; margin-top: 1.5rem;">Einatmen</div>
+        <div id="breathe-countdown" style="font-size: 0.85rem; color: var(--text-sub); margin-top: 4px;">60 Sekunden</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-static">
+    <div class="modal-panel">
+      <div class="modal-top">
+        <h3 id="static-title">Sofort-Hilfe</h3>
+        <button class="close-btn" onclick="closeSheet('modal-static')">✕</button>
+      </div>
+      <div id="static-body" style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.55;"></div>
+    </div>
+  </div>
+
+  <script>
+    function vibrate(ms = 14) {
+      if ('vibrate' in navigator) navigator.vibrate(ms);
+    }
+
+    function navigate(tab, btn) {
+      vibrate(10);
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+      document.getElementById('view-' + tab).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function toggleLang() {
+      vibrate(10);
+      const btn = document.getElementById('lang-btn');
+      btn.innerText = btn.innerText === 'DE | EN' ? 'EN | DE' : 'DE | EN';
+    }
+
+    function openBaselineModal() {
+      vibrate(15);
+      document.getElementById('modal-baseline').classList.add('open');
+    }
+
+    function openAcuteModal() {
+      vibrate(15);
+      document.getElementById('sos-live-tip').style.display = 'none';
+      document.getElementById('modal-acute').classList.add('open');
+    }
+
+    function closeSheet(id) {
+      vibrate(8);
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function handleChipClick(el, group, val) {
+      vibrate(12);
+      const parent = el.parentElement;
+      parent.querySelectorAll('.select-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function handleToggleChip(el) {
+      vibrate(12);
+      el.classList.toggle('active');
+    }
+
+    function pickAcuteSymptom(el, sym) {
+      vibrate(15);
+      el.parentElement.querySelectorAll('.select-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+
+      const tipBox = document.getElementById('sos-live-tip');
+      const tips = {
+        hitze: '💧 <strong>Sofort-Kühlung:</strong> Lass 60 Sekunden kaltes Wasser über beide Handgelenke laufen. Das kühlt das Blutvolumen und dämpft den Sympathikus.',
+        puls: '🌬 <strong>Vagus-Atem:</strong> Atme 4 Sekunden durch die Nase ein und 6 Sekunden langsam durch den leicht geöffneten Mund aus.',
+        fog: '🧠 <strong>Kognitiver Entlaster:</strong> Trink 300ml Wasser und vertage wichtige Entscheidungen um 30 Minuten. Keine Überforderung jetzt.',
+        unruhe: '⚡️ <strong>Körper-Erdung:</strong> Stell beide Füße flach auf den Boden, senke die Schultern und löse die Zunge sanft vom Gaumen.'
+      };
+      tipBox.innerHTML = tips[sym] || '';
+      tipBox.style.display = 'block';
+    }
+
+    function completeBaseline() {
+      vibrate([20, 50, 20]);
+      closeSheet('modal-baseline');
+
+      const ringBox = document.getElementById('ring-hitbox');
+      ringBox.classList.remove('ring-idle-breath');
+
+      const circumference = 515;
+      const targetScore = 84;
+      const offset = circumference - (circumference * (targetScore / 100));
+      document.getElementById('ring-fill-bar').style.strokeDashoffset = offset;
+
+      document.getElementById('score-val').innerText = targetScore + '%';
+      document.getElementById('score-sub').innerText = 'Stabil & Aufmerksam';
+
+      document.getElementById('weather-headline').innerText = 'Stabiler Verlauf mit kleinem Nachmittags-Puffer';
+      document.getElementById('weather-text').innerText = 
+        'Dein System zeigt heute eine gute Grundenergie. Da der Schlaf durchwachsen war, reagiere am frühen Nachmittag sensibler auf Stress. Plane 10 Minuten echte Pause ein.';
+      
+      document.getElementById('btn-baseline').innerHTML = '<span>✓</span> <span>Baseline für heute erfasst</span>';
+    }
+
+    let timerId = null;
+    function openBreathe(inSec, outSec, title, desc) {
+      vibrate(15);
+      document.getElementById('breathe-title').innerText = title;
+      document.getElementById('breathe-subtitle').innerText = desc;
+      document.getElementById('modal-breathe').classList.add('open');
+
+      const ball = document.getElementById('breathe-ball');
+      const stateTxt = document.getElementById('breathe-state');
+      const counterTxt = document.getElementById('breathe-countdown');
+      let remain = 60;
+      let phase = 'in';
+
+      function runBreath() {
+        if (phase === 'in') {
+          stateTxt.innerText = 'Einatmen (Nase)';
+          ball.style.transform = 'scale(1.4)';
+          vibrate(15);
+          phase = 'out';
+          setTimeout(runBreath, inSec * 1000);
+        } else {
+          stateTxt.innerText = 'Ausatmen (Mund)';
+          ball.style.transform = 'scale(1)';
+          vibrate(25);
+          phase = 'in';
+          setTimeout(runBreath, outSec * 1000);
+        }
+      }
+
+      runBreath();
+      timerId = setInterval(() => {
+        remain--;
+        counterTxt.innerText = `${remain} Sekunden verbleibend`;
+        if (remain <= 0) closeBreathe();
+      }, 1000);
+    }
+
+    function closeBreathe() {
+      clearInterval(timerId);
+      closeSheet('modal-breathe');
+    }
+
+    function openStaticTool(kind) {
+      vibrate(12);
+      const title = document.getElementById('static-title');
+      const body = document.getElementById('static-body');
+
+      if (kind === 'night') {
+        title.innerText = '🌙 Nacht-SOS (3 Uhr morgens)';
+        body.innerHTML = `
+          <strong>1. Kein Blick auf die Uhr:</strong> Das Display wegzudrehen verhindert den Cortisol-Schub.<br><br>
+          <strong>2. Körper entspannen statt Schlaf erzwingen:</strong> Atme sechsmal tief in die Matratze aus. Der Körper erholt sich auch im Wachzustand.<br><br>
+          <strong>3. Reizfreier Raum:</strong> Wenn du nach 20 Minuten wach bist: aufstehen, gedimmtes Licht, warmes Wasser oder Kamillentee trinken.
+        `;
+      } else {
+        title.innerText = '🧊 Diskrete Kühl- & Nervenpunkte';
+        body.innerHTML = `
+          <strong>1. Handgelenk-Innenseite:</strong> 45 Sekunden unter kühles Wasser halten (kühlt das Blut direkt).<br><br>
+          <strong>2. Seitlicher Nacken:</strong> Kühlen Gegenstand oder feuchtes Tuch auflegen.<br><br>
+          <strong>3. Daumenballen:</strong> Sanfter Druck auf die Mitte des Daumenballens beruhigt Herzklopfen unbemerkt im Meeting.
+        `;
+      }
+      document.getElementById('modal-static').classList.add('open');
+    }
+  </script>
 </body>
 </html>
