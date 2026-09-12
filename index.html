@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>LUNA — Midlife Companion</title>
+  <title>LUNA — Dein Midlife Companion</title>
   
   <style>
     :root {
@@ -13,18 +13,19 @@
       --surface: #FFFFFF;
       --surface-glass: rgba(255, 255, 255, 0.88);
       --border-glass: rgba(255, 255, 255, 0.7);
-      --border-subtle: rgba(43, 42, 74, 0.07);
+      --border-subtle: rgba(43, 42, 74, 0.08);
       --text-main: #2B2A4A;
-      --text-sub: #706F85;
+      --text-sub: #6E6D82;
       --text-muted: #9E9DB0;
-      --sage: #7B9B82;
-      --sage-soft: rgba(123, 155, 130, 0.16);
+      --sage: #6B9075;
+      --sage-soft: rgba(107, 144, 117, 0.15);
       --berry: #8B4A5C;
       --berry-soft: rgba(139, 74, 92, 0.12);
-      --champagne: #F0C47F;
-      --champagne-soft: rgba(240, 196, 127, 0.22);
-      --shadow-sm: 0 4px 16px -2px rgba(43, 42, 74, 0.05);
-      --shadow-lg: 0 16px 36px -6px rgba(43, 42, 74, 0.1);
+      --champagne: #E8B966;
+      --champagne-soft: rgba(232, 185, 102, 0.2);
+      --alert-amber: #D97736;
+      --shadow-sm: 0 4px 18px -2px rgba(43, 42, 74, 0.06);
+      --shadow-lg: 0 18px 40px -8px rgba(43, 42, 74, 0.14);
       --radius-card: 26px;
       --radius-pill: 9999px;
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -60,12 +61,108 @@
       flex: 1;
     }
 
+    /* ONBOARDING INTRO OVERLAY */
+    .intro-screen {
+      position: fixed;
+      inset: 0;
+      background: #FAF6F1;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: max(2.5rem, env(safe-area-inset-top)) 1.75rem max(2.5rem, env(safe-area-inset-bottom)) 1.75rem;
+      animation: fadeIn 0.4s var(--ease);
+    }
+
+    .intro-screen.hidden {
+      display: none;
+    }
+
+    .intro-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .intro-logo-badge {
+      width: 88px;
+      height: 88px;
+      border-radius: 28px;
+      background: linear-gradient(145deg, #2B2A4A, #1B1A32);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 30px rgba(43, 42, 74, 0.25);
+      margin-bottom: 1.5rem;
+    }
+
+    .intro-logo-badge svg {
+      width: 48px;
+      height: 48px;
+      fill: var(--champagne);
+    }
+
+    .intro-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .intro-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+      max-width: 320px;
+    }
+
+    .intro-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 1.5rem 0;
+    }
+
+    .pillar-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 12px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .pillar-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pillar-text h4 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .pillar-text p {
+      font-size: 0.76rem;
+      color: var(--text-sub);
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+
     /* HEADER */
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.5rem 0 1rem 0;
+      padding: 0.4rem 0 1rem 0;
     }
 
     .brand {
@@ -75,6 +172,7 @@
       font-size: 1.15rem;
       font-weight: 700;
       letter-spacing: 0.14em;
+      cursor: pointer;
     }
 
     .brand-icon {
@@ -83,14 +181,13 @@
       fill: var(--text-main);
     }
 
-    .header-actions {
+    .header-pills {
       display: flex;
-      align-items: center;
       gap: 8px;
     }
 
-    .lang-pill {
-      font-size: 0.78rem;
+    .ghost-pill {
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--text-sub);
       background: var(--surface-glass);
@@ -113,10 +210,11 @@
     }
 
     @keyframes tabFadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* CARDS */
     .card {
       background: var(--surface-glass);
       backdrop-filter: blur(24px);
@@ -125,7 +223,7 @@
       box-shadow: var(--shadow-sm);
       border-radius: var(--radius-card);
       padding: 1.35rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
     }
 
     /* HERO RING */
@@ -134,13 +232,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 0.5rem 0 1rem 0;
+      padding: 0.25rem 0 0.85rem 0;
     }
 
     .ring-box {
       position: relative;
-      width: 184px;
-      height: 184px;
+      width: 190px;
+      height: 190px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -155,28 +253,28 @@
 
     .ring-track {
       stroke: rgba(43, 42, 74, 0.05);
-      stroke-width: 13;
+      stroke-width: 14;
       fill: none;
     }
 
     .ring-fill {
-      stroke-width: 13;
+      stroke-width: 14;
       stroke-linecap: round;
       fill: none;
       stroke: url(#lunaGradient);
-      stroke-dasharray: 515;
-      stroke-dashoffset: 515;
-      transition: stroke-dashoffset 1.2s var(--ease);
-      filter: drop-shadow(0 4px 14px rgba(123, 155, 130, 0.35));
+      stroke-dasharray: 528;
+      stroke-dashoffset: 528;
+      transition: stroke-dashoffset 1.2s var(--ease), stroke 0.6s var(--ease);
+      filter: drop-shadow(0 6px 16px rgba(107, 144, 117, 0.35));
     }
 
     .ring-idle-breath {
-      animation: ringBreathe 4s ease-in-out infinite;
+      animation: ringAmbient 4s ease-in-out infinite;
     }
 
-    @keyframes ringBreathe {
+    @keyframes ringAmbient {
       0%, 100% { transform: scale(1); opacity: 0.92; }
-      50% { transform: scale(1.03); opacity: 1; filter: drop-shadow(0 4px 16px var(--champagne-soft)); }
+      50% { transform: scale(1.03); opacity: 1; filter: drop-shadow(0 6px 20px var(--champagne-soft)); }
     }
 
     .ring-content {
@@ -189,8 +287,8 @@
     }
 
     .ring-val {
-      font-size: 2.35rem;
-      font-weight: 700;
+      font-size: 2.45rem;
+      font-weight: 800;
       color: var(--text-main);
       line-height: 1;
     }
@@ -205,8 +303,8 @@
     .ring-subtitle {
       font-size: 0.75rem;
       color: var(--sage);
-      font-weight: 600;
-      margin-top: 2px;
+      font-weight: 700;
+      margin-top: 3px;
     }
 
     .streak-badge {
@@ -214,13 +312,13 @@
       align-items: center;
       gap: 6px;
       background: linear-gradient(135deg, var(--champagne-soft), #FFFFFF);
-      border: 1px solid rgba(240, 196, 127, 0.45);
+      border: 1px solid rgba(232, 185, 102, 0.4);
       color: #8C5810;
       padding: 6px 16px;
       border-radius: var(--radius-pill);
       font-size: 0.78rem;
       font-weight: 600;
-      margin-top: 0.5rem;
+      margin-top: 0.4rem;
     }
 
     /* BUTTONS */
@@ -244,7 +342,7 @@
 
     .btn-primary:active {
       transform: scale(0.97);
-      opacity: 0.9;
+      opacity: 0.92;
     }
 
     .btn-secondary {
@@ -272,7 +370,7 @@
 
     .btn-danger {
       width: 100%;
-      height: 46px;
+      height: 48px;
       background: rgba(139, 74, 92, 0.1);
       color: var(--berry);
       border: 1px solid rgba(139, 74, 92, 0.25);
@@ -283,10 +381,11 @@
       margin-top: 1rem;
     }
 
-    /* KÖRPER-WETTERLAGE */
+    /* KÖRPER-WETTERLAGE BOX */
     .weather-box {
       border-left: 4px solid var(--sage);
-      margin-top: 1rem;
+      margin-top: 0.85rem;
+      transition: border-color 0.4s var(--ease);
     }
 
     .weather-kicker {
@@ -329,7 +428,7 @@
       color: var(--text-sub);
     }
 
-    /* TOOLKIT */
+    /* TOOLKIT CARDS */
     .tool-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -346,7 +445,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 145px;
+      height: 150px;
       cursor: pointer;
       transition: transform 0.15s var(--ease);
     }
@@ -356,9 +455,9 @@
     }
 
     .tool-icon-wrap {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
       background: var(--sage-soft);
       display: flex;
       align-items: center;
@@ -368,21 +467,21 @@
     }
 
     .tool-icon-wrap svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       stroke: currentColor;
       stroke-width: 2;
       fill: none;
     }
 
     .tool-name {
-      font-size: 0.92rem;
+      font-size: 0.94rem;
       font-weight: 700;
       color: var(--text-main);
     }
 
     .tool-desc {
-      font-size: 0.72rem;
+      font-size: 0.73rem;
       color: var(--text-sub);
       line-height: 1.35;
       margin-top: 2px;
@@ -392,13 +491,13 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(43, 42, 74, 0.35);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(43, 42, 74, 0.38);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       display: none;
       align-items: flex-end;
       justify-content: center;
-      z-index: 999;
+      z-index: 1000;
     }
 
     .modal-backdrop.open {
@@ -509,7 +608,7 @@
     .sos-feedback-card {
       display: none;
       background: var(--champagne-soft);
-      border: 1px solid rgba(240, 196, 127, 0.5);
+      border: 1px solid rgba(232, 185, 102, 0.5);
       border-radius: 18px;
       padding: 0.95rem;
       font-size: 0.82rem;
@@ -519,15 +618,93 @@
       animation: tabFadeIn 0.2s var(--ease);
     }
 
-    /* ATEM-PULS ANIMATION */
-    @keyframes breatheExpand {
-      0% { transform: scale(1); }
-      40% { transform: scale(1.45); }
-      100% { transform: scale(1); }
+    /* INTERAKTIVER ATEM-DOPPELRING (TOOLKIT) */
+    .breathe-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+      position: relative;
     }
 
-    .breathing-active {
-      animation: breatheExpand 10s ease-in-out infinite;
+    .breathe-outer-halo {
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: var(--champagne-soft);
+      transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), opacity 4s ease;
+      transform: scale(0.85);
+      opacity: 0.3;
+    }
+
+    .breathe-core-ball {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #9FC3A8, #6B9075);
+      box-shadow: 0 10px 30px rgba(107, 144, 117, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), background 3s ease;
+      z-index: 2;
+    }
+
+    .breathe-stage.inhale .breathe-core-ball {
+      transform: scale(1.35);
+      background: radial-gradient(circle at 35% 35%, #A8D1B3, #5F8669);
+    }
+
+    .breathe-stage.inhale .breathe-outer-halo {
+      transform: scale(1.6);
+      opacity: 0.8;
+    }
+
+    .breathe-stage.exhale .breathe-core-ball {
+      transform: scale(0.9);
+      background: radial-gradient(circle at 35% 35%, #F5D399, #D9A043);
+    }
+
+    .breathe-stage.exhale .breathe-outer-halo {
+      transform: scale(1.1);
+      opacity: 0.3;
+    }
+
+    /* INTERAKTIVER KÜHLPUNKTE-VIEWPORT */
+    .body-points-map {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 1rem 0;
+    }
+
+    .point-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(43, 42, 74, 0.03);
+      border: 1px solid rgba(43, 42, 74, 0.07);
+      padding: 12px 14px;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: all 0.2s var(--ease);
+    }
+
+    .point-card.active-point {
+      background: var(--surface);
+      border-color: var(--sage);
+      box-shadow: 0 4px 14px rgba(107, 144, 117, 0.2);
+    }
+
+    .point-pulse-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--sage);
+      box-shadow: 0 0 0 4px var(--sage-soft);
+      flex-shrink: 0;
     }
 
     /* BOTTOM NAV */
@@ -580,17 +757,60 @@
 </head>
 <body>
 
+  <!-- ONBOARDING OVERLAY: WAS IST LUNA? -->
+  <div class="intro-screen" id="intro-screen">
+    <div class="intro-hero">
+      <div class="intro-logo-badge">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8A9.06 9.06 0 0 0 12 3z"/>
+        </svg>
+      </div>
+      <h1 class="intro-title">Willkommen bei LUNA</h1>
+      <p class="intro-subtitle">Dein privater Begleiter für hormonelle Balance, Sofort-Linderung und fundierte Klarheit.</p>
+    </div>
+
+    <div class="intro-pillars">
+      <div class="pillar-item">
+        <div class="pillar-icon">⚡️</div>
+        <div class="pillar-text">
+          <h4>8-Sekunden Tages-Radar</h4>
+          <p>Schnelle Erfassung ohne bürokratische Formulare. Berechnet deine tägliche Körper-Wetterlage.</p>
+        </div>
+      </div>
+      <div class="pillar-item">
+        <div class="pillar-icon">🌿</div>
+        <div class="pillar-text">
+          <h4>Handfeste Sofort-Hilfe</h4>
+          <p>Interaktive Atem-Bremse, Nacht-SOS und Vagusnerv-Kühlpunkte für den Akutmoment.</p>
+        </div>
+      </div>
+      <div class="pillar-item">
+        <div class="pillar-icon">🔒</div>
+        <div class="pillar-text">
+          <h4>100% Deine Daten</h4>
+          <p>Local-First. Alle Gesundheitsdaten bleiben ausschließlich auf deinem eigenen Gerät.</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="dismissIntro()">
+      LUNA starten →
+    </button>
+  </div>
+
   <div class="app-shell">
     
+    <!-- HEADER -->
     <header>
-      <div class="brand">
+      <div class="brand" onclick="showIntroAgain()">
         <svg class="brand-icon" viewBox="0 0 24 24">
           <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8A9.06 9.06 0 0 0 12 3z"/>
         </svg>
         <span>LUNA</span>
       </div>
-      <div class="header-actions">
-        <button class="lang-pill" id="lang-btn" onclick="toggleLang()">DE | EN</button>
+      <div class="header-pills">
+        <button class="ghost-pill" onclick="showIntroAgain()">Über LUNA</button>
+        <button class="ghost-pill" id="lang-btn" onclick="toggleLang()">DE | EN</button>
       </div>
     </header>
 
@@ -602,18 +822,18 @@
           <svg class="ring-svg" viewBox="0 0 200 200">
             <defs>
               <linearGradient id="lunaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#7B9B82"/>
+                <stop offset="0%" stop-color="#6B9075"/>
                 <stop offset="65%" stop-color="#2B2A4A"/>
-                <stop offset="100%" stop-color="#F0C47F"/>
+                <stop offset="100%" stop-color="#E8B966"/>
               </linearGradient>
             </defs>
-            <circle class="ring-track" cx="100" cy="100" r="82"/>
-            <circle class="ring-fill" id="ring-fill-bar" cx="100" cy="100" r="82"/>
+            <circle class="ring-track" cx="100" cy="100" r="84"/>
+            <circle class="ring-fill" id="ring-fill-bar" cx="100" cy="100" r="84"/>
           </svg>
           <div class="ring-content">
             <div class="ring-val" id="score-val">—</div>
             <div class="ring-title" id="score-label">Tages-Balance</div>
-            <div class="ring-subtitle" id="score-sub">Antippen zum Erfassen</div>
+            <div class="ring-subtitle" id="score-sub">Antippen zum Starten</div>
           </div>
         </div>
 
@@ -622,7 +842,7 @@
         </div>
       </section>
 
-      <!-- DYNAMISCHE PILLS (NUR NACH CHECK-IN) -->
+      <!-- DYNAMISCHE STATUS-PILLEN (ERSCHEINEN NACH CHECK-IN) -->
       <div class="pills-row" id="pills-row">
         <div class="status-pill" id="pill-energy">⚡️ Energie —</div>
         <div class="status-pill" id="pill-sleep">🌙 Schlaf —</div>
@@ -630,18 +850,19 @@
       </div>
 
       <button class="btn-primary" id="btn-baseline" onclick="openBaselineModal()">
-        <span>+</span> <span id="btn-baseline-text">Tages-Baseline (8 Sek.)</span>
+        <span>+</span> <span id="btn-baseline-text">Tages-Baseline erfassen (8 Sek.)</span>
       </button>
 
       <button class="btn-secondary" onclick="openAcuteModal()">
         <span>⚡️</span> <span>Akut-SOS erfassen (3 Sek.)</span>
       </button>
 
-      <div class="card weather-box">
-        <div class="weather-kicker">Körper-Wetterlage</div>
-        <div class="weather-headline" id="weather-headline">Muster wird aufgebaut</div>
+      <!-- KÖRPER-WETTERLAGE (USP) -->
+      <div class="card weather-box" id="weather-card">
+        <div class="weather-kicker" id="weather-kicker">Körper-Wetterlage</div>
+        <div class="weather-headline" id="weather-headline">Bereit für den Tag</div>
         <div class="weather-body" id="weather-text">
-          Erfasse heute deine Baseline. LUNA leitet daraus physiologische Pufferzeiten und konkrete Hebel für dein Nervensystem ab.
+          Erfasse mit 4 Taps deine Tagesform. LUNA übersetzt dein Befinden in konkrete physiologische Pufferzeiten und Schutzhebel.
         </div>
       </div>
     </main>
@@ -650,11 +871,12 @@
     <section id="view-toolkit" class="tab-content">
       <div class="card" style="margin-bottom: 0.75rem;">
         <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Midlife-Toolkit</h2>
-        <p style="font-size: 0.8rem; color: var(--text-sub);">Gezielte physiologische Sofort-Hilfe für den Moment.</p>
+        <p style="font-size: 0.8rem; color: var(--text-sub);">Sofort wirksame Nervensystem-Interventionen.</p>
       </div>
 
       <div class="tool-grid">
-        <div class="tool-tile" onclick="openBreathe(4, 6, '4–6 Atem-Bremse', 'Senkt Puls und Hitzewallungen in 60 Sekunden.')">
+        <!-- 4-6 BREMSE -->
+        <div class="tool-tile" onclick="openInteractiveBreathe(4, 6, '4–6 Atem-Bremse', 'Aktiviert den Parasympathikus bei Hitzewallungen & Puls.')">
           <div>
             <div class="tool-icon-wrap">
               <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07 19.07 4.93"/></svg>
@@ -664,7 +886,8 @@
           <div class="tool-desc">Senkt Puls & Hitze in 60s</div>
         </div>
 
-        <div class="tool-tile" onclick="openBreathe(4, 4, 'Fokus-Atmung', 'Klärt mentale Überlastung und Wortfindungsstörungen.')">
+        <!-- 4-4 FOKUS -->
+        <div class="tool-tile" onclick="openInteractiveBreathe(4, 4, 'Fokus-Atmung', 'Gleicht den CO2-Spiegel aus gegen akuten Brain Fog.')">
           <div>
             <div class="tool-icon-wrap">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
@@ -674,24 +897,26 @@
           <div class="tool-desc">Gegen akuten Brain Fog</div>
         </div>
 
-        <div class="tool-tile" onclick="openStaticTool('night')">
+        <!-- NACHT SOS -->
+        <div class="tool-tile" onclick="openNightSOS()">
           <div>
             <div class="tool-icon-wrap">
               <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
             </div>
             <div class="tool-name">Nacht-SOS</div>
           </div>
-          <div class="tool-desc">Wach um 3 Uhr nachts</div>
+          <div class="tool-desc">Gedimmter 3-Uhr-Reset</div>
         </div>
 
-        <div class="tool-tile" onclick="openStaticTool('cold')">
+        <!-- KÜHLPUNKTE -->
+        <div class="tool-tile" onclick="openAcupressureGuide()">
           <div>
             <div class="tool-icon-wrap">
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18M9 21V9"/></svg>
             </div>
             <div class="tool-name">Kühlpunkte</div>
           </div>
-          <div class="tool-desc">Diskrete Kältepunkte für Meetings</div>
+          <div class="tool-desc">Interaktive Kälte-Trigger</div>
         </div>
       </div>
     </section>
@@ -702,10 +927,10 @@
         <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Deine Zusammenhänge</h2>
         <p style="font-size: 0.8rem; color: var(--text-sub);">Automatische Korrelationen statt einfacher Datengräber.</p>
         
-        <div style="margin-top: 1.25rem; padding: 1rem; background: var(--sage-soft); border-radius: 18px;">
-          <div style="font-size: 0.72rem; font-weight: 700; color: var(--sage); text-transform: uppercase;">Biologischer Zusammenhang</div>
-          <div style="font-size: 0.88rem; font-weight: 600; margin-top: 4px;" id="trend-correlation-text">
-            Erfasse mindestens 3 Tage, um Zusammenhänge zwischen Schlaf, Ernährung und Hitzespitzen freizuschalten.
+        <div style="margin-top: 1.25rem; padding: 1.1rem; background: var(--sage-soft); border-radius: 20px;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--sage); text-transform: uppercase; letter-spacing: 0.05em;">Biologische Kausalität</div>
+          <div style="font-size: 0.88rem; font-weight: 600; margin-top: 4px; line-height: 1.45;" id="trend-insight-box">
+            Ab 3 erfassten Tagen berechnet LUNA deine persönlichen Trigger zwischen Schlafdauer, Kaffee und Nachmittags-Symptomen.
           </div>
         </div>
       </div>
@@ -717,28 +942,28 @@
         <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Arzt-Vorbereitung</h2>
         <p style="font-size: 0.8rem; color: var(--text-sub);">Strukturierte Daten nach der Menopause Rating Scale (MRS).</p>
 
-        <div style="margin: 1.25rem 0; padding: 1rem; border: 1px dashed var(--text-muted); border-radius: 18px;">
-          <div style="font-size: 0.8rem; font-weight: 700; margin-bottom: 6px;">Empfohlene Fragen für deinen Termin:</div>
-          <p style="font-size: 0.8rem; color: var(--text-sub); line-height: 1.45;">
-            1. „Trotz stabiler Tage treten Spitzen am späten Nachmittag auf — ist der Einnahmezeitpunkt optimal?“<br><br>
-            2. „Schlafunterbrechungen häufen sich gegen 3 Uhr morgens — prüfen wir die Progesteron-Dosis?“
+        <div style="margin: 1.25rem 0; padding: 1.1rem; border: 1px dashed var(--text-muted); border-radius: 20px;">
+          <div style="font-size: 0.82rem; font-weight: 700; margin-bottom: 8px;">Konkrete Leitfragen für die Praxis:</div>
+          <p style="font-size: 0.8rem; color: var(--text-sub); line-height: 1.5;">
+            • „Trotz stabiler Grundtage treten Hitzespitzen gegen 16 Uhr auf — spricht das für einen Estradiol-Abfall?“<br><br>
+            • „Schlafunterbrechungen häufen sich verlässlich gegen 3:30 Uhr morgens — optimieren wir das Progesteron?“
           </p>
         </div>
 
-        <button class="btn-primary" onclick="vibrate(20); alert('PDF-Export nach MRS-Standard generiert.');">
+        <button class="btn-primary" onclick="vibrate(20); alert('PDF-Export nach MRS-Standard erfolgreich generiert.');">
           PDF-Bericht erstellen
         </button>
       </div>
 
-      <!-- DATEN-RESET / LOKALER SPEICHER -->
+      <!-- PRIVATSPHÄRE & DATEN-RESET -->
       <div class="card" style="margin-top: 0.5rem;">
-        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;">Lokale Daten & Privatsphäre</h3>
-        <p style="font-size: 0.75rem; color: var(--text-sub);">Alle Einträge liegen ausschließlich in deinem Browser-Speicher.</p>
+        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;">Lokale Datenkontrolle</h3>
+        <p style="font-size: 0.75rem; color: var(--text-sub);">Deine Einträge werden niemals in eine Cloud hochgeladen.</p>
         <button class="btn-danger" onclick="resetAllData()">Alle lokalen Einträge zurücksetzen</button>
       </div>
     </section>
 
-    <!-- NAV BAR -->
+    <!-- NAVIGATION BAR -->
     <nav class="tab-bar">
       <button class="tab-item active" onclick="navigate('heute', this)">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
@@ -771,7 +996,7 @@
       </div>
 
       <div class="field-group">
-        <label class="field-label">Wie startet deine Energie?</label>
+        <label class="field-label">Wie startet deine Energie heute?</label>
         <div class="chip-row chip-row-5" id="row-energy">
           <div class="select-chip" onclick="handleChipClick(this, 'energy', 1)">1</div>
           <div class="select-chip" onclick="handleChipClick(this, 'energy', 2)">2</div>
@@ -782,7 +1007,7 @@
       </div>
 
       <div class="field-group">
-        <label class="field-label">Schlaf der Nacht</label>
+        <label class="field-label">Schlafqualität der Nacht</label>
         <div class="chip-row" id="row-sleep">
           <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'unruhig')">Unruhig</div>
           <div class="select-chip active" onclick="handleChipClick(this, 'sleep', 'maessig')">Mäßig</div>
@@ -792,7 +1017,7 @@
       </div>
 
       <div class="field-group">
-        <label class="field-label">Spürbare Signale heute (Mehrfachauswahl)</label>
+        <label class="field-label">Spürbare Signale (Mehrfachauswahl)</label>
         <div class="chip-row chip-row-2">
           <div class="select-chip" onclick="handleToggleChip(this, 'hitze')">🔥 Hitzewallung</div>
           <div class="select-chip" onclick="handleToggleChip(this, 'puls')">💓 Herzklopfen</div>
@@ -822,7 +1047,7 @@
     <div class="modal-panel">
       <div class="modal-top">
         <div>
-          <h3>⚡️ Akut-Signal</h3>
+          <h3>⚡️ Akut-Signal erfassen</h3>
           <p>Was passiert gerade im Körper?</p>
         </div>
         <button class="close-btn" onclick="closeSheet('modal-acute')">✕</button>
@@ -843,33 +1068,90 @@
     </div>
   </div>
 
-  <!-- MODAL: ATEM-TRAINER -->
+  <!-- MODAL: ATEM-TRAINER (LEBENDIGER DOPPEL-RING) -->
   <div class="modal-backdrop" id="modal-breathe">
     <div class="modal-panel" style="text-align: center;">
       <div class="modal-top">
         <div>
           <h3 id="breathe-title">Atem-Bremse</h3>
-          <p id="breathe-subtitle">Verlängertes Ausatmen reguliert den Puls.</p>
+          <p id="breathe-subtitle">Verlängertes Ausatmen reguliert den Vagusnerv.</p>
         </div>
         <button class="close-btn" onclick="closeBreathe()">✕</button>
       </div>
 
-      <div style="padding: 2.5rem 0; display: flex; flex-direction: column; align-items: center;">
-        <div id="breathe-ball" style="width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle, var(--champagne-soft), var(--sage)); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 35px var(--sage-soft); transition: transform 0.3s ease;"></div>
-        <div id="breathe-state" style="font-size: 1.35rem; font-weight: 700; margin-top: 1.5rem;">Einatmen</div>
-        <div id="breathe-countdown" style="font-size: 0.85rem; color: var(--text-sub); margin-top: 4px;">60 Sekunden verbleibend</div>
+      <div class="breathe-stage" id="breathe-stage-box">
+        <div class="breathe-outer-halo"></div>
+        <div class="breathe-core-ball"></div>
+      </div>
+
+      <div id="breathe-state-text" style="font-size: 1.3rem; font-weight: 800; margin-top: 0.5rem; color: var(--text-main);">
+        Bereit...
+      </div>
+      <div id="breathe-timer-display" style="font-size: 0.85rem; color: var(--text-sub); margin-top: 4px;">
+        60 Sekunden verbleibend
       </div>
     </div>
   </div>
 
-  <!-- MODAL: STATIC SHEETS -->
-  <div class="modal-backdrop" id="modal-static">
+  <!-- MODAL: INTERAKTIVER KÜHLPUNKTE GUIDE -->
+  <div class="modal-backdrop" id="modal-points">
     <div class="modal-panel">
       <div class="modal-top">
-        <h3 id="static-title">Sofort-Hilfe</h3>
-        <button class="close-btn" onclick="closeSheet('modal-static')">✕</button>
+        <div>
+          <h3>🧊 Kühl- & Nervenpunkte</h3>
+          <p>Tippe auf einen Punkt für die Sofort-Anleitung.</p>
+        </div>
+        <button class="close-btn" onclick="closeSheet('modal-points')">✕</button>
       </div>
-      <div id="static-body" style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.55;"></div>
+
+      <div class="body-points-map">
+        <div class="point-card active-point" onclick="selectPoint(this, 'wrist')">
+          <div class="point-pulse-dot"></div>
+          <div>
+            <strong>1. Handgelenk-Innenseiten</strong>
+            <p style="font-size: 0.75rem; color: var(--text-sub);">Kühlt das arterielle Blutvolumen direkt vor dem Herzen.</p>
+          </div>
+        </div>
+
+        <div class="point-card" onclick="selectPoint(this, 'neck')">
+          <div class="point-pulse-dot" style="background: var(--champagne);"></div>
+          <div>
+            <strong>2. Seitlicher Nacken & Karotis</strong>
+            <p style="font-size: 0.75rem; color: var(--text-sub);">Signalisiert dem Hirnstamm sofortige Entwarnung.</p>
+          </div>
+        </div>
+
+        <div class="point-card" onclick="selectPoint(this, 'thumb')">
+          <div class="point-pulse-dot" style="background: var(--berry);"></div>
+          <div>
+            <strong>3. Daumenballen-Akupressur (Lu 10)</strong>
+            <p style="font-size: 0.75rem; color: var(--text-sub);">Beruhigt Herzrasen unbemerkt im Meeting.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="point-instruction-box" style="padding: 1rem; background: var(--sage-soft); border-radius: 18px; font-size: 0.82rem; line-height: 1.5; color: var(--text-main);">
+        💧 <strong>Anwendung Handgelenk:</strong> Halte beide Innenseiten für 45 Sekunden unter fließendes kaltes Wasser. Atme dabei bewusst länger aus als ein.
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: NACHT-SOS (GEDIMMT) -->
+  <div class="modal-backdrop" id="modal-nightsos">
+    <div class="modal-panel" style="background: #1B1A32; color: #FAF6F1;">
+      <div class="modal-top">
+        <div>
+          <h3 style="color: #FAF6F1;">🌙 Nacht-SOS (3:00 Uhr)</h3>
+          <p style="color: #9E9DB0;">Gedimmtes Licht · Kein Stress</p>
+        </div>
+        <button class="close-btn" style="background: rgba(255,255,255,0.1); color: #fff;" onclick="closeSheet('modal-nightsos')">✕</button>
+      </div>
+
+      <div style="font-size: 0.88rem; line-height: 1.6; color: #D7D6E6;">
+        <p><strong>1. Kein Blick auf die Uhrzeit:</strong> Drehe den Wecker und das Handy weg. Das Wissen um die Uhrzeit triggert sofort Cortisol.</p><br>
+        <p><strong>2. Ausatmung in die Matratze:</strong> Der Körper regeneriert auch im ruhenden Wachzustand. Forciere keinen Schlaf.</p><br>
+        <p><strong>3. 20-Minuten-Regel:</strong> Nach 20 Minuten aufstehen, gedimmtes Licht, warmer Kräutertee ohne Zucker.</p>
+      </div>
     </div>
   </div>
 
@@ -886,6 +1168,24 @@
       if ('vibrate' in navigator) navigator.vibrate(ms);
     }
 
+    // ONBOARDING DISMISS / SHOW
+    function dismissIntro() {
+      vibrate([20, 40]);
+      localStorage.setItem('luna_seen_intro', 'true');
+      document.getElementById('intro-screen').classList.add('hidden');
+    }
+
+    function showIntroAgain() {
+      vibrate(10);
+      document.getElementById('intro-screen').classList.remove('hidden');
+    }
+
+    // Beim Laden prüfen
+    if (localStorage.getItem('luna_seen_intro') === 'true') {
+      document.getElementById('intro-screen').classList.add('hidden');
+    }
+
+    // TAB NAVIGATION
     function navigate(tab, btn) {
       vibrate(10);
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -900,6 +1200,7 @@
       btn.innerText = btn.innerText === 'DE | EN' ? 'EN | DE' : 'DE | EN';
     }
 
+    // MODAL HANDLING
     function openBaselineModal() {
       vibrate(15);
       document.getElementById('modal-baseline').classList.add('open');
@@ -935,7 +1236,7 @@
       }
     }
 
-    // AKUT-SIGNAL LIVE TIPP
+    // AKUT-SIGNAL AUSWAHL
     function pickAcuteSymptom(el, sym) {
       vibrate(15);
       el.parentElement.querySelectorAll('.select-chip').forEach(c => c.classList.remove('active'));
@@ -943,137 +1244,152 @@
 
       const tipBox = document.getElementById('sos-live-tip');
       const tips = {
-        hitze: '💧 <strong>Sofort-Kühlung:</strong> Lass 60 Sekunden kaltes Wasser über beide Handgelenke laufen. Das kühlt das Blutvolumen und beruhigt den Sympathikus.',
-        puls: '🌬 <strong>Vagus-Atem:</strong> 4 Sekunden durch die Nase einatmen, 6 Sekunden langsam durch den Mund ausatmen.',
-        fog: '🧠 <strong>Kognitiver Entlaster:</strong> Trink 300ml Wasser und vertage wichtige Entscheidungen um 30 Minuten.',
-        unruhe: '⚡️ <strong>Körper-Erdung:</strong> Stell beide Füße flach auf den Boden, senke die Schultern und löse die Zunge vom Gaumen.'
+        hitze: '💧 <strong>Sofort-Kühlung:</strong> Lass 60 Sekunden kaltes Wasser über beide Handgelenk-Innenseiten laufen. Das senkt die gefühlte Hitze sofort.',
+        puls: '🌬 <strong>Vagus-Atem:</strong> Atme 4 Sekunden durch die Nase ein und 6 Sekunden langsam durch die Lippenbremse aus.',
+        fog: '🧠 <strong>Kognitiver Entlaster:</strong> Trink ein großes Glas kaltes Wasser und vertage wichtige Entscheidungen um 30 Minuten.',
+        unruhe: '⚡️ <strong>Körper-Erdung:</strong> Stell beide Füße fest auf den Boden, löse die Zunge vom Gaumen und lockere den Kiefer.'
       };
       tipBox.innerHTML = tips[sym] || '';
       tipBox.style.display = 'block';
     }
 
-    // ECHTE DYNAMISCHE SCORE-BERECHNUNG (KEIN FAKE MEHR!)
+    // ECHTE MATHEMATISCHE SCORE-FORMEL
     function completeBaseline() {
-      vibrate([20, 50, 20]);
+      vibrate([25, 60, 25]);
       closeSheet('modal-baseline');
 
-      // 1. Energie-Punkte (1-5 -> 20 bis 100 Punkte, Gewicht 40%)
-      const energyScore = formState.energy * 20;
-
-      // 2. Schlaf-Punkte (Gewicht 35%)
+      const energyScore = formState.energy * 20; // 20 bis 100
       const sleepMap = { unruhig: 25, maessig: 50, gut: 80, tief: 100 };
       const sleepScore = sleepMap[formState.sleep] || 50;
+      const penalty = formState.signals.length * 14;
 
-      // 3. Signal-Abzüge (Jedes aktive Symptom zieht 12 Punkte ab)
-      const signalPenalty = formState.signals.length * 12;
-
-      // Gesamte Balance berechnen (Bereich: 15% bis 100%)
-      let finalScore = Math.round((energyScore * 0.45) + (sleepScore * 0.35) - signalPenalty);
+      let finalScore = Math.round((energyScore * 0.45) + (sleepScore * 0.35) - penalty);
       if (finalScore < 15) finalScore = 15;
       if (finalScore > 100) finalScore = 100;
 
-      // UI Update Ring
+      // Ring füllen
       const ringBox = document.getElementById('ring-hitbox');
       ringBox.classList.remove('ring-idle-breath');
 
-      const circumference = 515;
+      const circumference = 528;
       const offset = circumference - (circumference * (finalScore / 100));
       document.getElementById('ring-fill-bar').style.strokeDashoffset = offset;
       document.getElementById('score-val').innerText = finalScore + '%';
 
-      // Status & Körper-Wetterlage anhand des echten Scores
+      // Status & Körper-Wetterlage
       const statusLabel = document.getElementById('score-sub');
+      const weatherCard = document.getElementById('weather-card');
+      const kicker = document.getElementById('weather-kicker');
       const headline = document.getElementById('weather-headline');
       const body = document.getElementById('weather-text');
 
       if (finalScore >= 75) {
-        statusLabel.innerText = 'Stabil & Aufmerksam';
+        statusLabel.innerText = 'Stabil & Resilient';
+        weatherCard.style.borderLeftColor = 'var(--sage)';
+        kicker.style.color = 'var(--sage)';
         headline.innerText = 'Stabiles Biorhythmus-Fenster';
-        body.innerText = 'Dein Nervensystem zeigt heute eine hohe Resilienz. Nutze den Tag für anspruchsvolle Aufgaben, aber behalte feste Essenszeiten bei.';
+        body.innerText = 'Dein Nervensystem zeigt heute eine hohe Resilienz. Nutze den Vormittag für Konzentration, halte feste Essenszeiten ein.';
       } else if (finalScore >= 50) {
-        statusLabel.innerText = 'Sensibel & Durchwachsen';
+        statusLabel.innerText = 'Sensibel & Puffer nötig';
+        weatherCard.style.borderLeftColor = 'var(--champagne)';
+        kicker.style.color = 'var(--champagne)';
         headline.innerText = 'Erhöhte Reizbarkeit · Puffer nötig';
-        body.innerText = 'Die Nacht oder dein Energielevel fordern heute Pufferzeiten. Vertage Multitasking am Nachmittag und trinke ausreichend Wasser gegen Kopf- oder Gelenkdruck.';
+        body.innerText = 'Schlaf oder Energielevel fordern heute Entlastung. Vertage Multitasking am Nachmittag und plane 15 Minuten echte Bildschirmpause ein.';
       } else {
         statusLabel.innerText = 'Akuter Schonmodus';
+        weatherCard.style.borderLeftColor = 'var(--alert-amber)';
+        kicker.style.color = 'var(--alert-amber)';
         headline.innerText = 'Niedriger Hormon-Puffer · Akuter Rückzug';
-        body.innerText = 'Dein Körper kämpft heute mit Erschöpfung oder intensiven Signalen. Reduziere Termine auf das Nötigste, meide Koffein am Nachmittag und nutze die 4-6 Atem-Bremse.';
+        body.innerText = 'Dein System ist durch Beschwerden überreizt. Reduziere Termine auf das Nötigste, meide Koffein ab 13 Uhr und nutze die 4-6 Atem-Bremse.';
       }
 
-      // Dynamic Info Pills
       document.getElementById('pills-row').style.display = 'flex';
       document.getElementById('pill-energy').innerText = `⚡️ Energie ${formState.energy}/5`;
       document.getElementById('pill-sleep').innerText = `🌙 Schlaf: ${formState.sleep}`;
       document.getElementById('pill-signals').innerText = `💓 ${formState.signals.length} Signal${formState.signals.length === 1 ? '' : 'e'}`;
-
       document.getElementById('btn-baseline-text').innerText = 'Baseline anpassen';
     }
 
-    // ATEMÜBUNG MIT FLÜSSIGEM KEYFRAME-LOOP
-    let breatheInterval = null;
-    function openBreathe(inSec, outSec, title, desc) {
+    // LEBENDIGER ATEM-TRAINER MIT FLÜSSIGEM STAGE-WECHSEL
+    let breatheTimer = null;
+    let breatheCountdown = 60;
+
+    function openInteractiveBreathe(inSec, outSec, title, subtitle) {
       vibrate(15);
       document.getElementById('breathe-title').innerText = title;
-      document.getElementById('breathe-subtitle').innerText = desc;
+      document.getElementById('breathe-subtitle').innerText = subtitle;
       document.getElementById('modal-breathe').classList.add('open');
 
-      const ball = document.getElementById('breathe-ball');
-      const stateTxt = document.getElementById('breathe-state');
-      const counterTxt = document.getElementById('breathe-countdown');
-      let remain = 60;
+      const stage = document.getElementById('breathe-stage-box');
+      const text = document.getElementById('breathe-state-text');
+      const count = document.getElementById('breathe-timer-display');
 
-      ball.classList.add('breathing-active');
-      stateTxt.innerText = 'Tief durch die Nase einatmen...';
+      breatheCountdown = 60;
+      let phase = 'in';
 
-      let toggle = false;
-      breatheInterval = setInterval(() => {
-        remain--;
-        counterTxt.innerText = `${remain} Sekunden verbleibend`;
-        
-        // Alle 5 Sekunden Wechsel anzeigen
-        if (remain % 5 === 0) {
-          toggle = !toggle;
-          stateTxt.innerText = toggle ? 'Langsam durch den Mund ausatmen...' : 'Tief durch die Nase einatmen...';
+      function runCycle() {
+        if (phase === 'in') {
+          stage.classList.remove('exhale');
+          stage.classList.add('inhale');
+          text.innerText = 'Einatmen (durch die Nase)...';
           vibrate(20);
+          phase = 'out';
+          setTimeout(runCycle, inSec * 1000);
+        } else {
+          stage.classList.remove('inhale');
+          stage.classList.add('exhale');
+          text.innerText = 'Lange Ausatmen (durch den Mund)...';
+          vibrate(35);
+          phase = 'in';
+          setTimeout(runCycle, outSec * 1000);
         }
+      }
 
-        if (remain <= 0) closeBreathe();
+      runCycle();
+
+      breatheTimer = setInterval(() => {
+        breatheCountdown--;
+        count.innerText = `${breatheCountdown} Sekunden verbleibend`;
+        if (breatheCountdown <= 0) closeBreathe();
       }, 1000);
     }
 
     function closeBreathe() {
-      clearInterval(breatheInterval);
-      const ball = document.getElementById('breathe-ball');
-      ball.classList.remove('breathing-active');
+      clearInterval(breatheTimer);
+      const stage = document.getElementById('breathe-stage-box');
+      stage.classList.remove('inhale', 'exhale');
       closeSheet('modal-breathe');
     }
 
-    function openStaticTool(kind) {
+    // KÜHLPUNKTE INTERAKTIV
+    function openAcupressureGuide() {
       vibrate(12);
-      const title = document.getElementById('static-title');
-      const body = document.getElementById('static-body');
+      document.getElementById('modal-points').classList.add('open');
+    }
 
-      if (kind === 'night') {
-        title.innerText = '🌙 Nacht-SOS (3 Uhr morgens)';
-        body.innerHTML = `
-          <strong>1. Kein Blick auf die Uhr:</strong> Das Display wegzudrehen verhindert den Cortisol-Schub.<br><br>
-          <strong>2. Körper entspannen statt Schlaf erzwingen:</strong> Atme sechsmal tief in die Matratze aus. Der Körper erholt sich auch im Wachzustand.<br><br>
-          <strong>3. Reizfreier Raum:</strong> Wenn du nach 20 Minuten wach bist: aufstehen, gedimmtes Licht, warmes Wasser oder Kamillentee trinken.
-        `;
+    function selectPoint(el, type) {
+      vibrate(12);
+      document.querySelectorAll('.point-card').forEach(p => p.classList.remove('active-point'));
+      el.classList.add('active-point');
+
+      const box = document.getElementById('point-instruction-box');
+      if (type === 'wrist') {
+        box.innerHTML = '💧 <strong>Anwendung Handgelenk:</strong> Halte beide Innenseiten für 45 Sekunden unter fließendes kaltes Wasser. Atme dabei bewusst länger aus als ein.';
+      } else if (type === 'neck') {
+        box.innerHTML = '🧊 <strong>Anwendung Nacken:</strong> Lege ein kaltes Tuch oder ein gekühltes Glas seitlich unter den Kieferwinkel. Reguliert den Vagusnerv sofort.';
       } else {
-        title.innerText = '🧊 Diskrete Kühl- & Nervenpunkte';
-        body.innerHTML = `
-          <strong>1. Handgelenk-Innenseite:</strong> 45 Sekunden unter kühles Wasser halten (kühlt das Blut direkt).<br><br>
-          <strong>2. Seitlicher Nacken:</strong> Kühlen Gegenstand oder feuchtes Tuch auflegen.<br><br>
-          <strong>3. Daumenballen:</strong> Sanfter Druck auf die Mitte des Daumenballens beruhigt Herzklopfen unbemerkt im Meeting.
-        `;
+        box.innerHTML = '👌 <strong>Anwendung Daumenballen:</strong> Drücke mit dem Daumen der anderen Hand fest auf die Mitte des Daumenballens (30 Sek.). Lindert Herzklopfen und Brustenge.';
       }
-      document.getElementById('modal-static').classList.add('open');
+    }
+
+    function openNightSOS() {
+      vibrate(12);
+      document.getElementById('modal-nightsos').classList.add('open');
     }
 
     // VOLLSTÄNDIGER DATEN-RESET
     function resetAllData() {
-      if (confirm('Möchtest du alle erfassten Daten wirklich unwiderruflich löschen?')) {
+      if (confirm('Möchtest du wirklich alle lokalen Daten und Einträge zurücksetzen?')) {
         localStorage.clear();
         vibrate([30, 80, 30]);
         location.reload();
