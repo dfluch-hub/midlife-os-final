@@ -1,234 +1,68 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="h-full">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>LUNA — Dein Midlife Companion</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>LUNA — Midlife Companion</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { brand: { sand: '#F7F5F0', earth: '#2D2825', terracotta: '#D47355', sage: '#8A9A86', warmgray: '#E8E5DF', darkcard: '#1C1917', darkbg: '#12100E' } }, fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'] } } }
+    }
+  </script>
   <style>
-    :root {
-      --bg-gradient: radial-gradient(circle at 10% 0%, rgba(224, 242, 233, 0.8) 0%, transparent 40%),
-                     radial-gradient(circle at 90% 20%, rgba(254, 243, 199, 0.7) 0%, transparent 45%),
-                     radial-gradient(circle at 50% 100%, rgba(254, 226, 226, 0.5) 0%, transparent 50%),
-                     #F8FAFC;
-      --card-bg: rgba(255, 255, 255, 0.75);
-      --card-border: rgba(255, 255, 255, 0.9);
-      --card-shadow: 0 10px 30px -6px rgba(15, 23, 42, 0.05), 0 2px 8px -2px rgba(15, 23, 42, 0.03);
-      --text-main: #0F172A;
-      --text-muted: #64748B;
-      --accent-emerald: #10B981;
-      --accent-emerald-glow: rgba(16, 185, 129, 0.25);
-      --accent-amber: #F59E0B;
-      --accent-coral: #F43F5E;
-      --accent-coral-glow: rgba(244, 63, 94, 0.25);
-      --accent-indigo: #4F46E5;
-      --surface-card: var(--card-bg);
-      --surface-card-solid: rgba(255,255,255,0.84);
-      --border-card: var(--card-border);
-      --border-subtle: rgba(15,23,42,0.06);
-      --text-hero: var(--text-main);
-      --text-body: var(--text-muted);
-      --sage-primary: var(--accent-emerald);
-      --sage-soft: rgba(16,185,129,0.10);
-      --champagne-primary: var(--accent-amber);
-      --champagne-soft: rgba(245,158,11,0.12);
-      --terracotta-primary: var(--accent-coral);
-      --terracotta-soft: rgba(244,63,94,0.10);
-      --shadow-soft: var(--card-shadow);
-      --shadow-float: 0 22px 55px -12px rgba(15,23,42,0.2);
-      --radius-sheet: 32px;
-      --radius-card: 24px;
-      --radius-pill: 9999px;
-      --ease-ios: cubic-bezier(0.16,1,0.3,1);
-    }
-
-    * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; user-select:none; }
-
-    body {
-      background: var(--bg-gradient) !important;
-      background-attachment: fixed !important;
-      color: var(--text-main) !important;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
-      min-height:100vh; display:flex; flex-direction:column; align-items:center;
-      padding-top:max(0.8rem, env(safe-area-inset-top));
-      padding-bottom:max(5.5rem, calc(env(safe-area-inset-bottom) + 4.8rem));
-      overflow-x:hidden;
-    }
-
-    .app-container { width:100%; max-width:414px; padding:0 1.2rem; display:flex; flex-direction:column; flex:1; }
-    header { display:flex; align-items:center; justify-content:space-between; padding:.45rem 0 .9rem; }
-    .brand { display:flex; align-items:center; gap:8px; font-size:1.2rem; font-weight:800; letter-spacing:.16em; color:var(--text-main); cursor:pointer; }
-    .brand svg { width:22px; height:22px; fill:var(--text-main); filter:drop-shadow(0 3px 8px rgba(79,70,229,.12)); }
-    .header-badge { font-size:.74rem; font-weight:700; color:var(--text-muted); background:rgba(255,255,255,.75); border:1px solid rgba(255,255,255,.9); box-shadow:var(--card-shadow); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); padding:6px 12px; border-radius:var(--radius-pill); cursor:pointer; }
-
-    .tab-view { display:none; flex-direction:column; flex:1; animation:iosFade .28s var(--ease-ios); }
-    .tab-view.active { display:flex; }
-    @keyframes iosFade { from { opacity:0; transform:scale(.99) translateY(4px); } to { opacity:1; transform:scale(1) translateY(0); } }
-
-    .vital-tile, .glass-card, .climate-deck, .studio-tile {
-      background: var(--card-bg) !important;
-      backdrop-filter: blur(20px) !important;
-      -webkit-backdrop-filter: blur(20px) !important;
-      border: 1px solid var(--card-border) !important;
-      box-shadow: var(--card-shadow) !important;
-      border-radius: 24px !important;
-    }
-    .glass-card { padding:1.15rem; margin-bottom:.75rem; }
-
-    .ring-deck { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:.2rem 0 .55rem; }
-    .ring-wrapper { position:relative; width:170px; height:170px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
-    .ring-inner-glow { position:absolute; width:126px; height:126px; border-radius:50%; background:radial-gradient(circle, var(--accent-emerald-glow) 0%, transparent 70%) !important; filter:blur(8px); pointer-events:none; }
-    .ring-svg { width:100%; height:100%; transform:rotate(-90deg); overflow:visible; }
-    .ring-track { stroke:rgba(15,23,42,.04) !important; stroke-width:13; fill:none; }
-    .ring-fill { stroke-width:13; stroke-linecap:round; fill:none; stroke:url(#lunaGradient); stroke-dasharray:465; stroke-dashoffset:465; transition:stroke-dashoffset 1.2s var(--ease-ios); filter:drop-shadow(0 4px 16px var(--accent-emerald-glow)) !important; }
-    #lunaGradient stop:nth-child(1) { stop-color:#10B981 !important; }
-    #lunaGradient stop:nth-child(2) { stop-color:#06B6D4 !important; }
-    #lunaGradient stop:nth-child(3) { stop-color:#F59E0B !important; }
-    .ring-breathe-idle { animation:ringBreath 4s ease-in-out infinite; }
-    @keyframes ringBreath { 0%,100% { transform:scale(1); opacity:.95; } 50% { transform:scale(1.03); opacity:1; filter:drop-shadow(0 8px 20px rgba(16,185,129,.16)); } }
-    .ring-content { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px; text-align:center; pointer-events:none; }
-    .ring-score-val { font-size:2.4rem !important; font-weight:900 !important; letter-spacing:-.04em !important; line-height:1; color:var(--text-main) !important; }
-    .ring-label-text { color:#94A3B8 !important; font-size:.65rem !important; font-weight:700 !important; letter-spacing:.06em !important; margin-top:5px; text-transform:uppercase; }
-    .ring-status-text { font-size:.68rem; font-weight:750; color:var(--accent-emerald); margin-top:3px; max-width:108px; line-height:1.16; }
-    .streak-pill { display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,.75); border:1px solid rgba(255,255,255,.9); color:#8A5A06; padding:5px 13px; border-radius:var(--radius-pill); font-size:.74rem; font-weight:700; margin-top:.35rem; box-shadow:var(--card-shadow); backdrop-filter:blur(20px); }
-
-    .vitals-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:.78rem; }
-    .vital-tile { padding:11px 10px 12px; display:flex; flex-direction:column; }
-    .vital-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:2px; }
-    .vital-tag { font-size:.63rem; font-weight:750; text-transform:uppercase; letter-spacing:.08em !important; color:#94A3B8 !important; }
-    .vital-num { font-size:.98rem; font-weight:800 !important; color:var(--text-main) !important; margin-top:3px; }
-
-    .btn-hero-primary { width:100%; height:49px; background:linear-gradient(135deg,#1E1B4B 0%,#0F172A 100%) !important; color:#fff; border:none; border-radius:18px !important; font-size:.92rem; font-weight:700 !important; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; box-shadow:0 10px 25px -4px rgba(15,23,42,.3) !important; transition:transform .15s var(--ease-ios); }
-    .btn-hero-primary:active { transform:scale(.97); }
-    .btn-hero-subtle { width:100%; height:45px; background:rgba(255,255,255,.8) !important; color:var(--text-main); border:1px solid rgba(255,255,255,.9) !important; border-radius:18px !important; font-size:.88rem; font-weight:700; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; margin-top:.56rem; box-shadow:0 4px 15px rgba(0,0,0,.03) !important; backdrop-filter:blur(12px) !important; -webkit-backdrop-filter:blur(12px) !important; transition:all .15s var(--ease-ios); }
-    .btn-hero-subtle:active { transform:scale(.97); }
-
-    .climate-deck { border-left:5px solid var(--accent-emerald) !important; padding:13px 14px; margin-top:.78rem; transition:border-color .3s ease; }
-    .climate-tag { font-size:.65rem; font-weight:800; text-transform:uppercase; letter-spacing:.075em; color:var(--accent-emerald); margin-bottom:3px; }
-    .climate-title { font-size:.97rem; font-weight:800; color:var(--text-main); margin-bottom:4px; letter-spacing:-.01em; }
-    .climate-desc { font-size:.79rem; color:var(--text-muted); line-height:1.47; }
-
-    .studio-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:.4rem; }
-    .studio-tile { padding:1.15rem 1rem; display:flex; flex-direction:column; justify-content:space-between; height:150px; cursor:pointer; transition:transform .15s var(--ease-ios); }
-    .studio-tile:active { transform:scale(.96); }
-    .tile-badge { width:42px; height:42px; border-radius:13px; display:flex; align-items:center; justify-content:center; }
-    .tile-title { font-size:.92rem; font-weight:800; color:var(--text-main); }
-    .tile-sub { font-size:.72rem; color:var(--text-muted); line-height:1.35; margin-top:2px; }
-
-    .sheet-backdrop { position:fixed; inset:0; background:rgba(15,23,42,.28); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); display:none; align-items:flex-end; justify-content:center; z-index:1000; }
-    .sheet-backdrop.open { display:flex; }
-    .sheet-modal { width:100%; max-width:414px; background:rgba(255,255,255,.92); border:1px solid rgba(255,255,255,.96); border-bottom:none; border-top-left-radius:var(--radius-sheet); border-top-right-radius:var(--radius-sheet); padding:1.4rem 1.2rem max(1.8rem, env(safe-area-inset-bottom)); box-shadow:var(--shadow-float); max-height:88vh; overflow-y:auto; animation:sheetSlideUp .3s var(--ease-ios); backdrop-filter:blur(28px); -webkit-backdrop-filter:blur(28px); }
-    @keyframes sheetSlideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
-    .sheet-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.15rem; }
-    .sheet-title { font-size:1.2rem; font-weight:800; color:var(--text-main); }
-    .sheet-sub { font-size:.78rem; color:var(--text-muted); }
-    .sheet-close { width:32px; height:32px; border-radius:50%; background:rgba(15,23,42,.05); border:1px solid rgba(255,255,255,.75); display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:.9rem; cursor:pointer; }
-
-    .field-row { margin-bottom:1.15rem; }
-    .field-title { font-size:.78rem; font-weight:700; color:var(--text-muted); margin-bottom:.45rem; display:block; }
-    .select-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; }
-    .select-grid-5 { grid-template-columns:repeat(5,1fr); }
-    .select-grid-2 { grid-template-columns:repeat(2,1fr); }
-    .select-chip { height:46px; background:rgba(255,255,255,.72); border:1px solid rgba(255,255,255,.9); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:.82rem; font-weight:700; color:var(--text-main); cursor:pointer; transition:all .15s var(--ease-ios); }
-    .select-chip:active { transform:scale(.96); }
-    .select-chip.active { background:linear-gradient(135deg,#1E1B4B,#0F172A) !important; color:#fff !important; border-color:transparent !important; box-shadow:0 6px 18px -5px rgba(79,70,229,.34); }
-
-    .breath-stage { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem 0 1rem; position:relative; }
-    .breath-outer { position:relative; width:170px; height:170px; display:flex; align-items:center; justify-content:center; }
-    .breath-progress-svg { position:absolute; inset:0; width:100%; height:100%; transform:rotate(-90deg); }
-    .breath-track { stroke:rgba(15,23,42,.06); stroke-width:6; fill:none; }
-    .breath-bar { stroke:var(--accent-emerald); stroke-width:6; stroke-linecap:round; fill:none; stroke-dasharray:490; stroke-dashoffset:490; transition:stroke-dashoffset .6s var(--ease-ios); filter:drop-shadow(0 4px 10px var(--accent-emerald-glow)); }
-    .breath-orb { width:115px; height:115px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#6EE7B7,#10B981); box-shadow:0 12px 34px var(--accent-emerald-glow); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; transition:transform 4s cubic-bezier(.4,0,.2,1), background 3s ease; z-index:2; }
-    .breath-orb.inhaling { transform:scale(1.35); background:radial-gradient(circle at 35% 35%,#A7F3D0,#10B981); }
-    .breath-orb.exhaling { transform:scale(.85); background:radial-gradient(circle at 35% 35%,#FDE68A,#F59E0B); }
-
-    .touch-pad { width:100%; height:170px; border-radius:22px; background:radial-gradient(circle,#FB7185,#F43F5E); box-shadow:0 12px 32px var(--accent-coral-glow); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; cursor:pointer; transition:background 12s linear, box-shadow 12s linear, transform .2s var(--ease-ios); }
-    .touch-pad:active { transform:scale(.98); }
-    .touch-pad.cooling { background:radial-gradient(circle,#6EE7B7,#059669) !important; box-shadow:0 12px 32px var(--accent-emerald-glow) !important; }
-    .pulse-tap-circle { width:135px; height:135px; border-radius:50%; border:8px solid var(--accent-coral); box-shadow:0 0 30px var(--accent-coral-glow); display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-weight:800; color:var(--text-main); margin:1.2rem auto; cursor:pointer; transition:all .4s var(--ease-ios); background:rgba(255,255,255,.5); backdrop-filter:blur(12px); }
-    .focus-list { display:flex; flex-direction:column; gap:9px; margin:.8rem 0; }
-    .focus-item { background:rgba(255,255,255,.72); border:1px solid rgba(255,255,255,.9); padding:12px 14px; border-radius:16px; cursor:pointer; transition:all .2s var(--ease-ios); }
-    .focus-item.done { opacity:.35; text-decoration:line-through; transform:scale(.98); }
-
-    nav.dock-bar { position:fixed; bottom:0; left:0; right:0; height:calc(3.6rem + env(safe-area-inset-bottom)); background:rgba(255,255,255,.82) !important; backdrop-filter:blur(28px) !important; -webkit-backdrop-filter:blur(28px) !important; border-top:1px solid rgba(255,255,255,.8) !important; display:flex; justify-content:space-around; align-items:flex-start; padding-top:.4rem; z-index:100; }
-    .dock-tab { display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; color:#94A3B8; cursor:pointer; width:25%; }
-    .dock-tab svg { width:21px; height:21px; stroke:currentColor; stroke-width:1.8; fill:none; }
-    .dock-tab span { font-size:.67rem; font-weight:700; }
-    .dock-tab.active { color:var(--accent-indigo); }
+    * { -webkit-tap-highlight-color: transparent; }
+    body { font-feature-settings: "cv02", "cv03", "cv04", "cv11"; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body>
-  <div class="app-container">
-    <header>
-      <div class="brand" onclick="switchNavTab('heute')"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8A9.06 9.06 0 0 0 12 3z"/></svg><span>LUNA</span></div>
-      <div style="display:flex; gap:8px;"><button class="header-badge" onclick="openModalSheet('modal-intro')">Über LUNA</button><button class="header-badge" id="lang-btn" onclick="toggleLanguage()">DE | EN</button></div>
+<body class="h-full bg-brand-sand dark:bg-brand-darkbg text-brand-earth dark:text-zinc-100 flex justify-center selection:bg-brand-terracotta selection:text-white transition-colors duration-200">
+  <div class="w-full max-w-md h-full flex flex-col justify-between relative shadow-2xl bg-brand-sand dark:bg-brand-darkbg overflow-hidden">
+    <header class="pt-6 pb-3 px-6 flex items-center justify-between border-b border-brand-warmgray dark:border-zinc-800 shrink-0">
+      <div><p class="text-xs font-semibold tracking-wider uppercase text-brand-terracotta">LUNA OS</p><h1 class="text-xl font-bold tracking-tight">Übersicht</h1></div>
+      <div class="flex items-center gap-2"><button id="theme-toggle" class="p-2.5 rounded-full bg-white dark:bg-zinc-800 shadow-sm border border-brand-warmgray/50 dark:border-zinc-700/60 active:scale-95 transition-transform"><i data-lucide="moon" class="w-4 h-4 hidden dark:block text-zinc-300"></i><i data-lucide="sun" class="w-4 h-4 block dark:hidden text-brand-earth"></i></button></div>
     </header>
-
-    <main id="pane-heute" class="tab-view active">
-      <section class="ring-deck">
-        <div class="ring-wrapper ring-breathe-idle" id="ring-box" onclick="openModalSheet('modal-baseline')">
-          <div class="ring-inner-glow"></div>
-          <svg class="ring-svg" viewBox="0 0 180 180"><defs><linearGradient id="lunaGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#588165"/><stop offset="65%" stop-color="#1A1930"/><stop offset="100%" stop-color="#DCA54C"/></linearGradient></defs><circle class="ring-track" cx="90" cy="90" r="74"/><circle class="ring-fill" id="ring-fill-bar" cx="90" cy="90" r="74"/></svg>
-          <div class="ring-content"><div class="ring-score-val" id="score-val">—</div><div class="ring-label-text" id="score-label">Tages-Balance</div><div class="ring-status-text" id="score-sub">Antippen zum Starten</div></div>
+    <main id="app-container" class="flex-1 overflow-y-auto px-6 py-4 no-scrollbar">
+      <section id="pillar-status" class="pillar-view space-y-5">
+        <div class="bg-white dark:bg-brand-darkcard p-5 rounded-2xl border border-brand-warmgray/60 dark:border-zinc-800 shadow-sm">
+          <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Tagesfokus</span><span class="text-xs bg-brand-sage/20 text-brand-sage dark:text-emerald-400 px-2.5 py-0.5 rounded-full font-semibold">Balance</span></div>
+          <h2 class="text-lg font-semibold leading-snug">Wie stabil fühlst du dich heute körperlich & mental?</h2>
+          <div class="grid grid-cols-4 gap-2 mt-4">
+            <button onclick="setDailyMood(1)" class="mood-btn flex flex-col items-center py-3 rounded-xl border border-brand-warmgray/80 dark:border-zinc-800 hover:border-brand-terracotta active:scale-95 transition-all text-xs font-medium"><span class="text-lg mb-1">🌿</span> Ruhig</button>
+            <button onclick="setDailyMood(2)" class="mood-btn flex flex-col items-center py-3 rounded-xl border border-brand-warmgray/80 dark:border-zinc-800 hover:border-brand-terracotta active:scale-95 transition-all text-xs font-medium"><span class="text-lg mb-1">⚡</span> Unruhig</button>
+            <button onclick="setDailyMood(3)" class="mood-btn flex flex-col items-center py-3 rounded-xl border border-brand-warmgray/80 dark:border-zinc-800 hover:border-brand-terracotta active:scale-95 transition-all text-xs font-medium"><span class="text-lg mb-1">🔥</span> Hitze</button>
+            <button onclick="setDailyMood(4)" class="mood-btn flex flex-col items-center py-3 rounded-xl border border-brand-warmgray/80 dark:border-zinc-800 hover:border-brand-terracotta active:scale-95 transition-all text-xs font-medium"><span class="text-lg mb-1">💤</span> Müde</button>
+          </div>
         </div>
-        <div class="streak-pill">✨ <span id="streak-text">1 Tag im Rhythmus · Level 1</span></div>
+        <div class="bg-white dark:bg-brand-darkcard p-5 rounded-2xl border border-brand-warmgray/60 dark:border-zinc-800 shadow-sm space-y-3">
+          <div class="flex items-center justify-between"><h3 class="text-sm font-semibold">Symptom-Tracking (Schnellwahl)</h3><span class="text-xs text-zinc-400">Heute</span></div>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <button onclick="toggleTag(this)" class="tag-chip text-xs px-3 py-1.5 rounded-full border border-brand-warmgray dark:border-zinc-700 bg-brand-sand dark:bg-zinc-800/60 active:scale-95 transition">Schlafstörung</button>
+            <button onclick="toggleTag(this)" class="tag-chip text-xs px-3 py-1.5 rounded-full border border-brand-warmgray dark:border-zinc-700 bg-brand-sand dark:bg-zinc-800/60 active:scale-95 transition">Brain Fog</button>
+            <button onclick="toggleTag(this)" class="tag-chip text-xs px-3 py-1.5 rounded-full border border-brand-warmgray dark:border-zinc-700 bg-brand-sand dark:bg-zinc-800/60 active:scale-95 transition">Gelenkziehen</button>
+            <button onclick="toggleTag(this)" class="tag-chip text-xs px-3 py-1.5 rounded-full border border-brand-warmgray dark:border-zinc-700 bg-brand-sand dark:bg-zinc-800/60 active:scale-95 transition">Pulsanstieg</button>
+          </div>
+        </div>
       </section>
-      <div class="vitals-grid"><div class="vital-tile"><div class="vital-top"><span class="vital-tag">Energie</span><span style="font-size:.72rem;">⚡️</span></div><div class="vital-num" id="vital-energy">— / 5</div></div><div class="vital-tile"><div class="vital-top"><span class="vital-tag">Schlaf</span><span style="font-size:.72rem;">🌙</span></div><div class="vital-num" id="vital-sleep">—</div></div><div class="vital-tile"><div class="vital-top"><span class="vital-tag">Signale</span><span style="font-size:.72rem;">💓</span></div><div class="vital-num" id="vital-signals">0 aktiv</div></div></div>
-      <button class="btn-hero-primary" onclick="openModalSheet('modal-baseline')"><span>+</span><span id="btn-baseline-text">Tages-Baseline erfassen (8 Sek.)</span></button>
-      <button class="btn-hero-subtle" onclick="openModalSheet('modal-acute')"><span>⚡️</span><span>Akut-SOS erfassen (3 Sek.)</span></button>
-      <div class="climate-deck" id="climate-card"><div class="climate-tag" id="climate-badge">Körper-Wetterlage</div><div class="climate-title" id="climate-headline">Bereit für deinen Tag</div><div class="climate-desc" id="climate-desc">Erfasse kurz deine Baseline. LUNA ermittelt daraus deinen Stress-Puffer und den wirksamsten Hebel für heute.</div></div>
+      <section id="pillar-rhythm" class="pillar-view hidden space-y-4"><div class="bg-white dark:bg-brand-darkcard p-5 rounded-2xl border border-brand-warmgray/60 dark:border-zinc-800 shadow-sm space-y-3"><h3 class="text-sm font-semibold">Tagesbegleiter & Routinen</h3><p class="text-xs text-zinc-500 dark:text-zinc-400">Sanfte Impulse statt starrer Verpflichtungen.</p><div class="space-y-2 pt-2"><label class="flex items-center gap-3 p-3 bg-brand-sand dark:bg-zinc-800/50 rounded-xl cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded text-brand-terracotta focus:ring-0 accent-brand-terracotta"><span class="text-xs font-medium">Morgenlicht & 5 Min Dehnen</span></label><label class="flex items-center gap-3 p-3 bg-brand-sand dark:bg-zinc-800/50 rounded-xl cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded text-brand-terracotta focus:ring-0 accent-brand-terracotta"><span class="text-xs font-medium">Magnesium & Hydration</span></label><label class="flex items-center gap-3 p-3 bg-brand-sand dark:bg-zinc-800/50 rounded-xl cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded text-brand-terracotta focus:ring-0 accent-brand-terracotta"><span class="text-xs font-medium">Bildschirmfreie Abendstunde</span></label></div></div></section>
+      <section id="pillar-insights" class="pillar-view hidden space-y-4"><div class="bg-white dark:bg-brand-darkcard p-5 rounded-2xl border border-brand-warmgray/60 dark:border-zinc-800 shadow-sm space-y-4"><div class="flex items-center justify-between"><h3 class="text-sm font-semibold">Arztgespräch-Vorbereitung</h3><i data-lucide="file-text" class="w-4 h-4 text-brand-terracotta"></i></div><p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Kompakte Zusammenfassung der letzten Tage für den nächsten Termin bei deiner Ärztin / deinem Arzt.</p><div class="p-3 bg-brand-sand dark:bg-zinc-800/60 rounded-xl space-y-1"><p class="text-xs font-bold">Häufigste Symptome (7 Tage):</p><p class="text-xs text-zinc-500 dark:text-zinc-400" id="summary-text">Noch keine Daten erfasst.</p></div><button onclick="exportDataReport()" class="w-full py-2.5 bg-brand-earth dark:bg-zinc-100 text-white dark:text-brand-earth rounded-xl text-xs font-semibold hover:opacity-90 active:scale-98 transition">Bericht als Text exportieren</button></div></section>
     </main>
-
-    <section id="pane-toolkit" class="tab-view"><div class="glass-card" style="margin-bottom:.65rem;"><h2 style="font-size:1.15rem;font-weight:800;margin-bottom:3px;">Relief-Studio</h2><p style="font-size:.8rem;color:var(--text-body);">Berühren, reagieren, durchführen. Keine passiven Countdown-Tools.</p></div><div class="studio-grid"><div class="studio-tile" onclick="openBreathTool()"><div class="tile-badge" style="background:var(--sage-soft);color:var(--sage-primary);"><div style="width:22px;height:22px;border-radius:50%;background:currentColor;"></div></div><div><div class="tile-title">4–6 Atem-Bremse</div><div class="tile-sub">5 geführte Atemzüge mit Haptik</div></div></div><div class="studio-tile" onclick="openCoolDownTool()"><div class="tile-badge" style="background:var(--terracotta-soft);color:var(--terracotta-primary);"><div style="width:24px;height:16px;border-radius:6px;background:currentColor;"></div></div><div><div class="tile-title">Cool-down</div><div class="tile-sub">Thermo-Feld berühren & halten</div></div></div><div class="studio-tile" onclick="openFocusTool()"><div class="tile-badge" style="background:var(--champagne-soft);color:var(--champagne-primary);"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:currentColor;stroke-width:2;fill:none;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div><div><div class="tile-title">Fokus-Hebel</div><div class="tile-sub">Kopf-Rauschen in 1 Schritt klären</div></div></div><div class="studio-tile" onclick="openPulseTool()"><div class="tile-badge" style="background:var(--terracotta-soft);color:var(--terracotta-primary);"><div style="width:22px;height:22px;border-radius:50%;border:3px solid currentColor;"></div></div><div><div class="tile-title">Pulse-Sync</div><div class="tile-sub">3x im eigenen Takt tippen</div></div></div></div></section>
-
-    <section id="pane-trends" class="tab-view"><div class="glass-card"><h2 style="font-size:1.15rem;font-weight:800;margin-bottom:3px;">Körper-Zusammenhänge</h2><p style="font-size:.8rem;color:var(--text-body);">Persönliche Muster entstehen durch Regelmäßigkeit.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:1.15rem 0 .75rem;"><div class="vital-tile"><span class="vital-tag">Ø Balance</span><div class="vital-num" id="pattern-avg-balance">—</div></div><div class="vital-tile"><span class="vital-tag">Schlaf-Fokus</span><div class="vital-num" id="pattern-sleep-focus">—</div></div><div class="vital-tile"><span class="vital-tag">Top-Signal</span><div class="vital-num" id="pattern-top-signal">—</div></div></div><div style="padding:1rem;background:var(--sage-soft);border-radius:18px;margin-top:.5rem;"><div style="font-size:.7rem;font-weight:800;color:var(--sage-primary);text-transform:uppercase;letter-spacing:.05em;">Biologischer Zusammenhang</div><div style="font-size:.86rem;font-weight:700;margin-top:4px;line-height:1.45;" id="trend-text-insight">Ab 3 erfassten Tagen berechnet LUNA deine persönlichen Zusammenhänge zwischen Schlafdauer, Koffein und Hitzespitzen.</div></div></div></section>
-
-    <section id="pane-arzt" class="tab-view"><div class="glass-card"><h2 style="font-size:1.15rem;font-weight:800;margin-bottom:3px;">Arzt-Gesprächsvorbereitung</h2><p style="font-size:.8rem;color:var(--text-body);">Strukturierte Daten nach der Menopause Rating Scale (MRS).</p><div style="margin:1.15rem 0;padding:1rem;border:1px dashed var(--border-subtle);border-radius:18px;"><div style="font-size:.82rem;font-weight:800;margin-bottom:6px;">Konkrete Leitfragen für die Praxis:</div><p style="font-size:.78rem;color:var(--text-body);line-height:1.5;">• „Trotz stabiler Grundtage treten Hitzespitzen gegen 16 Uhr auf — spricht das für einen Estradiol-Abfall?“<br><br>• „Schlafunterbrechungen häufen sich verlässlich gegen 3:30 Uhr morgens — prüfen wir die Progesteron-Dosis?“</p></div><button class="btn-hero-primary" onclick="triggerHaptic(20); alert('MRS-Bericht erfolgreich als PDF generiert.');">PDF-Bericht erstellen</button></div><div class="glass-card" style="margin-top:.5rem;"><h3 style="font-size:.92rem;font-weight:800;margin-bottom:3px;">Lokale Datenkontrolle</h3><p style="font-size:.75rem;color:var(--text-body);">Deine Daten liegen zu 100% anonym im lokalen Browser-Speicher.</p><button class="btn-hero-subtle" style="color:var(--terracotta-primary);border-color:rgba(197,83,42,.3);margin-top:.75rem;" onclick="resetLocalData()">Alle lokalen Daten zurücksetzen</button></div></section>
-
-    <nav class="dock-bar"><button class="dock-tab active" onclick="switchNavTab('heute',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span>Heute</span></button><button class="dock-tab" onclick="switchNavTab('toolkit',this)"><svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg><span>Toolkit</span></button><button class="dock-tab" onclick="switchNavTab('trends',this)"><svg viewBox="0 0 24 24"><path d="m3 3 7 7 4-4 7 7"/><path d="M14 7h7v7"/></svg><span>Muster</span></button><button class="dock-tab" onclick="switchNavTab('arzt',this)"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg><span>Arzt</span></button></nav>
+    <nav class="shrink-0 bg-white dark:bg-brand-darkcard border-t border-brand-warmgray dark:border-zinc-800 px-6 py-2"><div class="grid grid-cols-3 gap-2"><button onclick="switchPillar('pillar-status', this)" class="nav-btn flex flex-col items-center py-2 text-brand-terracotta font-semibold"><i data-lucide="activity" class="w-5 h-5 mb-1"></i><span class="text-[10px] tracking-wide">Status</span></button><button onclick="switchPillar('pillar-rhythm', this)" class="nav-btn flex flex-col items-center py-2 text-zinc-400 hover:text-brand-earth dark:hover:text-zinc-200"><i data-lucide="sun-medium" class="w-5 h-5 mb-1"></i><span class="text-[10px] tracking-wide">Rhythmus</span></button><button onclick="switchPillar('pillar-insights', this)" class="nav-btn flex flex-col items-center py-2 text-zinc-400 hover:text-brand-earth dark:hover:text-zinc-200"><i data-lucide="clipboard-list" class="w-5 h-5 mb-1"></i><span class="text-[10px] tracking-wide">Report</span></button></div></nav>
   </div>
-
-  <div class="sheet-backdrop" id="modal-baseline"><div class="sheet-modal"><div class="sheet-header"><div><div class="sheet-title">Tages-Baseline</div><div class="sheet-sub">8 Sekunden. Spüren, kurz tippen, fertig.</div></div><button class="sheet-close" onclick="closeModalSheet('modal-baseline')">✕</button></div><div class="field-row"><label class="field-title">Wie startet deine Energie heute?</label><div class="select-grid select-grid-5"><div class="select-chip" onclick="handleChipSelect('energy',1,this)">1</div><div class="select-chip" onclick="handleChipSelect('energy',2,this)">2</div><div class="select-chip active" onclick="handleChipSelect('energy',3,this)">3</div><div class="select-chip" onclick="handleChipSelect('energy',4,this)">4</div><div class="select-chip" onclick="handleChipSelect('energy',5,this)">5</div></div></div><div class="field-row"><label class="field-title">Schlafqualität der Nacht</label><div class="select-grid"><div class="select-chip" onclick="handleChipSelect('sleep','unruhig',this)">Unruhig</div><div class="select-chip active" onclick="handleChipSelect('sleep','mäßig',this)">Mäßig</div><div class="select-chip" onclick="handleChipSelect('sleep','gut',this)">Gut</div><div class="select-chip" onclick="handleChipSelect('sleep','tief',this)">Tief</div></div></div><div class="field-row"><label class="field-title">Spürbare Signale (Mehrfachauswahl)</label><div class="select-grid select-grid-2"><div class="select-chip" onclick="handleSignalToggle('hitze',this)">🔥 Hitzewallung</div><div class="select-chip" onclick="handleSignalToggle('puls',this)">💓 Herzklopfen</div><div class="select-chip" onclick="handleSignalToggle('fog',this)">🌫 Brain Fog</div><div class="select-chip" onclick="handleSignalToggle('druck',this)">💥 Gelenkdruck</div></div></div><div class="field-row"><label class="field-title">Blutung / Phase</label><div class="select-grid"><div class="select-chip active" onclick="handleChipSelect('cycle','keine',this)">Keine</div><div class="select-chip" onclick="handleChipSelect('cycle','schmier',this)">Schmier</div><div class="select-chip" onclick="handleChipSelect('cycle','leicht',this)">Leicht</div><div class="select-chip" onclick="handleChipSelect('cycle','stark',this)">Stark</div></div></div><button class="btn-hero-primary" onclick="saveBaselineCalculation()">Baseline berechnen & speichern ✓</button></div></div>
-
-  <div class="sheet-backdrop" id="modal-acute"><div class="sheet-modal"><div class="sheet-header"><div><div class="sheet-title">Was dominiert gerade?</div><div class="sheet-sub">1 Tap startet sofort die passende Entlastung.</div></div><button class="sheet-close" onclick="closeModalSheet('modal-acute')">✕</button></div><div class="select-grid select-grid-2" style="margin-bottom:.5rem;"><div class="select-chip" onclick="closeModalSheet('modal-acute');openCoolDownTool();">🔥 Hitzewallung</div><div class="select-chip" onclick="closeModalSheet('modal-acute');openPulseTool();">💓 Herzrasen</div><div class="select-chip" onclick="closeModalSheet('modal-acute');openFocusTool();">🌫 Brain Fog</div><div class="select-chip" onclick="closeModalSheet('modal-acute');openBreathTool();">⚡️ Überforderung</div></div></div></div>
-
-  <div class="sheet-backdrop" id="modal-breath"><div class="sheet-modal" style="text-align:center;"><div class="sheet-header"><div><div class="sheet-title">4–6 Atem-Bremse</div><div class="sheet-sub" id="breath-cycle-label">Atemzug 1 von 5</div></div><button class="sheet-close" onclick="stopBreathTool()">✕</button></div><div class="breath-stage"><div class="breath-outer"><svg class="breath-progress-svg" viewBox="0 0 170 170"><circle class="breath-track" cx="85" cy="85" r="78"/><circle class="breath-bar" id="breath-progress-ring" cx="85" cy="85" r="78"/></svg><div class="breath-orb" id="breath-orb"><div id="breath-action-text" style="font-size:1.4rem;font-weight:800;">Ein</div><div id="breath-count-text" style="font-size:1.1rem;font-weight:700;margin-top:2px;">4</div></div></div></div><div id="breath-instruction-text" style="font-size:.86rem;font-weight:700;color:var(--text-body);margin-top:.85rem;">Tief durch die Nase einatmen...</div></div></div>
-
-  <div class="sheet-backdrop" id="modal-cooldown"><div class="sheet-modal" style="text-align:center;"><div class="sheet-header"><div><div class="sheet-title">Cool-down</div><div class="sheet-sub">Berühren & halten zum Abkühlen</div></div><button class="sheet-close" onclick="stopCoolDownTool()">✕</button></div><div class="touch-pad" id="touch-pad" ontouchstart="startCoolingTouch()" ontouchend="endCoolingTouch()" onmousedown="startCoolingTouch()" onmouseup="endCoolingTouch()"><div id="pad-icon" style="font-size:2.2rem;margin-bottom:4px;">🔥</div><div id="pad-text" style="font-size:1.1rem;font-weight:800;">Finger halten</div><div id="pad-sub" style="font-size:.78rem;opacity:.9;margin-top:4px;">Atme dabei ruhig und lange aus</div></div><div id="cooldown-feedback" style="display:none;margin-top:.85rem;padding:12px;background:var(--sage-soft);border-radius:16px;font-size:.82rem;font-weight:700;color:var(--sage-primary);">✓ Kälte-Trigger aktiviert. Vagusnerv dämpft das Hitzegefühl.</div></div></div>
-
-  <div class="sheet-backdrop" id="modal-focus"><div class="sheet-modal"><div class="sheet-header"><div><div class="sheet-title">Fokus-Hebel</div><div class="sheet-sub">Tippe erledigte Störfaktoren weg.</div></div><button class="sheet-close" onclick="closeModalSheet('modal-focus')">✕</button></div><div class="focus-list"><div class="focus-item" onclick="resolveFocusItem(this)"><strong>1. Große Entscheidungen</strong><p style="font-size:.76rem;color:var(--text-body);margin-top:2px;">Um 45 Minuten vertagen — Gehirn ist reizüberflutet.</p></div><div class="focus-item" onclick="resolveFocusItem(this)"><strong>2. Multitasking stoppen</strong><p style="font-size:.76rem;color:var(--text-body);margin-top:2px;">Schließe alle Tabs bis auf das eine Dokument.</p></div><div class="focus-item" onclick="resolveFocusItem(this)"><strong>3. Reiz-Reset</strong><p style="font-size:.76rem;color:var(--text-body);margin-top:2px;">Trinke 300 ml Wasser und stehe für 60 Sekunden auf.</p></div></div><div id="focus-summary" style="display:none;padding:12px;border-radius:16px;background:var(--champagne-soft);font-size:.82rem;color:#8C5810;line-height:1.45;">✨ <strong>Nächster Schritt:</strong> Konzentriere dich jetzt ausschließlich auf eine einzige kleine Teilaufgabe.</div></div></div>
-
-  <div class="sheet-backdrop" id="modal-pulse"><div class="sheet-modal" style="text-align:center;"><div class="sheet-header"><div><div class="sheet-title">Pulse-Sync</div><div class="sheet-sub">Synchronisiere deinen Rhythmus</div></div><button class="sheet-close" onclick="closeModalSheet('modal-pulse')">✕</button></div><div class="pulse-tap-circle" id="pulse-tap-circle" onclick="handlePulseTapEvent()"><span id="pulse-tap-count">3</span></div><div id="pulse-instruction" style="font-size:.88rem;font-weight:700;color:var(--text-hero);">Tippe noch 3x im Takt deines aktuellen Herzschlags...</div></div></div>
-
-  <div class="sheet-backdrop" id="modal-intro"><div class="sheet-modal"><div class="sheet-header"><div><div class="sheet-title">Über LUNA</div><div class="sheet-sub">Dein Midlife Companion</div></div><button class="sheet-close" onclick="closeModalSheet('modal-intro')">✕</button></div><div style="font-size:.86rem;line-height:1.6;color:var(--text-body);"><p>LUNA ist dein privater biologischer Begleiter für hormonelle Übergangsphasen.</p><br><p>• <strong>8-Sekunden Tages-Radar:</strong> Berechnet deine persönliche Körper-Wetterlage.</p><p>• <strong>Relief-Studio 2.0:</strong> Handfeste Werkzeuge zur sofortigen Vagusnerv-Dämpfung.</p><p>• <strong>100% Deine Daten:</strong> Alles bleibt verschlüsselt und lokal auf deinem Gerät.</p></div><button class="btn-hero-primary" style="margin-top:1.4rem;" onclick="closeModalSheet('modal-intro')">Verstanden</button></div></div>
-
   <script>
-    const state = { energy: 3, sleep: 'mäßig', signals: [], cycle: 'keine' };
-    function triggerHaptic(ms = 14) { if ('vibrate' in navigator) navigator.vibrate(ms); }
-    function switchNavTab(tab, btn) { triggerHaptic(10); document.querySelectorAll('.tab-view').forEach(p => p.classList.remove('active')); document.querySelectorAll('.dock-tab').forEach(b => b.classList.remove('active')); document.getElementById('pane-' + tab).classList.add('active'); if (btn) btn.classList.add('active'); }
-    function toggleLanguage() { triggerHaptic(10); const b = document.getElementById('lang-btn'); b.innerText = b.innerText === 'DE | EN' ? 'EN | DE' : 'DE | EN'; }
-    function openModalSheet(id) { triggerHaptic(14); document.getElementById(id).classList.add('open'); }
-    function closeModalSheet(id) { triggerHaptic(8); document.getElementById(id).classList.remove('open'); }
-    function handleChipSelect(field, val, el) { triggerHaptic(12); el.parentElement.querySelectorAll('.select-chip').forEach(c => c.classList.remove('active')); el.classList.add('active'); state[field] = val; }
-    function handleSignalToggle(sym, el) { triggerHaptic(12); el.classList.toggle('active'); if (state.signals.includes(sym)) state.signals = state.signals.filter(s => s !== sym); else state.signals.push(sym); }
-    function saveBaselineCalculation() { triggerHaptic([25,60,25]); closeModalSheet('modal-baseline'); const energyScore = state.energy * 20; const sleepMap = { unruhig:25, 'mäßig':50, gut:80, tief:100 }; const sleepScore = sleepMap[state.sleep] || 50; const penalty = state.signals.length * 14; let score = Math.round((energyScore * .45) + (sleepScore * .35) - penalty); if (score < 15) score = 15; if (score > 100) score = 100; const ringBox = document.getElementById('ring-box'); ringBox.classList.remove('ring-breathe-idle'); const ringFill = document.getElementById('ring-fill-bar'); ringFill.style.strokeDashoffset = 465 - (465 * (score / 100)); document.getElementById('score-val').innerText = score + '%'; const sub = document.getElementById('score-sub'), card = document.getElementById('climate-card'), badge = document.getElementById('climate-badge'), head = document.getElementById('climate-headline'), desc = document.getElementById('climate-desc'); if (score >= 75) { sub.innerText='Stabil & Resilient'; sub.style.color='var(--sage-primary)'; card.style.borderLeftColor='var(--sage-primary)'; badge.style.color='var(--sage-primary)'; head.innerText='Stabiles Biorhythmus-Fenster'; desc.innerText='Dein vegetatives Nervensystem zeigt heute hohe Belastbarkeit. Nutze den Tag aktiv, behalte aber feste Essenszeiten bei.'; } else if (score >= 50) { sub.innerText='Sensibel & Puffer nötig'; sub.style.color='var(--champagne-primary)'; card.style.borderLeftColor='var(--champagne-primary)'; badge.style.color='var(--champagne-primary)'; head.innerText='Erhöhte Reizbarkeit · Puffer nötig'; desc.innerText='Schlaf oder Energielevel fordern heute Schonung. Vertage Multitasking am Nachmittag und plane eine 15-minütige Bildschirmpause ein.'; } else { sub.innerText='Akuter Schonmodus'; sub.style.color='var(--terracotta-primary)'; card.style.borderLeftColor='var(--terracotta-primary)'; badge.style.color='var(--terracotta-primary)'; head.innerText='Niedriger Hormon-Puffer · Rückzug'; desc.innerText='Dein System kämpft mit Beschwerden. Reduziere Termine auf das Nötigste, meide Koffein ab 13 Uhr und nutze die 4-6 Atem-Bremse.'; } document.getElementById('vital-energy').innerText = `${state.energy} / 5`; document.getElementById('vital-sleep').innerText = state.sleep; document.getElementById('vital-signals').innerText = `${state.signals.length} aktiv`; document.getElementById('btn-baseline-text').innerText='Baseline anpassen'; document.getElementById('pattern-avg-balance').innerText=score+'%'; document.getElementById('pattern-sleep-focus').innerText=state.sleep; document.getElementById('pattern-top-signal').innerText=state.signals.length > 0 ? state.signals[0] : 'Keine'; }
-    let breathTimer=null, currentCycle=1, breathPhase='in';
-    function openBreathTool(){ triggerHaptic(15); openModalSheet('modal-breath'); currentCycle=1; breathPhase='in'; startBreathCycle(); }
-    function startBreathCycle(){ const orb=document.getElementById('breath-orb'), action=document.getElementById('breath-action-text'), count=document.getElementById('breath-count-text'), cycleLbl=document.getElementById('breath-cycle-label'), instr=document.getElementById('breath-instruction-text'), ring=document.getElementById('breath-progress-ring'); cycleLbl.innerText=`Atemzug ${currentCycle} von 5`; ring.style.strokeDashoffset=490-(490*(currentCycle/5)); if(breathPhase==='in'){ orb.className='breath-orb inhaling'; action.innerText='Ein'; instr.innerText='Tief durch die Nase einatmen...'; triggerHaptic(20); let sec=4; count.innerText=sec; breathTimer=setInterval(()=>{ sec--; count.innerText=sec; if(sec<=0){ clearInterval(breathTimer); breathPhase='out'; startBreathCycle(); } },1000); } else { orb.className='breath-orb exhaling'; action.innerText='Aus'; instr.innerText='Langsam durch den Mund ausatmen...'; triggerHaptic(35); let sec=6; count.innerText=sec; breathTimer=setInterval(()=>{ sec--; count.innerText=sec; if(sec<=0){ clearInterval(breathTimer); if(currentCycle<5){ currentCycle++; breathPhase='in'; startBreathCycle(); } else { action.innerText='✓'; count.innerText=''; instr.innerText='Vagusnerv reguliert · Rhythmus stabilisiert.'; triggerHaptic([30,80,30]); } } },1000); } }
-    function stopBreathTool(){ clearInterval(breathTimer); closeModalSheet('modal-breath'); }
-    let coolingTimer=null;
-    function openCoolDownTool(){ triggerHaptic(15); openModalSheet('modal-cooldown'); document.getElementById('cooldown-feedback').style.display='none'; const pad=document.getElementById('touch-pad'); pad.classList.remove('cooling'); document.getElementById('pad-icon').innerText='🔥'; document.getElementById('pad-text').innerText='Finger halten'; }
-    function startCoolingTouch(){ triggerHaptic(20); const pad=document.getElementById('touch-pad'); pad.classList.add('cooling'); document.getElementById('pad-icon').innerText='❄️'; document.getElementById('pad-text').innerText='Kühle spüren...'; coolingTimer=setTimeout(()=>{ document.getElementById('cooldown-feedback').style.display='block'; triggerHaptic([30,60,30]); },5000); }
-    function endCoolingTouch(){ clearTimeout(coolingTimer); const pad=document.getElementById('touch-pad'); pad.classList.remove('cooling'); document.getElementById('pad-icon').innerText='🔥'; document.getElementById('pad-text').innerText='Finger halten'; }
-    function stopCoolDownTool(){ clearTimeout(coolingTimer); closeModalSheet('modal-cooldown'); }
-    function openFocusTool(){ triggerHaptic(15); openModalSheet('modal-focus'); document.querySelectorAll('.focus-item').forEach(c=>c.classList.remove('done')); document.getElementById('focus-summary').style.display='none'; }
-    function resolveFocusItem(el){ triggerHaptic(15); el.classList.add('done'); if(document.querySelectorAll('.focus-item.done').length===3){ document.getElementById('focus-summary').style.display='block'; triggerHaptic([20,60]); } }
-    let pulseTapsRemaining=3;
-    function openPulseTool(){ triggerHaptic(15); openModalSheet('modal-pulse'); pulseTapsRemaining=3; document.getElementById('pulse-tap-count').innerText='3'; document.getElementById('pulse-instruction').innerText='Tippe noch 3x im Takt deines aktuellen Herzschlags...'; document.getElementById('pulse-tap-circle').style.borderColor='var(--terracotta-primary)'; }
-    function handlePulseTapEvent(){ if(pulseTapsRemaining>1){ triggerHaptic(20); pulseTapsRemaining--; document.getElementById('pulse-tap-count').innerText=pulseTapsRemaining; document.getElementById('pulse-instruction').innerText=`Noch ${pulseTapsRemaining}x tippen...`; } else if(pulseTapsRemaining===1){ triggerHaptic([30,80,30]); pulseTapsRemaining=0; document.getElementById('pulse-tap-count').innerText='✓'; document.getElementById('pulse-instruction').innerText='Puls synchronisiert. Verlangsame jetzt deinen Atem.'; document.getElementById('pulse-tap-circle').style.borderColor='var(--sage-primary)'; } }
-    function resetLocalData(){ if(confirm('Möchtest du alle lokalen Daten und Einträge unwiderruflich löschen?')){ localStorage.clear(); triggerHaptic([30,80,30]); location.reload(); } }
+    lucide.createIcons();
+    const themeBtn = document.getElementById('theme-toggle');
+    themeBtn.addEventListener('click', () => { document.documentElement.classList.toggle('dark'); localStorage.setItem('luna_theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); });
+    if (localStorage.getItem('luna_theme') === 'dark' || (!('luna_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    function switchPillar(pillarId, btnElement) { document.querySelectorAll('.pillar-view').forEach(view => view.classList.add('hidden')); document.getElementById(pillarId).classList.remove('hidden'); document.querySelectorAll('.nav-btn').forEach(btn => { btn.classList.remove('text-brand-terracotta', 'font-semibold'); btn.classList.add('text-zinc-400'); }); btnElement.classList.add('text-brand-terracotta', 'font-semibold'); btnElement.classList.remove('text-zinc-400'); updateSummary(); }
+    function toggleTag(btn) { btn.classList.toggle('bg-brand-terracotta'); btn.classList.toggle('text-white'); btn.classList.toggle('border-brand-terracotta'); const activeTags = Array.from(document.querySelectorAll('.tag-chip.text-white')).map(b => b.innerText); localStorage.setItem('luna_active_tags', JSON.stringify(activeTags)); updateSummary(); }
+    function setDailyMood(val) { localStorage.setItem('luna_last_mood', val); alert('Tagesstimmung erfasst.'); }
+    function updateSummary() { const tags = JSON.parse(localStorage.getItem('luna_active_tags') || '[]'); const container = document.getElementById('summary-text'); container.innerText = tags.length > 0 ? tags.join(' • ') : 'Keine akuten Symptome vermerkt.'; }
+    function exportDataReport() { const tags = JSON.parse(localStorage.getItem('luna_active_tags') || '[]'); const text = `LUNA Statusbericht:\nDatum: ${new Date().toLocaleDateString('de-DE')}\nAktive Symptome: ${tags.length > 0 ? tags.join(', ') : 'Keine'}`; navigator.clipboard.writeText(text); alert('Report in Zwischenablage kopiert!'); }
+    updateSummary();
   </script>
 </body>
 </html>
