@@ -279,32 +279,37 @@
 
     .ring-content {
       position: absolute;
+      inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      padding: 20px;
       text-align: center;
       pointer-events: none;
     }
 
     .ring-val {
-      font-size: 2.45rem;
+      font-size: 2.1rem;
       font-weight: 800;
       color: var(--text-main);
       line-height: 1;
     }
 
     .ring-title {
-      font-size: 0.8rem;
+      font-size: 0.72rem;
       font-weight: 600;
       color: var(--text-sub);
-      margin-top: 5px;
+      margin-top: 4px;
     }
 
     .ring-subtitle {
-      font-size: 0.75rem;
+      font-size: 0.68rem;
+      line-height: 1.2;
+      max-width: 120px;
       color: var(--sage);
       font-weight: 700;
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     .streak-badge {
@@ -842,7 +847,6 @@
         </div>
       </section>
 
-      <!-- DYNAMISCHE STATUS-PILLEN (ERSCHEINEN NACH CHECK-IN) -->
       <div class="pills-row" id="pills-row">
         <div class="status-pill" id="pill-energy">⚡️ Energie —</div>
         <div class="status-pill" id="pill-sleep">🌙 Schlaf —</div>
@@ -857,7 +861,6 @@
         <span>⚡️</span> <span>Akut-SOS erfassen (3 Sek.)</span>
       </button>
 
-      <!-- KÖRPER-WETTERLAGE (USP) -->
       <div class="card weather-box" id="weather-card">
         <div class="weather-kicker" id="weather-kicker">Körper-Wetterlage</div>
         <div class="weather-headline" id="weather-headline">Bereit für den Tag</div>
@@ -867,7 +870,6 @@
       </div>
     </main>
 
-    <!-- TAB 2: TOOLKIT -->
     <section id="view-toolkit" class="tab-content">
       <div class="card" style="margin-bottom: 0.75rem;">
         <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Midlife-Toolkit</h2>
@@ -875,526 +877,74 @@
       </div>
 
       <div class="tool-grid">
-        <!-- 4-6 BREMSE -->
         <div class="tool-tile" onclick="openInteractiveBreathe(4, 6, '4–6 Atem-Bremse', 'Aktiviert den Parasympathikus bei Hitzewallungen & Puls.')">
-          <div>
-            <div class="tool-icon-wrap">
-              <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07 19.07 4.93"/></svg>
-            </div>
-            <div class="tool-name">4–6 Bremse</div>
-          </div>
+          <div><div class="tool-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07 19.07 4.93"/></svg></div><div class="tool-name">4–6 Bremse</div></div>
           <div class="tool-desc">Senkt Puls & Hitze in 60s</div>
         </div>
-
-        <!-- 4-4 FOKUS -->
         <div class="tool-tile" onclick="openInteractiveBreathe(4, 4, 'Fokus-Atmung', 'Gleicht den CO2-Spiegel aus gegen akuten Brain Fog.')">
-          <div>
-            <div class="tool-icon-wrap">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
-            </div>
-            <div class="tool-name">Fokus-Reset</div>
-          </div>
+          <div><div class="tool-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div><div class="tool-name">Fokus-Reset</div></div>
           <div class="tool-desc">Gegen akuten Brain Fog</div>
         </div>
-
-        <!-- NACHT SOS -->
         <div class="tool-tile" onclick="openNightSOS()">
-          <div>
-            <div class="tool-icon-wrap">
-              <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-            </div>
-            <div class="tool-name">Nacht-SOS</div>
-          </div>
+          <div><div class="tool-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></div><div class="tool-name">Nacht-SOS</div></div>
           <div class="tool-desc">Gedimmter 3-Uhr-Reset</div>
         </div>
-
-        <!-- KÜHLPUNKTE -->
         <div class="tool-tile" onclick="openAcupressureGuide()">
-          <div>
-            <div class="tool-icon-wrap">
-              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18M9 21V9"/></svg>
-            </div>
-            <div class="tool-name">Kühlpunkte</div>
-          </div>
+          <div><div class="tool-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18M9 21V9"/></svg></div><div class="tool-name">Kühlpunkte</div></div>
           <div class="tool-desc">Interaktive Kälte-Trigger</div>
         </div>
       </div>
     </section>
 
-    <!-- TAB 3: MUSTER -->
     <section id="view-trends" class="tab-content">
-      <div class="card">
-        <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Deine Zusammenhänge</h2>
-        <p style="font-size: 0.8rem; color: var(--text-sub);">Automatische Korrelationen statt einfacher Datengräber.</p>
-        
-        <div style="margin-top: 1.25rem; padding: 1.1rem; background: var(--sage-soft); border-radius: 20px;">
-          <div style="font-size: 0.72rem; font-weight: 700; color: var(--sage); text-transform: uppercase; letter-spacing: 0.05em;">Biologische Kausalität</div>
-          <div style="font-size: 0.88rem; font-weight: 600; margin-top: 4px; line-height: 1.45;" id="trend-insight-box">
-            Ab 3 erfassten Tagen berechnet LUNA deine persönlichen Trigger zwischen Schlafdauer, Kaffee und Nachmittags-Symptomen.
-          </div>
-        </div>
-      </div>
+      <div class="card"><h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Deine Zusammenhänge</h2><p style="font-size: 0.8rem; color: var(--text-sub);">Automatische Korrelationen statt einfacher Datengräber.</p><div style="margin-top: 1.25rem; padding: 1.1rem; background: var(--sage-soft); border-radius: 20px;"><div style="font-size: 0.72rem; font-weight: 700; color: var(--sage); text-transform: uppercase; letter-spacing: 0.05em;">Biologische Kausalität</div><div style="font-size: 0.88rem; font-weight: 600; margin-top: 4px; line-height: 1.45;" id="trend-insight-box">Ab 3 erfassten Tagen berechnet LUNA deine persönlichen Trigger zwischen Schlafdauer, Kaffee und Nachmittags-Symptomen.</div></div></div>
     </section>
 
-    <!-- TAB 4: ARZT & DATEN -->
     <section id="view-arzt" class="tab-content">
-      <div class="card">
-        <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Arzt-Vorbereitung</h2>
-        <p style="font-size: 0.8rem; color: var(--text-sub);">Strukturierte Daten nach der Menopause Rating Scale (MRS).</p>
-
-        <div style="margin: 1.25rem 0; padding: 1.1rem; border: 1px dashed var(--text-muted); border-radius: 20px;">
-          <div style="font-size: 0.82rem; font-weight: 700; margin-bottom: 8px;">Konkrete Leitfragen für die Praxis:</div>
-          <p style="font-size: 0.8rem; color: var(--text-sub); line-height: 1.5;">
-            • „Trotz stabiler Grundtage treten Hitzespitzen gegen 16 Uhr auf — spricht das für einen Estradiol-Abfall?“<br><br>
-            • „Schlafunterbrechungen häufen sich verlässlich gegen 3:30 Uhr morgens — optimieren wir das Progesteron?“
-          </p>
-        </div>
-
-        <button class="btn-primary" onclick="vibrate(20); alert('PDF-Export nach MRS-Standard erfolgreich generiert.');">
-          PDF-Bericht erstellen
-        </button>
-      </div>
-
-      <!-- PRIVATSPHÄRE & DATEN-RESET -->
-      <div class="card" style="margin-top: 0.5rem;">
-        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;">Lokale Datenkontrolle</h3>
-        <p style="font-size: 0.75rem; color: var(--text-sub);">Deine Einträge werden niemals in eine Cloud hochgeladen.</p>
-        <button class="btn-danger" onclick="resetAllData()">Alle lokalen Einträge zurücksetzen</button>
-      </div>
+      <div class="card"><h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Arzt-Vorbereitung</h2><p style="font-size: 0.8rem; color: var(--text-sub);">Strukturierte Daten nach der Menopause Rating Scale (MRS).</p><div style="margin: 1.25rem 0; padding: 1.1rem; border: 1px dashed var(--text-muted); border-radius: 20px;"><div style="font-size: 0.82rem; font-weight: 700; margin-bottom: 8px;">Konkrete Leitfragen für die Praxis:</div><p style="font-size: 0.8rem; color: var(--text-sub); line-height: 1.5;">• „Trotz stabiler Grundtage treten Hitzespitzen gegen 16 Uhr auf — spricht das für einen Estradiol-Abfall?“<br><br>• „Schlafunterbrechungen häufen sich verlässlich gegen 3:30 Uhr morgens — optimieren wir das Progesteron?“</p></div><button class="btn-primary" onclick="vibrate(20); alert('PDF-Export nach MRS-Standard erfolgreich generiert.');">PDF-Bericht erstellen</button></div>
+      <div class="card" style="margin-top: 0.5rem;"><h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;">Lokale Datenkontrolle</h3><p style="font-size: 0.75rem; color: var(--text-sub);">Deine Einträge werden niemals in eine Cloud hochgeladen.</p><button class="btn-danger" onclick="resetAllData()">Alle lokalen Einträge zurücksetzen</button></div>
     </section>
 
-    <!-- NAVIGATION BAR -->
     <nav class="tab-bar">
-      <button class="tab-item active" onclick="navigate('heute', this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-        <span>Heute</span>
-      </button>
-      <button class="tab-item" onclick="navigate('toolkit', this)">
-        <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
-        <span>Toolkit</span>
-      </button>
-      <button class="tab-item" onclick="navigate('trends', this)">
-        <svg viewBox="0 0 24 24"><path d="m3 3 7 7 4-4 7 7"/><path d="M14 7h7v7"/></svg>
-        <span>Muster</span>
-      </button>
-      <button class="tab-item" onclick="navigate('arzt', this)">
-        <svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
-        <span>Arzt</span>
-      </button>
+      <button class="tab-item active" onclick="navigate('heute', this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span>Heute</span></button>
+      <button class="tab-item" onclick="navigate('toolkit', this)"><svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg><span>Toolkit</span></button>
+      <button class="tab-item" onclick="navigate('trends', this)"><svg viewBox="0 0 24 24"><path d="m3 3 7 7 4-4 7 7"/><path d="M14 7h7v7"/></svg><span>Muster</span></button>
+      <button class="tab-item" onclick="navigate('arzt', this)"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg><span>Arzt</span></button>
     </nav>
   </div>
 
-  <!-- MODAL: TAGES-BASELINE -->
-  <div class="modal-backdrop" id="modal-baseline">
-    <div class="modal-panel">
-      <div class="modal-top">
-        <div>
-          <h3>Tages-Baseline</h3>
-          <p>8 Sekunden. Spüren, kurz tippen, fertig.</p>
-        </div>
-        <button class="close-btn" onclick="closeSheet('modal-baseline')">✕</button>
-      </div>
+  <div class="modal-backdrop" id="modal-baseline"><div class="modal-panel"><div class="modal-top"><div><h3>Tages-Baseline</h3><p>8 Sekunden. Spüren, kurz tippen, fertig.</p></div><button class="close-btn" onclick="closeSheet('modal-baseline')">✕</button></div><div class="field-group"><label class="field-label">Wie startet deine Energie heute?</label><div class="chip-row chip-row-5" id="row-energy"><div class="select-chip" onclick="handleChipClick(this, 'energy', 1)">1</div><div class="select-chip" onclick="handleChipClick(this, 'energy', 2)">2</div><div class="select-chip active" onclick="handleChipClick(this, 'energy', 3)">3</div><div class="select-chip" onclick="handleChipClick(this, 'energy', 4)">4</div><div class="select-chip" onclick="handleChipClick(this, 'energy', 5)">5</div></div></div><div class="field-group"><label class="field-label">Schlafqualität der Nacht</label><div class="chip-row" id="row-sleep"><div class="select-chip" onclick="handleChipClick(this, 'sleep', 'unruhig')">Unruhig</div><div class="select-chip active" onclick="handleChipClick(this, 'sleep', 'maessig')">Mäßig</div><div class="select-chip" onclick="handleChipClick(this, 'sleep', 'gut')">Gut</div><div class="select-chip" onclick="handleChipClick(this, 'sleep', 'tief')">Tief</div></div></div><div class="field-group"><label class="field-label">Spürbare Signale (Mehrfachauswahl)</label><div class="chip-row chip-row-2"><div class="select-chip" onclick="handleToggleChip(this, 'hitze')">🔥 Hitzewallung</div><div class="select-chip" onclick="handleToggleChip(this, 'puls')">💓 Herzklopfen</div><div class="select-chip" onclick="handleToggleChip(this, 'fog')">🌫 Brain Fog</div><div class="select-chip" onclick="handleToggleChip(this, 'schmerz')">💥 Gelenkdruck</div></div></div><div class="field-group"><label class="field-label">Blutung / Phase</label><div class="chip-row" id="row-cycle"><div class="select-chip active" onclick="handleChipClick(this, 'cycle', 'keine')">Keine</div><div class="select-chip" onclick="handleChipClick(this, 'cycle', 'spotting')">Schmier</div><div class="select-chip" onclick="handleChipClick(this, 'cycle', 'leicht')">Leicht</div><div class="select-chip" onclick="handleChipClick(this, 'cycle', 'stark')">Stark</div></div></div><button class="btn-primary" onclick="completeBaseline()">Baseline berechnen & speichern ✓</button></div></div>
 
-      <div class="field-group">
-        <label class="field-label">Wie startet deine Energie heute?</label>
-        <div class="chip-row chip-row-5" id="row-energy">
-          <div class="select-chip" onclick="handleChipClick(this, 'energy', 1)">1</div>
-          <div class="select-chip" onclick="handleChipClick(this, 'energy', 2)">2</div>
-          <div class="select-chip active" onclick="handleChipClick(this, 'energy', 3)">3</div>
-          <div class="select-chip" onclick="handleChipClick(this, 'energy', 4)">4</div>
-          <div class="select-chip" onclick="handleChipClick(this, 'energy', 5)">5</div>
-        </div>
-      </div>
+  <div class="modal-backdrop" id="modal-acute"><div class="modal-panel"><div class="modal-top"><div><h3>⚡️ Akut-Signal erfassen</h3><p>Was passiert gerade im Körper?</p></div><button class="close-btn" onclick="closeSheet('modal-acute')">✕</button></div><div class="chip-row chip-row-2" style="margin-bottom: 1rem;"><div class="select-chip" onclick="pickAcuteSymptom(this, 'hitze')">🔥 Hitzewallung</div><div class="select-chip" onclick="pickAcuteSymptom(this, 'puls')">💓 Herzrasen</div><div class="select-chip" onclick="pickAcuteSymptom(this, 'fog')">🌫 Brain Fog</div><div class="select-chip" onclick="pickAcuteSymptom(this, 'unruhe')">⚡️ Innere Unruhe</div></div><div class="sos-feedback-card" id="sos-live-tip"></div><button class="btn-primary" onclick="closeSheet('modal-acute'); vibrate(20);">Schließen & Linderung nutzen</button></div></div>
 
-      <div class="field-group">
-        <label class="field-label">Schlafqualität der Nacht</label>
-        <div class="chip-row" id="row-sleep">
-          <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'unruhig')">Unruhig</div>
-          <div class="select-chip active" onclick="handleChipClick(this, 'sleep', 'maessig')">Mäßig</div>
-          <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'gut')">Gut</div>
-          <div class="select-chip" onclick="handleChipClick(this, 'sleep', 'tief')">Tief</div>
-        </div>
-      </div>
+  <div class="modal-backdrop" id="modal-breathe"><div class="modal-panel" style="text-align: center;"><div class="modal-top"><div><h3 id="breathe-title">Atem-Bremse</h3><p id="breathe-subtitle">Verlängertes Ausatmen reguliert den Vagusnerv.</p></div><button class="close-btn" onclick="closeBreathe()">✕</button></div><div class="breathe-stage" id="breathe-stage-box"><div class="breathe-outer-halo"></div><div class="breathe-core-ball"></div></div><div id="breathe-state-text" style="font-size: 1.3rem; font-weight: 800; margin-top: 0.5rem; color: var(--text-main);">Bereit...</div><div id="breathe-timer-display" style="font-size: 0.85rem; color: var(--text-sub); margin-top: 4px;">60 Sekunden verbleibend</div></div></div>
 
-      <div class="field-group">
-        <label class="field-label">Spürbare Signale (Mehrfachauswahl)</label>
-        <div class="chip-row chip-row-2">
-          <div class="select-chip" onclick="handleToggleChip(this, 'hitze')">🔥 Hitzewallung</div>
-          <div class="select-chip" onclick="handleToggleChip(this, 'puls')">💓 Herzklopfen</div>
-          <div class="select-chip" onclick="handleToggleChip(this, 'fog')">🌫 Brain Fog</div>
-          <div class="select-chip" onclick="handleToggleChip(this, 'schmerz')">💥 Gelenkdruck</div>
-        </div>
-      </div>
+  <div class="modal-backdrop" id="modal-points"><div class="modal-panel"><div class="modal-top"><div><h3>🧊 Kühl- & Nervenpunkte</h3><p>Tippe auf einen Punkt für die Sofort-Anleitung.</p></div><button class="close-btn" onclick="closeSheet('modal-points')">✕</button></div><div class="body-points-map"><div class="point-card active-point" onclick="selectPoint(this, 'wrist')"><div class="point-pulse-dot"></div><div><strong>1. Handgelenk-Innenseiten</strong><p style="font-size: 0.75rem; color: var(--text-sub);">Kühlt das arterielle Blutvolumen direkt vor dem Herzen.</p></div></div><div class="point-card" onclick="selectPoint(this, 'neck')"><div class="point-pulse-dot" style="background: var(--champagne);"></div><div><strong>2. Seitlicher Nacken & Karotis</strong><p style="font-size: 0.75rem; color: var(--text-sub);">Signalisiert dem Hirnstamm sofortige Entwarnung.</p></div></div><div class="point-card" onclick="selectPoint(this, 'thumb')"><div class="point-pulse-dot" style="background: var(--berry);"></div><div><strong>3. Daumenballen-Akupressur (Lu 10)</strong><p style="font-size: 0.75rem; color: var(--text-sub);">Beruhigt Herzrasen unbemerkt im Meeting.</p></div></div></div><div id="point-instruction-box" style="padding: 1rem; background: var(--sage-soft); border-radius: 18px; font-size: 0.82rem; line-height: 1.5; color: var(--text-main);">💧 <strong>Anwendung Handgelenk:</strong> Halte beide Innenseiten für 45 Sekunden unter fließendes kaltes Wasser. Atme dabei bewusst länger aus als ein.</div></div></div>
 
-      <div class="field-group">
-        <label class="field-label">Blutung / Phase</label>
-        <div class="chip-row" id="row-cycle">
-          <div class="select-chip active" onclick="handleChipClick(this, 'cycle', 'keine')">Keine</div>
-          <div class="select-chip" onclick="handleChipClick(this, 'cycle', 'spotting')">Schmier</div>
-          <div class="select-chip" onclick="handleChipClick(this, 'cycle', 'leicht')">Leicht</div>
-          <div class="select-chip" onclick="handleChipClick(this, 'cycle', 'stark')">Stark</div>
-        </div>
-      </div>
-
-      <button class="btn-primary" onclick="completeBaseline()">
-        Baseline berechnen & speichern ✓
-      </button>
-    </div>
-  </div>
-
-  <!-- MODAL: AKUT-SOS SHEET -->
-  <div class="modal-backdrop" id="modal-acute">
-    <div class="modal-panel">
-      <div class="modal-top">
-        <div>
-          <h3>⚡️ Akut-Signal erfassen</h3>
-          <p>Was passiert gerade im Körper?</p>
-        </div>
-        <button class="close-btn" onclick="closeSheet('modal-acute')">✕</button>
-      </div>
-
-      <div class="chip-row chip-row-2" style="margin-bottom: 1rem;">
-        <div class="select-chip" onclick="pickAcuteSymptom(this, 'hitze')">🔥 Hitzewallung</div>
-        <div class="select-chip" onclick="pickAcuteSymptom(this, 'puls')">💓 Herzrasen</div>
-        <div class="select-chip" onclick="pickAcuteSymptom(this, 'fog')">🌫 Brain Fog</div>
-        <div class="select-chip" onclick="pickAcuteSymptom(this, 'unruhe')">⚡️ Innere Unruhe</div>
-      </div>
-
-      <div class="sos-feedback-card" id="sos-live-tip"></div>
-
-      <button class="btn-primary" onclick="closeSheet('modal-acute'); vibrate(20);">
-        Schließen & Linderung nutzen
-      </button>
-    </div>
-  </div>
-
-  <!-- MODAL: ATEM-TRAINER (LEBENDIGER DOPPEL-RING) -->
-  <div class="modal-backdrop" id="modal-breathe">
-    <div class="modal-panel" style="text-align: center;">
-      <div class="modal-top">
-        <div>
-          <h3 id="breathe-title">Atem-Bremse</h3>
-          <p id="breathe-subtitle">Verlängertes Ausatmen reguliert den Vagusnerv.</p>
-        </div>
-        <button class="close-btn" onclick="closeBreathe()">✕</button>
-      </div>
-
-      <div class="breathe-stage" id="breathe-stage-box">
-        <div class="breathe-outer-halo"></div>
-        <div class="breathe-core-ball"></div>
-      </div>
-
-      <div id="breathe-state-text" style="font-size: 1.3rem; font-weight: 800; margin-top: 0.5rem; color: var(--text-main);">
-        Bereit...
-      </div>
-      <div id="breathe-timer-display" style="font-size: 0.85rem; color: var(--text-sub); margin-top: 4px;">
-        60 Sekunden verbleibend
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: INTERAKTIVER KÜHLPUNKTE GUIDE -->
-  <div class="modal-backdrop" id="modal-points">
-    <div class="modal-panel">
-      <div class="modal-top">
-        <div>
-          <h3>🧊 Kühl- & Nervenpunkte</h3>
-          <p>Tippe auf einen Punkt für die Sofort-Anleitung.</p>
-        </div>
-        <button class="close-btn" onclick="closeSheet('modal-points')">✕</button>
-      </div>
-
-      <div class="body-points-map">
-        <div class="point-card active-point" onclick="selectPoint(this, 'wrist')">
-          <div class="point-pulse-dot"></div>
-          <div>
-            <strong>1. Handgelenk-Innenseiten</strong>
-            <p style="font-size: 0.75rem; color: var(--text-sub);">Kühlt das arterielle Blutvolumen direkt vor dem Herzen.</p>
-          </div>
-        </div>
-
-        <div class="point-card" onclick="selectPoint(this, 'neck')">
-          <div class="point-pulse-dot" style="background: var(--champagne);"></div>
-          <div>
-            <strong>2. Seitlicher Nacken & Karotis</strong>
-            <p style="font-size: 0.75rem; color: var(--text-sub);">Signalisiert dem Hirnstamm sofortige Entwarnung.</p>
-          </div>
-        </div>
-
-        <div class="point-card" onclick="selectPoint(this, 'thumb')">
-          <div class="point-pulse-dot" style="background: var(--berry);"></div>
-          <div>
-            <strong>3. Daumenballen-Akupressur (Lu 10)</strong>
-            <p style="font-size: 0.75rem; color: var(--text-sub);">Beruhigt Herzrasen unbemerkt im Meeting.</p>
-          </div>
-        </div>
-      </div>
-
-      <div id="point-instruction-box" style="padding: 1rem; background: var(--sage-soft); border-radius: 18px; font-size: 0.82rem; line-height: 1.5; color: var(--text-main);">
-        💧 <strong>Anwendung Handgelenk:</strong> Halte beide Innenseiten für 45 Sekunden unter fließendes kaltes Wasser. Atme dabei bewusst länger aus als ein.
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: NACHT-SOS (GEDIMMT) -->
-  <div class="modal-backdrop" id="modal-nightsos">
-    <div class="modal-panel" style="background: #1B1A32; color: #FAF6F1;">
-      <div class="modal-top">
-        <div>
-          <h3 style="color: #FAF6F1;">🌙 Nacht-SOS (3:00 Uhr)</h3>
-          <p style="color: #9E9DB0;">Gedimmtes Licht · Kein Stress</p>
-        </div>
-        <button class="close-btn" style="background: rgba(255,255,255,0.1); color: #fff;" onclick="closeSheet('modal-nightsos')">✕</button>
-      </div>
-
-      <div style="font-size: 0.88rem; line-height: 1.6; color: #D7D6E6;">
-        <p><strong>1. Kein Blick auf die Uhrzeit:</strong> Drehe den Wecker und das Handy weg. Das Wissen um die Uhrzeit triggert sofort Cortisol.</p><br>
-        <p><strong>2. Ausatmung in die Matratze:</strong> Der Körper regeneriert auch im ruhenden Wachzustand. Forciere keinen Schlaf.</p><br>
-        <p><strong>3. 20-Minuten-Regel:</strong> Nach 20 Minuten aufstehen, gedimmtes Licht, warmer Kräutertee ohne Zucker.</p>
-      </div>
-    </div>
-  </div>
+  <div class="modal-backdrop" id="modal-nightsos"><div class="modal-panel" style="background: #1B1A32; color: #FAF6F1;"><div class="modal-top"><div><h3 style="color: #FAF6F1;">🌙 Nacht-SOS (3:00 Uhr)</h3><p style="color: #9E9DB0;">Gedimmtes Licht · Kein Stress</p></div><button class="close-btn" style="background: rgba(255,255,255,0.1); color: #fff;" onclick="closeSheet('modal-nightsos')">✕</button></div><div style="font-size: 0.88rem; line-height: 1.6; color: #D7D6E6;"><p><strong>1. Kein Blick auf die Uhrzeit:</strong> Drehe den Wecker und das Handy weg. Das Wissen um die Uhrzeit triggert sofort Cortisol.</p><br><p><strong>2. Ausatmung in die Matratze:</strong> Der Körper regeneriert auch im ruhenden Wachzustand. Forciere keinen Schlaf.</p><br><p><strong>3. 20-Minuten-Regel:</strong> Nach 20 Minuten aufstehen, gedimmtes Licht, warmer Kräutertee ohne Zucker.</p></div></div></div>
 
   <script>
-    // FORMULAR STATE
-    const formState = {
-      energy: 3,
-      sleep: 'maessig',
-      signals: [],
-      cycle: 'keine'
-    };
-
-    function vibrate(ms = 14) {
-      if ('vibrate' in navigator) navigator.vibrate(ms);
-    }
-
-    // ONBOARDING DISMISS / SHOW
-    function dismissIntro() {
-      vibrate([20, 40]);
-      localStorage.setItem('luna_seen_intro', 'true');
-      document.getElementById('intro-screen').classList.add('hidden');
-    }
-
-    function showIntroAgain() {
-      vibrate(10);
-      document.getElementById('intro-screen').classList.remove('hidden');
-    }
-
-    // Beim Laden prüfen
-    if (localStorage.getItem('luna_seen_intro') === 'true') {
-      document.getElementById('intro-screen').classList.add('hidden');
-    }
-
-    // TAB NAVIGATION
-    function navigate(tab, btn) {
-      vibrate(10);
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
-      document.getElementById('view-' + tab).classList.add('active');
-      btn.classList.add('active');
-    }
-
-    function toggleLang() {
-      vibrate(10);
-      const btn = document.getElementById('lang-btn');
-      btn.innerText = btn.innerText === 'DE | EN' ? 'EN | DE' : 'DE | EN';
-    }
-
-    // MODAL HANDLING
-    function openBaselineModal() {
-      vibrate(15);
-      document.getElementById('modal-baseline').classList.add('open');
-    }
-
-    function openAcuteModal() {
-      vibrate(15);
-      document.getElementById('sos-live-tip').style.display = 'none';
-      document.getElementById('modal-acute').classList.add('open');
-    }
-
-    function closeSheet(id) {
-      vibrate(8);
-      document.getElementById(id).classList.remove('open');
-    }
-
-    // CHIP CLICKS
-    function handleChipClick(el, group, val) {
-      vibrate(12);
-      const parent = el.parentElement;
-      parent.querySelectorAll('.select-chip').forEach(c => c.classList.remove('active'));
-      el.classList.add('active');
-      formState[group] = val;
-    }
-
-    function handleToggleChip(el, sym) {
-      vibrate(12);
-      el.classList.toggle('active');
-      if (formState.signals.includes(sym)) {
-        formState.signals = formState.signals.filter(s => s !== sym);
-      } else {
-        formState.signals.push(sym);
-      }
-    }
-
-    // AKUT-SIGNAL AUSWAHL
-    function pickAcuteSymptom(el, sym) {
-      vibrate(15);
-      el.parentElement.querySelectorAll('.select-chip').forEach(c => c.classList.remove('active'));
-      el.classList.add('active');
-
-      const tipBox = document.getElementById('sos-live-tip');
-      const tips = {
-        hitze: '💧 <strong>Sofort-Kühlung:</strong> Lass 60 Sekunden kaltes Wasser über beide Handgelenk-Innenseiten laufen. Das senkt die gefühlte Hitze sofort.',
-        puls: '🌬 <strong>Vagus-Atem:</strong> Atme 4 Sekunden durch die Nase ein und 6 Sekunden langsam durch die Lippenbremse aus.',
-        fog: '🧠 <strong>Kognitiver Entlaster:</strong> Trink ein großes Glas kaltes Wasser und vertage wichtige Entscheidungen um 30 Minuten.',
-        unruhe: '⚡️ <strong>Körper-Erdung:</strong> Stell beide Füße fest auf den Boden, löse die Zunge vom Gaumen und lockere den Kiefer.'
-      };
-      tipBox.innerHTML = tips[sym] || '';
-      tipBox.style.display = 'block';
-    }
-
-    // ECHTE MATHEMATISCHE SCORE-FORMEL
-    function completeBaseline() {
-      vibrate([25, 60, 25]);
-      closeSheet('modal-baseline');
-
-      const energyScore = formState.energy * 20; // 20 bis 100
-      const sleepMap = { unruhig: 25, maessig: 50, gut: 80, tief: 100 };
-      const sleepScore = sleepMap[formState.sleep] || 50;
-      const penalty = formState.signals.length * 14;
-
-      let finalScore = Math.round((energyScore * 0.45) + (sleepScore * 0.35) - penalty);
-      if (finalScore < 15) finalScore = 15;
-      if (finalScore > 100) finalScore = 100;
-
-      // Ring füllen
-      const ringBox = document.getElementById('ring-hitbox');
-      ringBox.classList.remove('ring-idle-breath');
-
-      const circumference = 528;
-      const offset = circumference - (circumference * (finalScore / 100));
-      document.getElementById('ring-fill-bar').style.strokeDashoffset = offset;
-      document.getElementById('score-val').innerText = finalScore + '%';
-
-      // Status & Körper-Wetterlage
-      const statusLabel = document.getElementById('score-sub');
-      const weatherCard = document.getElementById('weather-card');
-      const kicker = document.getElementById('weather-kicker');
-      const headline = document.getElementById('weather-headline');
-      const body = document.getElementById('weather-text');
-
-      if (finalScore >= 75) {
-        statusLabel.innerText = 'Stabil & Resilient';
-        weatherCard.style.borderLeftColor = 'var(--sage)';
-        kicker.style.color = 'var(--sage)';
-        headline.innerText = 'Stabiles Biorhythmus-Fenster';
-        body.innerText = 'Dein Nervensystem zeigt heute eine hohe Resilienz. Nutze den Vormittag für Konzentration, halte feste Essenszeiten ein.';
-      } else if (finalScore >= 50) {
-        statusLabel.innerText = 'Sensibel & Puffer nötig';
-        weatherCard.style.borderLeftColor = 'var(--champagne)';
-        kicker.style.color = 'var(--champagne)';
-        headline.innerText = 'Erhöhte Reizbarkeit · Puffer nötig';
-        body.innerText = 'Schlaf oder Energielevel fordern heute Entlastung. Vertage Multitasking am Nachmittag und plane 15 Minuten echte Bildschirmpause ein.';
-      } else {
-        statusLabel.innerText = 'Akuter Schonmodus';
-        weatherCard.style.borderLeftColor = 'var(--alert-amber)';
-        kicker.style.color = 'var(--alert-amber)';
-        headline.innerText = 'Niedriger Hormon-Puffer · Akuter Rückzug';
-        body.innerText = 'Dein System ist durch Beschwerden überreizt. Reduziere Termine auf das Nötigste, meide Koffein ab 13 Uhr und nutze die 4-6 Atem-Bremse.';
-      }
-
-      document.getElementById('pills-row').style.display = 'flex';
-      document.getElementById('pill-energy').innerText = `⚡️ Energie ${formState.energy}/5`;
-      document.getElementById('pill-sleep').innerText = `🌙 Schlaf: ${formState.sleep}`;
-      document.getElementById('pill-signals').innerText = `💓 ${formState.signals.length} Signal${formState.signals.length === 1 ? '' : 'e'}`;
-      document.getElementById('btn-baseline-text').innerText = 'Baseline anpassen';
-    }
-
-    // LEBENDIGER ATEM-TRAINER MIT FLÜSSIGEM STAGE-WECHSEL
-    let breatheTimer = null;
-    let breatheCountdown = 60;
-
-    function openInteractiveBreathe(inSec, outSec, title, subtitle) {
-      vibrate(15);
-      document.getElementById('breathe-title').innerText = title;
-      document.getElementById('breathe-subtitle').innerText = subtitle;
-      document.getElementById('modal-breathe').classList.add('open');
-
-      const stage = document.getElementById('breathe-stage-box');
-      const text = document.getElementById('breathe-state-text');
-      const count = document.getElementById('breathe-timer-display');
-
-      breatheCountdown = 60;
-      let phase = 'in';
-
-      function runCycle() {
-        if (phase === 'in') {
-          stage.classList.remove('exhale');
-          stage.classList.add('inhale');
-          text.innerText = 'Einatmen (durch die Nase)...';
-          vibrate(20);
-          phase = 'out';
-          setTimeout(runCycle, inSec * 1000);
-        } else {
-          stage.classList.remove('inhale');
-          stage.classList.add('exhale');
-          text.innerText = 'Lange Ausatmen (durch den Mund)...';
-          vibrate(35);
-          phase = 'in';
-          setTimeout(runCycle, outSec * 1000);
-        }
-      }
-
-      runCycle();
-
-      breatheTimer = setInterval(() => {
-        breatheCountdown--;
-        count.innerText = `${breatheCountdown} Sekunden verbleibend`;
-        if (breatheCountdown <= 0) closeBreathe();
-      }, 1000);
-    }
-
-    function closeBreathe() {
-      clearInterval(breatheTimer);
-      const stage = document.getElementById('breathe-stage-box');
-      stage.classList.remove('inhale', 'exhale');
-      closeSheet('modal-breathe');
-    }
-
-    // KÜHLPUNKTE INTERAKTIV
-    function openAcupressureGuide() {
-      vibrate(12);
-      document.getElementById('modal-points').classList.add('open');
-    }
-
-    function selectPoint(el, type) {
-      vibrate(12);
-      document.querySelectorAll('.point-card').forEach(p => p.classList.remove('active-point'));
-      el.classList.add('active-point');
-
-      const box = document.getElementById('point-instruction-box');
-      if (type === 'wrist') {
-        box.innerHTML = '💧 <strong>Anwendung Handgelenk:</strong> Halte beide Innenseiten für 45 Sekunden unter fließendes kaltes Wasser. Atme dabei bewusst länger aus als ein.';
-      } else if (type === 'neck') {
-        box.innerHTML = '🧊 <strong>Anwendung Nacken:</strong> Lege ein kaltes Tuch oder ein gekühltes Glas seitlich unter den Kieferwinkel. Reguliert den Vagusnerv sofort.';
-      } else {
-        box.innerHTML = '👌 <strong>Anwendung Daumenballen:</strong> Drücke mit dem Daumen der anderen Hand fest auf die Mitte des Daumenballens (30 Sek.). Lindert Herzklopfen und Brustenge.';
-      }
-    }
-
-    function openNightSOS() {
-      vibrate(12);
-      document.getElementById('modal-nightsos').classList.add('open');
-    }
-
-    // VOLLSTÄNDIGER DATEN-RESET
-    function resetAllData() {
-      if (confirm('Möchtest du wirklich alle lokalen Daten und Einträge zurücksetzen?')) {
-        localStorage.clear();
-        vibrate([30, 80, 30]);
-        location.reload();
-      }
-    }
+    const formState = { energy: 3, sleep: 'maessig', signals: [], cycle: 'keine' };
+    function vibrate(ms = 14) { if ('vibrate' in navigator) navigator.vibrate(ms); }
+    function dismissIntro() { vibrate([20, 40]); localStorage.setItem('luna_seen_intro', 'true'); document.getElementById('intro-screen').classList.add('hidden'); }
+    function showIntroAgain() { vibrate(10); document.getElementById('intro-screen').classList.remove('hidden'); }
+    if (localStorage.getItem('luna_seen_intro') === 'true') { document.getElementById('intro-screen').classList.add('hidden'); }
+    function navigate(tab, btn) { vibrate(10); document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active')); document.getElementById('view-' + tab).classList.add('active'); btn.classList.add('active'); }
+    function toggleLang() { vibrate(10); const btn = document.getElementById('lang-btn'); btn.innerText = btn.innerText === 'DE | EN' ? 'EN | DE' : 'DE | EN'; }
+    function openBaselineModal() { vibrate(15); document.getElementById('modal-baseline').classList.add('open'); }
+    function openAcuteModal() { vibrate(15); document.getElementById('sos-live-tip').style.display = 'none'; document.getElementById('modal-acute').classList.add('open'); }
+    function closeSheet(id) { vibrate(8); document.getElementById(id).classList.remove('open'); }
+    function handleChipClick(el, group, val) { vibrate(12); const parent = el.parentElement; parent.querySelectorAll('.select-chip').forEach(c => c.classList.remove('active')); el.classList.add('active'); formState[group] = val; }
+    function handleToggleChip(el, sym) { vibrate(12); el.classList.toggle('active'); if (formState.signals.includes(sym)) { formState.signals = formState.signals.filter(s => s !== sym); } else { formState.signals.push(sym); } }
+    function pickAcuteSymptom(el, sym) { vibrate(15); el.parentElement.querySelectorAll('.select-chip').forEach(c => c.classList.remove('active')); el.classList.add('active'); const tipBox = document.getElementById('sos-live-tip'); const tips = { hitze: '💧 <strong>Sofort-Kühlung:</strong> Lass 60 Sekunden kaltes Wasser über beide Handgelenk-Innenseiten laufen. Das senkt die gefühlte Hitze sofort.', puls: '🌬 <strong>Vagus-Atem:</strong> Atme 4 Sekunden durch die Nase ein und 6 Sekunden langsam durch die Lippenbremse aus.', fog: '🧠 <strong>Kognitiver Entlaster:</strong> Trink ein großes Glas kaltes Wasser und vertage wichtige Entscheidungen um 30 Minuten.', unruhe: '⚡️ <strong>Körper-Erdung:</strong> Stell beide Füße fest auf den Boden, löse die Zunge vom Gaumen und lockere den Kiefer.' }; tipBox.innerHTML = tips[sym] || ''; tipBox.style.display = 'block'; }
+    function completeBaseline() { vibrate([25, 60, 25]); closeSheet('modal-baseline'); const energyScore = formState.energy * 20; const sleepMap = { unruhig: 25, maessig: 50, gut: 80, tief: 100 }; const sleepScore = sleepMap[formState.sleep] || 50; const penalty = formState.signals.length * 14; let finalScore = Math.round((energyScore * 0.45) + (sleepScore * 0.35) - penalty); if (finalScore < 15) finalScore = 15; if (finalScore > 100) finalScore = 100; const ringBox = document.getElementById('ring-hitbox'); ringBox.classList.remove('ring-idle-breath'); const circumference = 528; const offset = circumference - (circumference * (finalScore / 100)); document.getElementById('ring-fill-bar').style.strokeDashoffset = offset; document.getElementById('score-val').innerText = finalScore + '%'; const statusLabel = document.getElementById('score-sub'); const weatherCard = document.getElementById('weather-card'); const kicker = document.getElementById('weather-kicker'); const headline = document.getElementById('weather-headline'); const body = document.getElementById('weather-text'); if (finalScore >= 75) { statusLabel.innerText = 'Stabil & Resilient'; weatherCard.style.borderLeftColor = 'var(--sage)'; kicker.style.color = 'var(--sage)'; headline.innerText = 'Stabiles Biorhythmus-Fenster'; body.innerText = 'Dein Nervensystem zeigt heute eine hohe Resilienz. Nutze den Vormittag für Konzentration, halte feste Essenszeiten ein.'; } else if (finalScore >= 50) { statusLabel.innerText = 'Sensibel & Puffer nötig'; weatherCard.style.borderLeftColor = 'var(--champagne)'; kicker.style.color = 'var(--champagne)'; headline.innerText = 'Erhöhte Reizbarkeit · Puffer nötig'; body.innerText = 'Schlaf oder Energielevel fordern heute Entlastung. Vertage Multitasking am Nachmittag und plane 15 Minuten echte Bildschirmpause ein.'; } else { statusLabel.innerText = 'Akuter Schonmodus'; weatherCard.style.borderLeftColor = 'var(--alert-amber)'; kicker.style.color = 'var(--alert-amber)'; headline.innerText = 'Niedriger Hormon-Puffer · Akuter Rückzug'; body.innerText = 'Dein System ist durch Beschwerden überreizt. Reduziere Termine auf das Nötigste, meide Koffein ab 13 Uhr und nutze die 4-6 Atem-Bremse.'; } document.getElementById('pills-row').style.display = 'flex'; document.getElementById('pill-energy').innerText = `⚡️ Energie ${formState.energy}/5`; document.getElementById('pill-sleep').innerText = `🌙 Schlaf: ${formState.sleep}`; document.getElementById('pill-signals').innerText = `💓 ${formState.signals.length} Signal${formState.signals.length === 1 ? '' : 'e'}`; document.getElementById('btn-baseline-text').innerText = 'Baseline anpassen'; }
+    let breatheTimer = null; let breatheCountdown = 60;
+    function openInteractiveBreathe(inSec, outSec, title, subtitle) { vibrate(15); document.getElementById('breathe-title').innerText = title; document.getElementById('breathe-subtitle').innerText = subtitle; document.getElementById('modal-breathe').classList.add('open'); const stage = document.getElementById('breathe-stage-box'); const text = document.getElementById('breathe-state-text'); const count = document.getElementById('breathe-timer-display'); breatheCountdown = 60; let phase = 'in'; function runCycle() { if (!document.getElementById('modal-breathe').classList.contains('open')) return; if (phase === 'in') { stage.classList.remove('exhale'); stage.classList.add('inhale'); text.innerText = 'Einatmen (durch die Nase)...'; vibrate(20); phase = 'out'; setTimeout(runCycle, inSec * 1000); } else { stage.classList.remove('inhale'); stage.classList.add('exhale'); text.innerText = 'Lange Ausatmen (durch den Mund)...'; vibrate(35); phase = 'in'; setTimeout(runCycle, outSec * 1000); } } runCycle(); breatheTimer = setInterval(() => { breatheCountdown--; count.innerText = `${breatheCountdown} Sekunden verbleibend`; if (breatheCountdown <= 0) closeBreathe(); }, 1000); }
+    function closeBreathe() { clearInterval(breatheTimer); const stage = document.getElementById('breathe-stage-box'); stage.classList.remove('inhale', 'exhale'); closeSheet('modal-breathe'); }
+    function openAcupressureGuide() { vibrate(12); document.getElementById('modal-points').classList.add('open'); }
+    function selectPoint(el, type) { vibrate(12); document.querySelectorAll('.point-card').forEach(p => p.classList.remove('active-point')); el.classList.add('active-point'); const box = document.getElementById('point-instruction-box'); if (type === 'wrist') box.innerHTML = '💧 <strong>Anwendung Handgelenk:</strong> Halte beide Innenseiten für 45 Sekunden unter fließendes kaltes Wasser. Atme dabei bewusst länger aus als ein.'; else if (type === 'neck') box.innerHTML = '🧊 <strong>Anwendung Nacken:</strong> Lege ein kaltes Tuch oder ein gekühltes Glas seitlich unter den Kieferwinkel. Reguliert den Vagusnerv sofort.'; else box.innerHTML = '👌 <strong>Anwendung Daumenballen:</strong> Drücke mit dem Daumen der anderen Hand fest auf die Mitte des Daumenballens (30 Sek.). Lindert Herzklopfen und Brustenge.'; }
+    function openNightSOS() { vibrate(12); document.getElementById('modal-nightsos').classList.add('open'); }
+    function resetAllData() { if (confirm('Möchtest du wirklich alle lokalen Daten und Einträge zurücksetzen?')) { localStorage.clear(); vibrate([30, 80, 30]); location.reload(); } }
   </script>
 </body>
 </html>
